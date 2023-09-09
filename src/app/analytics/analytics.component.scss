@@ -1,0 +1,217 @@
+// .card {
+//     border: 1px solid #ccc; /* Add a border to the card */
+//     border-radius: 5px; /* Round the corners of the card */
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to the card */
+//     padding: 20px; /* Add some padding to the card */
+//   }
+
+header {
+    display: flex;
+    /* Use flexbox to align items horizontally */
+    align-items: center;
+    /* Align items vertically */
+    justify-content: space-between;
+    /* Space items evenly along the line */
+    padding-bottom: 10px;
+    /* Add some spacing between the header and content */
+}
+.progress{
+    height:90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+h3 {
+    font-weight: 500;
+    margin: 0;
+    /* Remove default margin for the h1 element */
+}
+
+nav ul {
+    display: flex;
+    /* Use flexbox to align list items horizontally */
+    list-style: none;
+    /* Remove default bullet points */
+    margin: 0;
+    /* Remove default margin for the ul element */
+    padding: 0;
+    /* Remove default padding for the ul element */
+}
+
+nav li {
+    margin-right: 20px;
+    cursor: pointer;
+    /* Add some spacing between the list items */
+}
+
+nav a {
+    text-decoration: none;
+    /* Remove default underline for links */
+    color: #adb2c1;
+    font-weight: bold;
+    /* Set link font weight */
+}
+
+.content {
+    display: none;
+    /* Hide all content by default */
+    margin-top: 20px;
+    /* Add some spacing between the header and content */
+    line-height: 1.5;
+    /* Set line height for the content */
+}
+
+.content:first-of-type {
+    display: block;
+    /* Show the first tab content by default */
+}
+
+.activeSal a {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.activeCat a {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+
+.col {
+    flex-basis: calc(100% / 3 - 20px);
+    margin: 10px;
+}
+
+.card {
+    background-color: #fff;
+    height: 90%;
+    border-radius: 10px;
+    // border: 1px solid #ddd;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    margin: 10px -5px 10px 0px;
+   
+}
+
+.flex-r {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.totalRec {
+    font-size: 30px;
+    color: #0d0d0d;
+    font-weight: 800;
+    line-height: 30px;
+    padding-left: 10px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.iconCls {
+    font-size: 20px;
+    font-weight: 400;
+    color: #6198e8;
+
+}
+
+.title {
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    padding-left: 10px;
+}
+
+.flex-bot {
+    display: flex;
+    padding: 2px;
+    font-size: 12px;
+
+    .icon-cls {
+        color: rgb(111, 193, 111);
+        font-size: 14px;
+        padding: 2px;
+    }
+
+    .rate {
+        color: #939494 !important;
+    }
+
+    .ratio {
+        color: #939494 !important;
+
+    }
+}
+.flex-end{
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+@media (max-width: 991.98px) {
+    .col {
+        flex-basis: calc(100% / 2 - 20px);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .col {
+        flex-basis: 100%;
+    }
+}
+// .card {
+//     display: flex;
+//     flex-direction: column;
+//     height: auto;
+//     max-width: 100%;
+//     background-color: #fff;
+//     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+//   }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+  }
+  
+  .card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .card-body {
+    flex: 1;
+    padding: 5px;
+     overflow-y: auto;
+  }
+  
+  .table-holder {
+    width: 100%;
+     overflow-x: auto;
+  }
+  
+  .table-holder table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .header {
+    font-size: 10px;
+    font-weight: 500;
+    background: #f7f9fc;
+    color: #b8c3cf;
+  }
+    
+  td{
+    color:#a8abad
+  }
+  ::ng-deep g > rect {
+    rx: 5px;
+    ry: 5px;
+  }
+ 

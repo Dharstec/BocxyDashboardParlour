@@ -1,0 +1,6 @@
+<app-splash-screen #splash *ngIf="hide"></app-splash-screen>
+<ng-container *ngIf="!hide">
+    <app-sidenav (onToogleSideNav)="onTogglesideNav($event)"></app-sidenav>
+    <app-headers [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-headers>
+    <app-body [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-body> 
+</ng-container>

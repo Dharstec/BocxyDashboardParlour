@@ -1,0 +1,164 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-6" *ngFor="let details of totalCount">
+            <div class="card">
+                <div class="flex-r">
+                    <p class="totalRec">{{details.totalRecords | number:'1.0' }}</p>
+                    <mat-icon class="iconCls">{{details.icon}}</mat-icon>
+                </div>
+                <span class="title">{{details.title}}</span>
+                <div class="flex-bot">
+                    <mat-icon class="icon-cls">north_east</mat-icon>
+                    <p class="rate">{{details.rate}}</p>&nbsp;&nbsp;<span class="ratio">+{{details.ratio}}% this
+                        week</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <div class="card">
+                <header>
+                    <h3>Total Sales</h3>
+                    <nav>
+                        <ul>
+                            <li [ngClass]="{'activeSal': tabId === '#tab1'}"><a (click)="onTabClick('#tab1')">Viewed vs
+                                    Sold</a></li>
+                            <li [ngClass]="{'activeSal': tabId === '#tab2'}"><a >Viewed</a>
+                            </li>
+                            <li [ngClass]="{'activeSal': tabId === '#tab3'}"><a >Sold</a>
+                            </li>
+                        </ul>
+                        <!-- (click)="onTabClick('#tab2')"
+                        (click)="onTabClick('#tab3')" -->
+                    </nav>
+                </header>
+                <div class="content" id="tab1" *ngIf="tabId==='#tab1'">
+                    <div [id]="'initial_chart_div1_'"></div>
+                </div>
+                <div class="content" id="tab2" *ngIf="tabId==='#tab2'">
+                    <!-- <div [id]="'initial_chart_div1_'"></div> -->
+                </div>
+                <div class="content" id="tab3" *ngIf="tabId==='#tab3'">
+                    <!-- <div [id]="'initial_chart_div1_'"></div> -->
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div class="card">
+                <header>
+                    <h3>Category</h3>
+                    <nav>
+                        <ul>
+                            <li [ngClass]="{'activeCat': tabIdcat === '#tab1'}"><a
+                                    (click)="onTabClickcat('#tab1')">Viewed vs Sold</a></li>
+                            <li [ngClass]="{'activeCat': tabIdcat === '#tab2'}"><a
+                                    >Viewed</a></li>
+                            <li [ngClass]="{'activeCat': tabIdcat === '#tab3'}"><a
+                                   >Sold</a></li>
+                                    <!-- (click)="onTabClickcat('#tab2')"
+                                    (click)="onTabClickcat('#tab3')" -->
+                        </ul>
+                    </nav>
+                </header>
+                <div class="content" id="tab1" *ngIf="tabIdcat==='#tab1'">
+                    <div [id]="'initial_chart_div2_'"></div>
+                </div>
+                <div class="content" id="tab2" *ngIf="tabIdcat==='#tab2'">
+                    <!-- <div [id]="'initial_chart_div1_'"></div> -->
+                </div>
+                <div class="content" id="tab3" *ngIf="tabIdcat==='#tab3'">
+                    <!-- <div [id]="'initial_chart_div1_'"></div> -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">Affiliate / Coupons</h3>
+                    <button mat-raised-button color="primary" style="height:25px;font-size:10px">See all</button>
+                </div>
+                <div class="card-body">
+                    <div class="table-holder">
+
+
+                        <table mat-table matSort [dataSource]="dataSource">
+                            <ng-container matColumnDef="name">
+                                <th class="header" mat-header-cell *matHeaderCellDef>
+                                    <span>Name</span>
+
+                                </th>
+                                <td mat-cell *matCellDef="let request">{{request.name}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="state">
+                                <th class="header state-column" mat-header-cell *matHeaderCellDef>
+                                    <span>Coupons</span>
+                                </th>
+                                <td mat-cell *matCellDef="let request">{{request.name}}</td>
+
+                            </ng-container>
+                            <ng-container matColumnDef="amount">
+                                <th class="header amount-column" mat-header-cell *matHeaderCellDef>
+                                    <span>Sales amount</span>
+
+                                </th>
+                                <td mat-cell *matCellDef="let request">{{getAmount(request.amount)}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="status">
+                                <th class="header status-column" mat-header-cell *matHeaderCellDef>
+                                    <span>Commission</span>
+
+                                </th>
+                                <td mat-cell *matCellDef="let request">{{request.status}}</td>
+                            </ng-container>
+
+
+
+
+                            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                            <tr mat-row *matRowDef="let request; columns: columnsToDisplay"></tr>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">Customers</h3>
+                    <!-- <div class="flex-end">
+                        <div style="width: 15px;height:15px;background-color:aqua"></div>
+                        <div style="width: 15px;height:15px;background-color:rgb(23, 25, 25)"></div>
+                        <div style="width: 15px;height:15px;background-color:rgb(158, 189, 36)"></div>
+                      </div> -->
+                </div>
+                <div >
+                    <app-chart #barChart  chartTypeg="PieChart"
+                    [ifDrillDown]="true">
+                   </app-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">Age Category</h3>
+                    <button mat-raised-button color="primary" style="height:25px;font-size:10px">See all</button>
+                </div>
+                <div class="progress">
+                     <div *ngFor="let value of ProgressValue" style="margin-bottom: 2rem;">
+                           <p style="text-align: left;">{{value.ageCat}}</p>
+                           <mat-progress-bar aria-valuemin="0" color={{value.color}} mode="determinate" aria-valuemax="100" value={{value.value}}>{{value.value}}</mat-progress-bar>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

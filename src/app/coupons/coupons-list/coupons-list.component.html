@@ -1,0 +1,126 @@
+<div class="container">
+    <div class="card">
+        <div class="row" style="display:flex;flex-direction: row;align-items: center;">
+            <div class="section-b col-md-3">
+                <input class="input m-3" (keyup)="applyFilter($event.target.value)" type="text" name="Search" placeholder="Search...">
+            </div>
+            <div class="col-md-6" style="display:flex ;justify-content:flex-start;gap: 10px;">
+                <form style="display: flex;gap:15px">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Type</mat-label>
+                        <mat-select multiple  [(value)]="selectedValue" (selectionChange)="applyTypeFilter()">
+                            <mat-option *ngFor="let row of types" [value]="row" >{{row}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select multiple  [(value)]="selectedStatus" (selectionChange)="applyTypeFilter()">
+                            <mat-option *ngFor="let row of status" [value]="row.value" >{{row.status}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+            </div>
+            <!-- <button (click)="openExportDialog()">Generate Excel</button> -->
+
+            <div class="add-coupon col-md-3">
+                <a routerLink="/coupon/add">+&nbsp;{{'Create Coupon' | uppercase}}</a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="table-container">
+            <table class="table" mat-table matSort [dataSource]="filteredData?.length? filteredData:dataSource">
+                <ng-container matColumnDef="name">
+                    <th class="first" mat-header-cell *matHeaderCellDef>
+                        <span>Name</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.couponName | titlecase}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="coupon">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>coupon Name</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.couponName | titlecase}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="percentage">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>%</span>
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.discountPercentage}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="remaining">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>remaining</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request?.remaining}}</td>
+                </ng-container>
+                <ng-container matColumnDef="orders">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>orders</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.totalOrders}}</td>
+                </ng-container>
+                <ng-container matColumnDef="sales">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>sales</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.totalSales}}</td>
+                </ng-container>
+                <ng-container matColumnDef="commission">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>commission</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.totalCommissions}}</td>
+                </ng-container>
+                <ng-container matColumnDef="ending">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>ending</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.validDateTill}}</td>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span>Status</span>
+    
+                    </th>
+                    <td mat-cell *matCellDef="let request">{{request.couponStatus ? 'Active' :'Inactive'}}</td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th class="last" mat-header-cell *matHeaderCellDef>
+                        <span>Action</span>
+                    </th>
+                    <td mat-cell *matCellDef="let request">
+                        <div class="displayicon">
+                            <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Edit" (click)="edit('edit',request._id)">edit</mat-icon>
+                            <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Delete" (click)="delete(request._id)">delete</mat-icon>
+                            <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="View" (click)="edit('view',request._id)">visibility</mat-icon>
+                        </div>
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let request; columns: columnsToDisplay"></tr>
+    
+            </table>
+            <div class="spinner-container" *ngIf="(dataSource.data.length ===0 || filteredData?.length===0) && !noData">
+                <mat-spinner  [diameter]="50" ></mat-spinner>
+            </div>
+            <div class="no_data" *ngIf="(dataSource.data.length ===0 || filteredData?.length===0)  && noData">
+               <p>{{'No data available'}}</p>
+            </div>
+        </div>
+       
+    </div>
+</div>

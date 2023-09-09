@@ -1,0 +1,13 @@
+
+<button mat-icon-button style="float:right; margin: 50x;">
+<mat-icon mat-dialog-close>close</mat-icon>
+</button>
+<h1 mat-dialog-title>Delete</h1>
+<div mat-dialog-content>
+ Are you sure delete this {{productName}}?
+</div>
+<div mat-dialog-actions>
+  
+    <button mat-raised-button color="primary" (click)="deleteProduct()">Yes</button>
+    <button mat-raised-button color="warn" >No</button>
+</div>

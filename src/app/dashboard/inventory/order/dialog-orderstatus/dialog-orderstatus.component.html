@@ -1,0 +1,27 @@
+<!-- 
+<button mat-icon-button style="float:right; margin: 50x;">
+    <mat-icon mat-dialog-close>close</mat-icon>
+    </button>
+    <h1 mat-dialog-title>Order Status</h1>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" >Save</button>
+        <button mat-raised-button color="warn" >Discard</button>
+    </div> -->
+
+    
+<button mat-icon-button style="float:right; margin: 50x;">
+    <mat-icon mat-dialog-close>close</mat-icon>
+    </button>
+    <h1 mat-dialog-title>Order Status</h1>
+    <input matInputtype="text" class="form-control p-3 ml-4" placeholder="order status" >
+    <div mat-dialog-actions class="d-flex justify-content-between">
+        <!-- (click)="orderStatusUpdated()" -->
+        <button mat-raised-button color="warn" >Discard</button>
+
+        <button mat-raised-button color="primary" (click)="updateStatus()" [mat-dialog-close]="data.orderStatus" >Save</button>
+    </div>
+    <!-- (click)="orderStatusUpdated()" -->
+
+
+
+      

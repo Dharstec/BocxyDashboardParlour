@@ -1,0 +1,114 @@
+<div class="container">
+    <div class="card">
+        <div class="row" style="display:flex;flex-direction: row;align-items: center;">
+            <div class="section-b col-md-4">
+                <input class="input m-3" (keyup)="applyFilter($event.target.value)" type="text" name="Search"
+                    placeholder="Search...">
+            </div>
+            <div class="col-md-5" style="display:flex ;justify-content:flex-start">
+                <form>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sent Via</mat-label>
+                        <mat-select multiple [(value)]="selectedValue" (selectionChange)="applyTypeFilter()">
+                            <mat-option *ngFor="let row of sentVia" [value]="row.value">{{row.label}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </form>
+            </div>
+
+            <div class="add-coupon col-md-3">
+                <a routerLink="/marketing/add">+&nbsp;{{'Create Campaign' | uppercase}}</a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card">
+        <table mat-table matSort [dataSource]="dataSource">
+            <ng-container matColumnDef="name">
+                <th class="first" mat-header-cell *matHeaderCellDef>
+                    <span>Title</span>
+                </th>
+                <td mat-cell *matCellDef="let request">{{request.campanignTitle | titlecase}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="customer">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span>Customer</span>
+
+                </th>
+                <td mat-cell *matCellDef="let request">
+                    <div class="flexRow">
+                        <div *ngFor="let customer of request.targetCustomer">
+                            <i class="fa fa-users" aria-hidden="true" *ngIf="customer==='allcustomer'"
+                                [class]="customer==='allcustomer'?'activeCustomerIcon':''"
+                                matTooltip="All Customer"></i>
+                            <i class="fa fa-male" aria-hidden="true" *ngIf="customer==='maleOnly'"
+                                [class]="customer==='maleOnly'?'activeMaleIcon':''" matTooltip="Male"></i>
+                            <i class="fa fa-female" aria-hidden="true" *ngIf="customer==='femaleOnly'"
+                                [class]="customer==='femaleOnly'?'activeFemaleIcon':''" matTooltip="Female"></i>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sentVia">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span>Sent Via</span>
+                </th>
+                <td mat-cell *matCellDef="let request">
+                    <div class="flexRow">
+                        <div *ngFor="let sendthrough of request.sendVia">
+                            <i class="fa fa-whatsapp" aria-hidden="true" *ngIf="sendthrough==='whatsApp'"
+                                [ngClass]="sendthrough==='whatsApp' ? 'activeWhatsappIcon':'disActiveIcon'"
+                                matTooltip="whatsApp"></i>
+                            <i class="fa fa-comments" aria-hidden="true" *ngIf="sendthrough==='sms'"
+                                [ngClass]="sendthrough==='sms' ? 'activeSmsIcon':'disActiveIcon'" matTooltip="SMS"></i>
+                            <i class="fa fa-envelope-o" aria-hidden="true" *ngIf="sendthrough==='email'"
+                                [ngClass]="sendthrough==='email' ? 'activeEmailIcon':'disActiveIcon'"
+                                matTooltip="Email"></i>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="ending">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span>Date</span>
+
+                </th>
+                <td mat-cell *matCellDef="let request">{{request.createdAt | date:'mediumDate'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th class="last" mat-header-cell *matHeaderCellDef>
+                    <span>Action</span>
+                </th>
+                <td mat-cell *matCellDef="let request">
+                    <div class="displayicon">
+                        <mat-icon style="font-size: 18px;cursor: pointer;" [matMenuTriggerFor]="menu"
+                            matTooltip="Repeat">sync_alt</mat-icon>
+                        <mat-icon style="font-size: 18px;cursor: pointer;" matTooltip="Delete"
+                            (click)="delete(request._id)">delete</mat-icon>
+                        <mat-icon style="font-size: 18px;cursor: pointer;" matTooltip="View"
+                            (click)="viewMarket(request._id)">visibility</mat-icon>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item>All Customers</button>
+                            <button mat-menu-item>Male Only</button>
+                            <button mat-menu-item>Female Only</button>
+                        </mat-menu>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let request; columns: columnsToDisplay"></tr>
+
+        </table>
+        <div class="spinner-container" *ngIf="dataSource.data.length ===0 && !noData">
+            <mat-spinner [diameter]="50"></mat-spinner>
+        </div>
+        <div class="no_data" *ngIf="dataSource.data.length ===0 && noData">
+            <p>{{'No data available'}}</p>
+        </div>
+    </div>
+</div>

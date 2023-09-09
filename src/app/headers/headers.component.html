@@ -1,0 +1,46 @@
+<div class="head" [ngClass]="getHeadClass()">
+    <div class="head-content">
+        <div class="head-content-left">
+            
+        </div>
+        <div class="head-content-right">
+            <div class="head-menu">
+                <div class="search-container">
+                    <div class="normal-search">
+    
+                      <input [matMenuTriggerFor]="menu" type="search" class="search" name="" id="" placeholder="Customer Name/Mobile/id">
+                        <mat-icon class="search-icon">search</mat-icon> 
+                    </div>
+                    <mat-menu #menu="matMenu">
+                        <ng-container *ngIf="!noData">
+                            <div *ngFor="let customer of customerList" >
+                                <span mat-menu-item>{{customer.phoneNumber}} - {{customer.firstName | titlecase}} {{customer.lastName | titlecase}}</span>
+                            </div>
+                        </ng-container>
+                       
+                        <div class="add-coupon" *ngIf="noData" style="padding-left: 30px;
+                        padding-right: 30px">
+                       <a >+ &nbsp;Add New Customer</a>
+                        </div>
+                      </mat-menu>
+                </div>
+                <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple">
+                        <mat-icon>notifications</mat-icon>
+                    </button>
+                </div>
+                
+            </div>
+            <div class="head-user-avatar-container">
+                <div class="head-user-avatar">
+                    <img src="../../assets/user3.jpg" alt="user" class="user-avatar">
+                 <div class="circle-indicator pulse">
+
+                 </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

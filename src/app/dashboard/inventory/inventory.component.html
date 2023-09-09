@@ -1,0 +1,115 @@
+
+<div class="container">
+  <h1 class="title-inventory">Inventory
+    <i class="fa fa-download" aria-hidden="true" (click)="exportexcel()">&nbsp;Export to Excel</i>
+  </h1>
+  <div class="card">
+    <div class="row" style="display: flex;flex-direction: row;align-items: center;">
+      <div class="section-b col-md-3">
+        <input class="input m-3" type="text" (keyup)="applyFilter($event.target.value)"  name="Search" placeholder="&#61442; Search" [(ngModel)]="searchText" style="font-family:Arial, FontAwesome">
+      </div>
+      <div class="col-md-6">
+        <form [formGroup]="productFormGroup">
+          <div style="display: flex;gap:10px">
+            <mat-form-field appearance="outline" >
+              <mat-label>Catagory</mat-label>
+              <mat-select (selectionChange)="productCategory($event,'catagory')"  formControlName="Catagory" multiple>
+                <mat-option  *ngFor="let row of CatagoryList" [value]="row">{{row}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Color</mat-label>
+              <mat-select (selectionChange)="productCategory($event,'color')"  formControlName="Color" multiple>
+                <mat-option  *ngFor="let row of ColorList" [value]="row">{{row}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="section-b">
+              <input class="input"  type="text"  (keyup)="stockfilter($event)"  formControlName="stock"  placeholder="stock" >
+            </div>
+          </div>
+        </form>
+      </div>
+     
+      <div class="add-product col-md-3">
+      <button (click)="addproduct()"><i class="fa fa-plus" aria-hidden="true">&nbsp;{{'Add New Product' | uppercase}}</i></button>
+    </div>
+  
+    </div>
+
+  </div>
+  <div class="card">
+    <!-- <ng-container *ngFor="let row of productList | search:searchText ;let i= index " > -->
+      <table mat-table matSort [dataSource]="dataSource " id="excel-table-id" >
+          <ng-container matColumnDef="ID" >
+              <th class="first" mat-header-cell *matHeaderCellDef>
+                  <span class="pl-1">ID</span>
+
+              </th>
+              <td mat-cell *matCellDef="let request">{{request._id}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="CATEGORY">
+              <th mat-header-cell *matHeaderCellDef>
+                  <span>CATEGORY</span>
+
+              </th>
+              <td mat-cell *matCellDef="let request">{{request.category.join(', ')}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="COLOUR">
+              <th mat-header-cell *matHeaderCellDef>
+                  <span>COLOUR</span>
+              </th>
+              <td mat-cell *matCellDef="let request">{{request.colour.join(', ')}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="NAME">
+              <th mat-header-cell *matHeaderCellDef>
+                  <span>NAME</span>
+
+              </th>
+              <td mat-cell *matCellDef="let request">{{request.productName}}</td>
+          </ng-container>
+          <ng-container matColumnDef="INSTOCK">
+              <th mat-header-cell *matHeaderCellDef>
+                  <span>INSTOCK</span>
+
+              </th>
+              <td mat-cell *matCellDef="let request">{{request.stock}}</td>
+          </ng-container>
+          <ng-container matColumnDef="REFERENCEID">
+              <th mat-header-cell *matHeaderCellDef>
+                  <span>REFERENCEID</span>
+
+              </th>
+              <td mat-cell *matCellDef="let request">{{request.referenceId}}</td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+              <th class="last" mat-header-cell *matHeaderCellDef>
+                  <span>action</span>
+              </th>
+              <td mat-cell *matCellDef="let request">
+                  <div class="displayicon">
+                      <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Edit">edit</mat-icon>
+                      <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Delete">delete</mat-icon>
+                      <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="View">visibility</mat-icon>
+                  </div>
+              </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay" ></tr>
+          <tr mat-row *matRowDef="let request; columns: columnsToDisplay" ></tr>
+
+      </table>
+    <!-- </ng-container> -->
+    <!-- <router-outlet></router-outlet> -->
+  </div>
+</div>
+
+
+
+
+
+
+
+
