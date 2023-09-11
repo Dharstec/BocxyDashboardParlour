@@ -13,7 +13,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogAddproductComponent } from './dashboard/inventory/addproduct/dialog-addproduct/dialog-addproduct.component';
 import { SearchPipe, orderSearchPipe } from './search.pipe';
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { DialogOrderstatusComponent } from './dashboard/inventory/order/dialog-orderstatus/dialog-orderstatus.component';
 import { MaterialModule } from './material.module';
 import { SidenavComponent } from './navbar/sidenav/sidenav.component';
@@ -48,7 +47,6 @@ import { SplashScreenModule } from './splash-screen/splash-screen.module';
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxSliderModule,
     MaterialModule,
     SharedModule,SplashScreenModule
   ],

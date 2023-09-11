@@ -1,5 +1,5 @@
 {
-  "name": "ecommerce-dashboard",
+  "name": "bocxy-dashboard",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-slider/ngx-slider": "^2.0.4",
     "@angular/animations": "^15.2.1",
     "@angular/cdk": "^15.0.4",
     "@angular/common": "^15.2.1",
@@ -25,7 +24,6 @@
     "font-awesome": "^4.7.0",
     "google-charts": "^2.0.0",
     "ng-gapi": "0.0.94",
-    "ngx-barcode": "^0.3.0",
     "puppeteer": "^21.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",

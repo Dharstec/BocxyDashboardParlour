@@ -1,12 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { ProductdetailsService } from 'src/app/services/productdetails.service';
 import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.component';
 import { environment } from 'src/environments/environment';
-import { product } from '../product.model';
 import { AddProduct } from './add-product.model';
 
 const API_URL = environment.apiUrl;

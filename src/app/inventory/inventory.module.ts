@@ -2,7 +2,6 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
-import { NgxBarcodeModule } from "ngx-barcode";
 import { MaterialModule } from "../material.module";
 import { SharedModule } from "../shared-module/shared.module";
 import { AddProductComponent } from "./add-product/add-product.component";
@@ -25,7 +24,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [InventoryComponent, InventoryListComponent, AddProductComponent],
-    imports: [CommonModule,MaterialModule, ReactiveFormsModule, RouterModule.forChild(routes),NgxBarcodeModule],
+    imports: [CommonModule,MaterialModule, ReactiveFormsModule, RouterModule.forChild(routes)],
     exports: []
 })
 

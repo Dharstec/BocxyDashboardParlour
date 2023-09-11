@@ -7,8 +7,6 @@ import { ApiService } from 'src/app/services/api.service';
 import { ProductdetailsService } from 'src/app/services/productdetails.service';
 import { DialogAddproductComponent } from './addproduct/dialog-addproduct/dialog-addproduct.component';
 import { Observable } from 'rxjs';
-import { Options } from '@angular-slider/ngx-slider';
-import * as XLSX from 'xlsx';
 import { MatTableDataSource } from '@angular/material/table';
 
 export interface tableData {
@@ -167,17 +165,7 @@ export class InventoryComponent implements OnInit {
 
   exportexcel() {
     this.productList = document.getElementById("excel-table-id");
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.productList)
-    // delete(ws['H1'])
-    console.log("ws", ws);
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    console.log("wb", wb);
-
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    /* save to file */
-    XLSX.writeFile(wb, this.fileName);
+   
 
 
   }
