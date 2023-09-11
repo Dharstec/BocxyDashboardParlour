@@ -13,7 +13,7 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>Color</mat-label>
+                        <mat-label>Formulation</mat-label>
                         <mat-select multiple  [(value)]="selectedColourValue" (selectionChange)="applyTypeFilter()">
                             <mat-option *ngFor="let row of colorList" [value]="row" >{{row}}</mat-option>
                         </mat-select>

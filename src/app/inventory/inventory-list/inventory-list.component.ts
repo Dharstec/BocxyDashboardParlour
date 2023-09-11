@@ -17,21 +17,20 @@ export class InventoryListComponent implements OnInit {
   columnsToDisplay = ['id', 'category', 'color', 'name', 'in_stock', 'action'];
 
   catagoryList = [
-    "Anklets",
-    "Bracelets",
-    "Bangles",
-    "Earrings",
-    "Necklace",
-    "Nose Pins",
-    "Pendant",
-    "Rings",
-    "Jewellery Set",
-    "Toe Rings"];
+    "Haircare products",
+    "Skincare products",
+    "Nailcare products",
+    "Cosmetics",
+    "Makeup",
+    "Fragrance",
+    "Serums",
+    "Sunscreens"];
   colorList = [
-    "Gold",
-    "Oxidised Silver",
-    "Rose Gold",
-    "Silver"
+    "Liquid",
+    "Stick",
+    "Cream",
+    "Balm",
+    "Gel"  
   ]
   inStock = [
     "Less than 10",

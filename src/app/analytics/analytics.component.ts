@@ -52,10 +52,17 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     }
   ]
   ColumnchartData = [
-    ['Silver', 500, 400],
-    ['Gold', 600, 460],
-    ['Gold chain', 700, 120],
-    ['Bracelet', 130, 50]
+    ['Make Up', 500, 400],
+    ['Skin', 600, 460],
+    ['Hair', 700, 120],
+    ['Fragrance', 130, 50]
+  ]
+
+  ColumnchartData1 = [
+    ['MAC', 500, 400],
+    ['Lakme', 600, 460],
+    ['Wella', 700, 120],
+    ['Olaplex', 130, 50]
   ]
   tabId = '#tab1';
   tabIdcat = '#tab1';
@@ -147,6 +154,10 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     let dataChart = []
     dataChart.push(this.ColumnchartData)
     let chartDatas = dataChart[dataChart.length - 1];
+    let dataChart1 = []
+    dataChart1.push(this.ColumnchartData1)
+    let chartDatas1 = dataChart1[dataChart.length - 1];
+
     const chartDataColumn = ['Year', 'Viewed', 'Sold'];
     let dataColumn = [];
     dataColumn.push(chartDataColumn)
@@ -175,7 +186,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     }
     google.charts.load('current', { 'packages': ['bar'] });
     google.charts.setOnLoadCallback(() => {
-      const chartData = JSON.parse(JSON.stringify(chartDatas));
+      const chartData = JSON.parse(JSON.stringify(chartDatas1));
       chartData.unshift(chartColumns);
       console.log(chartData)
       const wrapper = new google.visualization.ChartWrapper({

@@ -11,23 +11,24 @@ import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.compo
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss']
 })
-export class CustomerListComponent implements  OnInit {
+export class CustomerListComponent implements OnInit {
 
   dataSource = new MatTableDataSource<any>([]);
-  columnsToDisplay = ['index','id','name', 'email', 'phoneNumber', 'total_value','visit','action'];
+  columnsToDisplay = ['index', 'id', 'name', 'email', 'phoneNumber', 'total_value', 'visit', 'action'];
   types: string[] = [
     "Male",
     "Female",
+    "Neutral"
   ];
   totalCustomer: any = 0;
   activeCustomer: any = 0;
   newCustomer: any = 0;
   customerList: any;
   selectedValue: any;
-  noData=false;
+  noData = false;
   activeCustomerList: any;
 
-  constructor(private api: ApiService,public dialog: MatDialog,private snackbar: MatSnackBar) { }
+  constructor(private api: ApiService, public dialog: MatDialog, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getCustomerList();
@@ -37,28 +38,36 @@ export class CustomerListComponent implements  OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  } 
+  }
 
   getCustomerList(): void {
     this.api.apiGetCall('Customer/getAllCustomer').subscribe((data) => {
-      this.customerList=data.data;
-      this.activeCustomerList=data.data.filter(a=>a.isOtpVerified === '1');
-      this.dataSource.data = data.data.filter(a=>a.isOtpVerified ==='1').sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+      this.customerList = data.data;
+      this.activeCustomerList = data.data.filter(a => a.isOtpVerified === '1');
+      this.dataSource.data = data.data.filter(a => a.isOtpVerified === '1').sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
       this.totalCustomer = data.data?.length;
       this.getCountStatus();
-      if(!data.data?.length){
-        this.noData=true;
+      if (!data.data?.length) {
+        this.noData = true;
+      }
+    },error=>{
+      if(error){
+        this.noData = true;
+
       }
     })
   }
 
-  applyTypeFilter(){
+  applyTypeFilter() {
     if (this.selectedValue && this.selectedValue.length) {
       this.dataSource.data = this.activeCustomerList.filter((item) => {
         return this.selectedValue.some((option) => {
           return item.gender.indexOf(option) !== -1;
         });
       });
+      if (this.dataSource.data.length === 0) {
+        this.noData = true;
+      }
     } else {
       this.dataSource.data = this.activeCustomerList;
     }
@@ -78,14 +87,14 @@ export class CustomerListComponent implements  OnInit {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: response.message,
             });
-           this.getCustomerList();
+            this.getCustomerList();
           }
         })
       }
     })
   }
-  
-  getCountStatus(){
+
+  getCountStatus() {
     let temp1 = []
     let temp2 = []
     let temp3 = []
@@ -96,7 +105,7 @@ export class CustomerListComponent implements  OnInit {
       else if (element.isOtpVerified == '0') {
         temp2.push(element)
       }
-    
+
     })
     this.activeCustomer = temp1.length
     this.newCustomer = temp2.length
