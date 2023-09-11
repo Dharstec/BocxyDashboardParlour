@@ -244,7 +244,7 @@ export class AddProductComponent implements OnInit {
   save(): void {
     this.form.setValidators(null);
     this.form.updateValueAndValidity();
-    if (this.form.invalid && this.allFiles.length !== 5) {
+    if (this.form.invalid && this.allFiles?.length !== 5) {
       this.submitted = true;
       // if(!this.allFiles.includes('video')){
 

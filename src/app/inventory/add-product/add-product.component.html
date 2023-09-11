@@ -167,7 +167,7 @@
       <div class="disflex mt-5" *ngIf="!view">
         <button mat-flat-button color="warn" (click)="discard()">{{'Discard' | uppercase}}</button>
         <button mat-flat-button color="primary" type="submit" (click)="save()" *ngIf="!edit" [disabled]="isSave">{{'Save' | uppercase}}</button>
-        <button mat-flat-button color="primary" type="submit" (click)="saveCoupons()" *ngIf="edit">{{'Update' |
+        <button mat-flat-button color="primary" type="submit" (click)="save()" *ngIf="edit">{{'Update' |
           uppercase}}</button>
       </div>
     </form>
