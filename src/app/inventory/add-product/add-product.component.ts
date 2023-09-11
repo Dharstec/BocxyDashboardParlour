@@ -258,9 +258,12 @@ export class AddProductComponent implements OnInit {
       this.submitted = false;
       this.isSave = true;
       const formData = new FormData()
-      for (let img of this.allFiles) {
-        formData.append('files', img)
+      if(this.allFiles && this.allFiles.length){
+        for (let img of this.allFiles) {
+          formData.append('files', img)
+        }
       }
+     
       this.api.apiPostCall(formData, 'Product/createProductImages').subscribe(data => {
         if (data.message.includes('Image Added Successfully')) {
           const addProd = new AddProduct()
