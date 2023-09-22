@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'inventory', loadChildren: () => (import('./inventory/inventory.module')).then((m) => m.InventoryModule) },
   { path: 'order', loadChildren: () => (import('./order/order.module')).then((m) => m.OrderModule) },
   { path: 'customers', loadChildren: () => (import('./customers/customer.modules')).then((m) => m.CustomersModule) },
+  { path: 'store', loadChildren: () => (import('./store/store.module')).then((m) => m.StoreModule) },
   { path: 'productDetails', component: AddproductComponent, data: { title: 'ProductDetails' } },
   { path: 'order', component: OrderComponent },
 ];
