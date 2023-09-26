@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="card-title">
+        <!-- <i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;<h2>{{'Coupons'| uppercase}} - Add {{'Coupon'| uppercase}}</h2> -->
+        <i class="fa fa-arrow-left" style="font-size:20px;cursor: pointer;" routerLink="/product/list"></i>&nbsp;&nbsp;
+        <h2 style="padding:0px !important ;margin:0px !important;font-weight: 600">{{'Product'| uppercase}} - Add
+            {{'Product'| uppercase}}</h2>
+    </div>
+    <div class="card">
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="section-b col-md-12">
+                    <mat-label>Product Name <span class="required">*</span></mat-label>
+                    <input class="input" type="text" name="Search" matInput formControlName="couponName" maxlength="50">
+                    <mat-hint class="hintalign">{{form.get('couponName').value?.length || 0}}/50
+                    </mat-hint>
+                    <mat-error *ngIf="submitted && form.get('couponName')?.errors?.required">{{'Store Name is
+                        required'}}</mat-error>
+                </div>
+                <div class="section-b col-md-12">
+                    <mat-label>Price<span class="required">*</span></mat-label>
+                    <input class="input" type="text" name="Search" matInput formControlName="description"
+                        maxlength="30">
+                    <mat-hint class="hintalign">{{form.get('description').value?.length || 0}}/30
+                    </mat-hint>
+                    <mat-error *ngIf="submitted && form.get('description')?.errors?.required">{{'Price is
+                        required'}}</mat-error>
+                </div>
+            </div>
+          
+          
+            <div class="disflex" *ngIf="!view">
+                <button mat-flat-button color="warn" (click)="discard()">{{'Discard' | uppercase}}</button>
+                <button mat-flat-button color="primary" type="submit" (click)="saveCoupons()" *ngIf="!edit">{{'Save' |
+                    uppercase}}</button>
+                <button mat-flat-button color="primary" type="submit" (click)="saveCoupons()" *ngIf="edit">{{'Update' |
+                    uppercase}}</button>
+            </div>
+        </form>
+    </div>
+</div>

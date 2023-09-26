@@ -9,13 +9,13 @@ import { ExcelMapComponent } from 'src/app/shared-module/excel-map/excel-map.com
 import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.component';
 
 @Component({
-  selector: 'app-store-list',
-  templateUrl: './store-list.component.html',
-  styleUrls: ['./store-list.component.scss']
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss']
 })
-export class StoreListComponent implements OnInit {
+export class ProductListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
-  columnsToDisplay = ['name', 'mobile', 'ordinates','email', 'action'];
+  columnsToDisplay = ['email','name', 'mobile', 'action'];
   types: string[] = [
     "Affiliate",
     "In Store",

@@ -1,0 +1,118 @@
+.section-b .input {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #f3f3f9;
+    width: 100%;
+    line-height: 24px;
+}
+
+.add-coupon {
+    font-size: 16px;
+
+    a {
+        font-weight: 500;
+        color: #0E1F53;
+        text-decoration:none;
+    }
+}
+
+.card {
+    background-color: #fff;
+    height: 90%;
+    border-radius: 10px;
+    // border: 1px solid #ddd;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    text-align: center;
+    margin: 10px;
+}
+
+.no_data{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 12px 0px 0px 12px;
+}
+
+.disFlex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .search-container {
+        position: relative;
+
+        .normal-search {
+            .search {
+                border: none;
+                height: 2.375rem;
+                padding-left: 2.5rem;
+                padding-right: 1.25rem;
+                background-color: #f3f3f9;
+                box-shadow: none;
+                border-radius: 1.875rem;
+                outline: 0;
+            }
+
+            .search-icon {
+                position: absolute;
+                font-size: 1rem;
+                line-height: 2.375rem;
+                left: 0.813rem;
+                top: 0;
+                color: #74788d;
+
+            }
+        }
+    }
+}
+
+
+.mat-table {
+    width: 100%;
+}
+
+.displayicon {
+    display: flex;
+}
+
+// .first{
+//     border-bottom-left-radius: 30px;
+//     border-top-left-radius: 30px;
+// }
+// .last{
+//     border-bottom-right-radius: 30px;
+//     border-top-right-radius: 30px;
+
+// }
+.table-container {
+    max-width: 100%; /* Adjust the width as needed */
+    overflow-x: auto; /* Enable horizontal scrolling when content exceeds the width */
+  }
+  
+  .table {
+    width: 100%; /* Optionally, make the table full width of its container */
+    border-collapse: collapse; /* Optional: Collapse table borders */
+  }
+  
+  ::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #0E1F53; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #3e4c75;
+  }

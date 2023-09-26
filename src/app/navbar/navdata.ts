@@ -10,6 +10,11 @@ export const navMenuBar = [
         label: 'Store'
     },
     {
+        routeLink: 'product/list',
+        icon: 'shopping_basket',
+        label: 'Product'
+    },
+    {
         routeLink: 'inventory/list',
         icon: 'inventory_2',
         label: 'Inventory'
