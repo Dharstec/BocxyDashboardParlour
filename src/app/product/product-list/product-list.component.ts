@@ -14,7 +14,7 @@ import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.compo
 })
 export class ProductListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
-  columnsToDisplay = ['id', 'category', 'Formulation', 'name', 'in_stock', 'action'];
+  columnsToDisplay = ['id', 'category', 'Formulation', 'name', 'action'];
 
   catagoryList = [
     "Haircare products",
