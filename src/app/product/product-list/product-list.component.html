@@ -2,89 +2,100 @@
     <div class="card">
         <div class="row" style="display:flex;flex-direction: row;align-items: center;">
             <div class="section-b col-md-3">
-                <input class="input m-3" (keyup)="applyFilter($event.target.value)" type="text" name="Search"
-                    placeholder="Search...">
+                <input class="input m-3" (keyup)="applyFilter($event.target.value)" type="text" name="Search" placeholder="Search...">
             </div>
-            <div class="col-md-6" style="display:flex ;justify-content:flex-start;gap: 10px;">
-                <!-- <form style="display: flex;gap:15px">
+            <div class="col-md-6" style="display:flex ;justify-content:flex-start;gap:10px">
+                <form style="display: flex;gap:15px">
                     <mat-form-field appearance="outline">
-                        <mat-label>Type</mat-label>
+                        <mat-label>Category</mat-label>
                         <mat-select multiple  [(value)]="selectedValue" (selectionChange)="applyTypeFilter()">
-                            <mat-option *ngFor="let row of types" [value]="row" >{{row}}</mat-option>
+                            <mat-option *ngFor="let row of catagoryList" [value]="row" >{{row}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>Status</mat-label>
-                        <mat-select multiple  [(value)]="selectedStatus" (selectionChange)="applyTypeFilter()">
-                            <mat-option *ngFor="let row of status" [value]="row.value" >{{row.status}}</mat-option>
+                        <mat-label>Formulation</mat-label>
+                        <mat-select multiple  [(value)]="selectedColourValue" (selectionChange)="applyTypeFilter()">
+                            <mat-option *ngFor="let row of colorList" [value]="row" >{{row}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                </form> -->
+                    <!-- <mat-form-field appearance="outline">
+                        <mat-label>In Stock</mat-label>
+                        <mat-select multiple  [(value)]="selectedStockValue" (selectionChange)="applyTypeFilter()">
+                            <mat-option *ngFor="let row of inStock" [value]="row" >{{row}}</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                </form>
             </div>
-            <!-- <button (click)="openExportDialog()">Generate Excel</button> -->
 
             <div class="add-coupon col-md-3">
-                <a routerLink="/product/add">+&nbsp;{{'Create Product' | uppercase}}</a>
+                <a routerLink="/product/add">+&nbsp;{{'Add new product' | uppercase}}</a>
             </div>
 
         </div>
 
     </div>
     <div class="card">
-        <div class="table-container">
-            <table class="table" mat-table matSort [dataSource]="filteredData?.length? filteredData:dataSource">
-                <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <span>ID</span>
+        <table mat-table matSort [dataSource]="filteredData?.length? filteredData:dataSource">
+            <ng-container matColumnDef="id">
+                <th class="first" mat-header-cell *matHeaderCellDef>
+                    <span>ID</span>
 
-                    </th>
-                    <td mat-cell *matCellDef="let request">{{request._id }}</td>
-                </ng-container>
-                <ng-container matColumnDef="name">
-                    <th class="first" mat-header-cell *matHeaderCellDef>
-                        <span>Name</span>
+                </th>
+                <td mat-cell *matCellDef="let request">{{request._id}}</td>
+            </ng-container>
 
-                    </th>
-                    <td mat-cell *matCellDef="let request">{{request.couponName | titlecase}}</td>
-                </ng-container>
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span>Category</span>
 
-                <ng-container matColumnDef="mobile">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <span>Price</span>
+                </th>
+                <td mat-cell *matCellDef="let request">{{request.category.join(', ')}}</td>
+            </ng-container>
 
-                    </th>
-                    <td mat-cell *matCellDef="let request">{{request?.remaining}}</td>
-                </ng-container>
+            <ng-container matColumnDef="Formulation">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span>Formulation</span>
+                </th>
+                <td mat-cell *matCellDef="let request">{{request.colour.join(', ')}}</td>
+            </ng-container>
 
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span>Name</span>
 
-              
-                <ng-container matColumnDef="action">
-                    <th class="last" mat-header-cell *matHeaderCellDef>
-                        <span>Action</span>
-                    </th>
-                    <td mat-cell *matCellDef="let request">
-                        <div class="displayicon">
-                            <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Edit"
-                                (click)="edit('edit',request._id)">edit</mat-icon>
-                            <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Delete"
-                                (click)="delete(request._id)">delete</mat-icon>
-                            <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="View"
-                                (click)="edit('view',request._id)">visibility</mat-icon>
-                        </div>
-                    </td>
-                </ng-container>
+                </th>
+                <td mat-cell *matCellDef="let request">{{request?.productName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="in_stock">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span>In Stock</span>
 
-                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                <tr mat-row *matRowDef="let request; columns: columnsToDisplay"></tr>
+                </th>
+                <td mat-cell *matCellDef="let request">{{request.stock}}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="action">
+                <th class="last" mat-header-cell *matHeaderCellDef>
+                    <span>Action</span>
+                </th>
+                <td mat-cell *matCellDef="let request">
+                    <div class="displayicon">
+                        <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Edit" (click)="edit('edit',request._id)">edit</mat-icon>
+                        <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Delete" (click)="delete(request._id)">delete</mat-icon>
+                        <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="View" (click)="edit('view',request._id)">visibility</mat-icon>
+                    </div>
+                </td>
+            </ng-container>
 
-            </table>
-            <div class="spinner-container" *ngIf="(dataSource.data.length ===0 || filteredData?.length===0) && !noData">
-                <mat-spinner [diameter]="50"></mat-spinner>
-            </div>
-            <div class="no_data" *ngIf="(dataSource.data.length ===0 || filteredData?.length===0)  && noData">
-                <p>{{'No data available'}}</p>
-            </div>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let request; columns: columnsToDisplay"></tr>
+
+        </table>
+        <div class="spinner-container" *ngIf="!dataSource.data?.length  && !noData">
+            <mat-spinner  [diameter]="50" ></mat-spinner>
         </div>
-
+        <div class="no_data" *ngIf="!dataSource.data?.length  && noData">
+            <p>{{'No data available'}}</p>
+         </div>
     </div>
 </div>

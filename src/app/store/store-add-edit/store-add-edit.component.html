@@ -38,15 +38,24 @@
                         required'}}</mat-error>
                 </div>
                 <div class="section-b col">
-                    <mat-label for="date">Co-ordinate <span class="required">*</span></mat-label>
+                    <mat-label for="date">Location <span class="required">*</span></mat-label>
                     <input class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text"
                     name="Search" matInput formControlName="limit" maxlength="50">
                 <mat-hint class="hintalign">{{form.get('limit').value?.length || 0}}/50</mat-hint>
                     <mat-error *ngIf="submitted && form.get('validDateTill')?.errors?.required">{{'Co-ordinate is
                         required'}}</mat-error>
                 </div>
+                <div class="section-b col">
+                    <mat-label>Password <span class="required">*</span></mat-label>
+                    <input class="input" type="text" name="Search" matInput formControlName="couponName" maxlength="50">
+                    <mat-hint class="hintalign">{{form.get('couponName').value?.length || 0}}/50
+                    </mat-hint>
+                    <mat-error *ngIf="submitted && form.get('couponName')?.errors?.required">{{'Password is
+                        required'}}</mat-error>
+                </div>
             </div>
             <div class="row">
+               
                 <div class="section-b col-6">
                     <mat-label>Address <span class="required">*</span></mat-label>
                     <textarea class="input" matInput rows="3" cols="3" formControlName="limit" maxlength="250"></textarea>
