@@ -15,7 +15,7 @@ import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.compo
 })
 export class StoreListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
-  columnsToDisplay = ['name', 'mobile', 'ordinates','email', 'action'];
+  columnsToDisplay = ['name', 'mobile', 'ordinates', 'action'];
   types: string[] = [
     "Affiliate",
     "In Store",
@@ -27,7 +27,7 @@ export class StoreListComponent implements OnInit {
   selectedValue: string;
   selectedStatus:string;
   noData=false;
-  couponsListData: any;
+  storeListData: any;
   filteredData: any[];
 
   constructor(private api: ApiService, public dialog: MatDialog, private snackbar: MatSnackBar, private router: Router) { }
@@ -37,8 +37,8 @@ export class StoreListComponent implements OnInit {
   }
 
   getCouponsList(): void {
-    this.api.apiGetCall('Coupon/getCoupon').subscribe((data) => {
-      this.couponsListData=data.data;
+    this.api.apiGetCall('admin/getAllStores').subscribe((data) => {
+      this.storeListData=data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
       if(!data.data?.length){
         this.noData=true;
@@ -90,20 +90,20 @@ export class StoreListComponent implements OnInit {
     dialog.afterClosed().subscribe(data => {
       if (data) {
 
-        this.api.apiDeleteCall(id, 'Coupon/deleteCoupon').subscribe(response => {
-          if (response.message.includes('Successfully')) {
-            this.snackbar.openFromComponent(SnackbarComponent, {
-              data: response.message,
-            });
-            this.getCouponsList();
-          }
-        })
+        // this.api.apiDeleteCall(id, 's/deleteCoupon').subscribe(response => {
+        //   if (response.message.includes('Successfully')) {
+        //     this.snackbar.openFromComponent(SnackbarComponent, {
+        //       data: response.message,
+        //     });
+        //     this.getCouponsList();
+        //   }
+        // })
       }
     })
   }
 
   edit(type,id) {
-    this.router.navigate(['/coupon/'+type, id]);
+    this.router.navigate(['/store/'+type, id]);
   }
 
   applyTypeFilter() {
@@ -123,7 +123,7 @@ export class StoreListComponent implements OnInit {
       });
     }else{
       this.filteredData=[];
-      this.dataSource.data=this.couponsListData;
+      this.dataSource.data=this.storeListData;
     }
     
     }

@@ -1,0 +1,30 @@
+<div class="login-container">
+    <div class="login-image">
+      <!-- Right column content (random image) -->
+      <img src="assets/1.png" width="550" height="450"
+        alt="Random Image" />
+    </div>
+    <div class="login-form">
+      <!-- Left column content (login form) -->
+      <h2>Welcome back!</h2>
+      <form [formGroup]="form">
+        <div class="section-b col-md-12">
+          <mat-label>Email <span class="required">*</span></mat-label>
+          <input class="input" type="email" name="email" matInput formControlName="email" maxlength="50" required>
+          <mat-error *ngIf="submitted && form.get('email')?.errors?.required">
+            {{'Email is required'}}</mat-error>
+        </div>
+        <div class="section-b col-md-12">
+          <mat-label>Password <span class="required">*</span></mat-label>
+          <input class="input" type="password" name="password" matInput formControlName="password" maxlength="50"
+            required>
+          <mat-error *ngIf="submitted && form.get('password')?.errors?.required">
+            {{'Password is required'}}</mat-error>
+        </div>
+        <div class="disflex">
+          <button mat-flat-button color="primary" type="submit" (click)="login()">{{'Login' |
+            uppercase}}</button>
+        </div>
+      </form>
+    </div>
+  </div>

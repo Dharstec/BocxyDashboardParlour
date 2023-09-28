@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl:'https://api.aurajewelmart.com/'
+  apiUrl:' https://bocxyapi.onrender.com/'
 
 };

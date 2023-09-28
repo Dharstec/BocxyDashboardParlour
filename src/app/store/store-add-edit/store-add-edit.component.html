@@ -10,19 +10,19 @@
             <div class="row">
                 <div class="section-b col-md-12">
                     <mat-label>Store Name <span class="required">*</span></mat-label>
-                    <input class="input" type="text" name="Search" matInput formControlName="couponName" maxlength="50">
-                    <mat-hint class="hintalign">{{form.get('couponName').value?.length || 0}}/50
+                    <input class="input" type="text" name="Search" matInput formControlName="storeName" maxlength="50">
+                    <mat-hint class="hintalign">{{form.get('storeName').value?.length || 0}}/50
                     </mat-hint>
-                    <mat-error *ngIf="submitted && form.get('couponName')?.errors?.required">{{'Store Name is
+                    <mat-error *ngIf="submitted && form.get('storeName')?.errors?.required">{{'Store Name is
                         required'}}</mat-error>
                 </div>
                 <div class="section-b col-md-12">
                     <mat-label>Email<span class="required">*</span></mat-label>
-                    <input class="input" type="text" name="Search" matInput formControlName="description"
+                    <input class="input" type="text" name="Search" matInput formControlName="email"
                         maxlength="500">
-                    <mat-hint class="hintalign">{{form.get('description').value?.length || 0}}/500
+                    <mat-hint class="hintalign">{{form.get('email').value?.length || 0}}/500
                     </mat-hint>
-                    <mat-error *ngIf="submitted && form.get('description')?.errors?.required">{{'Email is
+                    <mat-error *ngIf="submitted && form.get('email')?.errors?.required">{{'Email is
                         required'}}</mat-error>
                 </div>
             </div>
@@ -31,26 +31,26 @@
                 <div class="section-b col">
                     <mat-label >Phone Number <span class="required">*</span></mat-label>
                     <input class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text"
-                        name="Search" matInput formControlName="limit" maxlength="50">
-                    <mat-hint class="hintalign">{{form.get('limit').value?.length || 0}}/50
+                        name="Search" matInput formControlName="phoneNo" maxlength="50">
+                    <mat-hint class="hintalign">{{form.get('phoneNo').value?.length || 0}}/50
                     </mat-hint>
-                    <mat-error *ngIf="submitted && form.get('limit')?.errors?.required">{{'Phone Number is
+                    <mat-error *ngIf="submitted && form.get('phoneNo')?.errors?.required">{{'Phone Number is
                         required'}}</mat-error>
                 </div>
                 <div class="section-b col">
                     <mat-label for="date">Location <span class="required">*</span></mat-label>
-                    <input class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text"
-                    name="Search" matInput formControlName="limit" maxlength="50">
-                <mat-hint class="hintalign">{{form.get('limit').value?.length || 0}}/50</mat-hint>
-                    <mat-error *ngIf="submitted && form.get('validDateTill')?.errors?.required">{{'Co-ordinate is
+                    <input class="input"  type="text"
+                    name="Search" matInput formControlName="location" maxlength="50">
+                <mat-hint class="hintalign">{{form.get('location').value?.length || 0}}/50</mat-hint>
+                    <mat-error *ngIf="submitted && form.get('location')?.errors?.required">{{'Co-ordinate is
                         required'}}</mat-error>
                 </div>
                 <div class="section-b col">
                     <mat-label>Password <span class="required">*</span></mat-label>
-                    <input class="input" type="text" name="Search" matInput formControlName="couponName" maxlength="50">
-                    <mat-hint class="hintalign">{{form.get('couponName').value?.length || 0}}/50
+                    <input class="input" type="text" name="Search" matInput formControlName="password" maxlength="50">
+                    <mat-hint class="hintalign">{{form.get('password').value?.length || 0}}/50
                     </mat-hint>
-                    <mat-error *ngIf="submitted && form.get('couponName')?.errors?.required">{{'Password is
+                    <mat-error *ngIf="submitted && form.get('password')?.errors?.required">{{'Password is
                         required'}}</mat-error>
                 </div>
             </div>
@@ -58,10 +58,10 @@
                
                 <div class="section-b col-6">
                     <mat-label>Address <span class="required">*</span></mat-label>
-                    <textarea class="input" matInput rows="3" cols="3" formControlName="limit" maxlength="250"></textarea>
-                    <mat-hint class="hintalign">{{form.get('limit').value?.length || 0}}/250
+                    <textarea class="input" matInput rows="3" cols="3" formControlName="address" maxlength="250"></textarea>
+                    <mat-hint class="hintalign">{{form.get('address').value?.length || 0}}/250
                     </mat-hint>
-                    <mat-error *ngIf="submitted && form.get('limit')?.errors?.required">{{'Type is required'}}
+                    <mat-error *ngIf="submitted && form.get('address')?.errors?.required">{{'Type is required'}}
                     </mat-error>
                 </div>
             </div>

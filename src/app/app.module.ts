@@ -21,11 +21,13 @@ import { BodyComponent } from './body/body.component';
 import { HeadersComponent } from './headers/headers.component';
 import { SharedModule } from './shared-module/shared.module';
 import { SplashScreenModule } from './splash-screen/splash-screen.module';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     DashboardComponent,
     InventoryComponent,
     AddproductComponent,

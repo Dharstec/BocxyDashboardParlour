@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { couponsList } from 'src/app/coupons/coupons.model';
 import { ApiService } from 'src/app/services/api.service';
 import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.component';
+import { Store } from '../store.model';
 
 @Component({
   selector: 'app-store-add-edit',
@@ -19,13 +20,13 @@ export class StoreAddEditComponent implements OnInit {
   ];
   submitted = false;
   edit = false;
-  couponId: string;
+  storeId: string;
   view = false;
   couponsDetails: any;
   constructor(private api: ApiService, private fb: FormBuilder, private router: Router, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
-      this.couponId = params.get('id');
-      if (this.couponId && this.router.url.includes('edit')) {
+      this.storeId = params.get('id');
+      if (this.storeId && this.router.url.includes('edit')) {
         this.edit = true;
         this.getCouponDetails();
       } else if (this.router.url.includes('view')) {
@@ -36,8 +37,8 @@ export class StoreAddEditComponent implements OnInit {
   }
 
   getCouponDetails() {
-    this.api.apiGetDetailsCall(this.couponId, 'Coupon/findCoupon').subscribe(data => {
-      this.couponsDetails=data.data;
+    this.api.apiGetDetailsCall(this.storeId, 'Coupon/findCoupon').subscribe(data => {
+      this.couponsDetails = data.data;
       this.form.patchValue(data.data);
       if (this.router.url.includes('view')) {
         this.form.disable();
@@ -47,25 +48,19 @@ export class StoreAddEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      createdFor: ['', Validators.required],
-      couponName: ['', Validators.required],
-      description: ['', Validators.required],
-      discountPercentage: ['', Validators.required],
-      type: ['', Validators.required],
-      totalQuantity: ['', Validators.required],
-      limit: ['', Validators.required],
-      validDateTill: ['', Validators.required],
-      // totalCommissions: ['', Validators.required],
-      // totalOrders: ['', Validators.required],
-      // totalSales: ['', Validators.required],
-      // remaining: ['', Validators.required]
+      storeName: ['', Validators.required],
+      email: ['', Validators.required],
+      location: ['', Validators.required],
+      phoneNo: ['', Validators.required],
+      address: ['', Validators.required],
+      password: ['', Validators.required],
     })
   }
 
-  discard(){
-    if(this.couponId){
+  discard() {
+    if (this.storeId) {
       this.form.patchValue(this.couponsDetails);
-    }else{
+    } else {
       this.form.reset();
     }
     this.router.navigate(['/store/list'])
@@ -77,38 +72,18 @@ export class StoreAddEditComponent implements OnInit {
       return
     } else {
       this.submitted = false;
-      const CouponsAdd = new couponsList()
-      CouponsAdd._id = this.couponId ? this.couponId : null;;
-      CouponsAdd.createdFor = this.form.get('createdFor').value;
-      CouponsAdd.couponName = this.form.get('couponName').value;
-      CouponsAdd.description = this.form.get('description').value;
-      CouponsAdd.type = this.form.get('type').value;
-      CouponsAdd.discountPercentage = this.form.get('discountPercentage').value;
-      CouponsAdd.totalQuantity = this.form.get('totalQuantity').value;
-      CouponsAdd.limit = this.form.get('limit').value;
-      CouponsAdd.validDateTill = this.form.get('validDateTill').value;
+      const store = new Store()
+      store.store_name = this.form.get('storeName').value;
+      store.address = this.form.get('address').value;
+      store.phone_no = this.form.get('phoneNo').value;
+      store.co_ordinates = this.form.get('location').value;
+      store.email = this.form.get('email').value;
+      store.password = this.form.get('password').value;
+      store.role_flag = 'STORE_ADMIN';
+      store.super_admin_id = localStorage.getItem('superAdminId');
 
-      // couponName:req.body.couponName,
-      // totalQuantity:req.body.totalQuantity,
-      // availedQuantity: req.body.availedQuantity,
-      // createdFor:req.body.createdFor,
-      // totalOrders:req?.body?.totalOrders || 0,
-      // totalSales:req?.body?.totalSales || 0,
-      // totalCommissions:req?.body?.totalCommissions || 0,
-      // createdDate:req.body.createdDate,
-      // validDateTill:req.body.validDateTill,
-      // discountPercentage:req.body.discountPercentage,
-      // type:req.body.type,
-      // description:req.body.description,
-      // remaining:req.body.remaining
-
-      // CouponsAdd.totalCommissions = this.form.get('totalCommissions').value;
-      // CouponsAdd.totalOrders = this.form.get('totalOrders').value;
-      // CouponsAdd.totalSales = this.form.get('totalSales').value;
-      // CouponsAdd.availedQuantity = this.form.get('availedQuantity')?.value ? this.form.get('availedQuantity').value : '0';
-      // CouponsAdd.remaining = this.form.get('remaining')?.value;
-      if (this.couponId) {
-        this.api.apiPutCall(CouponsAdd, 'Coupon/updateCoupon').subscribe(data => {
+      if (this.storeId) {
+        this.api.apiPutCall(store, 'Coupon/updateCoupon').subscribe(data => {
           if (data.message.includes('Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,
@@ -121,7 +96,7 @@ export class StoreAddEditComponent implements OnInit {
           }
         })
       } else {
-        this.api.apiPostCall(CouponsAdd, 'Coupon/createCoupon').subscribe(data => {
+        this.api.apiPostCall(store, 'admin/createStoreAdmin').subscribe(data => {
           if (data.message.includes('Created Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,

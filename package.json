@@ -26,6 +26,7 @@
     "ng-gapi": "0.0.94",
     "puppeteer": "^21.1.1",
     "rxjs": "~6.6.0",
+    "stream-browserify": "^3.0.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.11.4"

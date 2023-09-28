@@ -5,9 +5,11 @@ import { CouponsModule } from './coupons/coupons.module';
 import { CustomersComponent } from './customers/customers.component';
 import { AddproductComponent } from './dashboard/inventory/addproduct/addproduct.component';
 import { OrderComponent } from './dashboard/inventory/order/order.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'analytic', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   { path: 'analytic', component: AnalyticsComponent },
   { path: 'coupon', loadChildren: () => (import('./coupons/coupons.module')).then((m) => m.CouponsModule) },
   { path: 'marketing', loadChildren: () => (import('./marketing/marketing.module')).then((m) => m.MarketingModule) },
