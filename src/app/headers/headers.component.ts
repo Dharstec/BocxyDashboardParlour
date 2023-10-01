@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-headers',
@@ -11,10 +12,13 @@ export class HeadersComponent implements OnInit {
   @Input() screenWidth = 0;
   customerList: any;
   noData: boolean;
+  logDet: any;
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
   ngOnInit(): void {
     this.getCustomerList();
+    this.logDet = JSON.parse(localStorage.getItem('details'));
+    console.log(this.logDet)
   }
 
   getCustomerList(): void {
@@ -34,4 +38,10 @@ export class HeadersComponent implements OnInit {
     }
     return styleClass;
   }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 }
+

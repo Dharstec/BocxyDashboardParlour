@@ -40,9 +40,9 @@
                 <div class="section-b col">
                     <mat-label for="date">Location <span class="required">*</span></mat-label>
                     <input class="input"  type="text"
-                    name="Search" matInput formControlName="location" maxlength="50">
-                <mat-hint class="hintalign">{{form.get('location').value?.length || 0}}/50</mat-hint>
-                    <mat-error *ngIf="submitted && form.get('location')?.errors?.required">{{'Co-ordinate is
+                    name="Search" matInput formControlName="co_ordinates" maxlength="50">
+                <mat-hint class="hintalign">{{form.get('co_ordinates').value?.length || 0}}/50</mat-hint>
+                    <mat-error *ngIf="submitted && form.get('co_ordinates')?.errors?.required">{{'Co-ordinate is
                         required'}}</mat-error>
                 </div>
                 <div class="section-b col">

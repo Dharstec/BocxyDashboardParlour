@@ -32,12 +32,26 @@
                 
             </div>
             <div class="head-user-avatar-container">
-                <div class="head-user-avatar">
-                    <img src="../../assets/user3.jpg" alt="user" class="user-avatar">
+                <div class="head-user-avatar" [matMenuTriggerFor]="menuPro">
+                    <img src="../../assets/images.png" alt="user" class="user-avatar">
                  <div class="circle-indicator pulse">
 
                  </div>
-
+                 <mat-menu #menuPro="matMenu">
+                    <ng-container>
+                        <div>
+                            <span mat-menu-item><mat-icon class="iconCls">store</mat-icon>{{logDet.store_name}}</span>
+                            <span mat-menu-item><mat-icon class="iconCls">mail</mat-icon>{{logDet.email}}</span>
+                            <span  mat-menu-item><mat-icon class="iconCls">call</mat-icon>{{logDet.phone_no}}</span>
+                            <span (click)="logout()" mat-menu-item><mat-icon class="iconCls">logout</mat-icon>Logout</span>
+                        </div>
+                    </ng-container>
+                   
+                    <!-- <div class="add-coupon" *ngIf="noData" style="padding-left: 30px;
+                    padding-right: 30px">
+                   <a >+ &nbsp;Add New Customer</a>
+                    </div> -->
+                  </mat-menu>
 
                 </div>
             </div>

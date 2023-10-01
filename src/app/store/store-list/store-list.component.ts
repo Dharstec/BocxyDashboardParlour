@@ -33,10 +33,10 @@ export class StoreListComponent implements OnInit {
   constructor(private api: ApiService, public dialog: MatDialog, private snackbar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
-    this.getCouponsList();
+    this.getStoreList();
   }
 
-  getCouponsList(): void {
+  getStoreList(): void {
     this.api.apiGetCall('admin/getAllStores').subscribe((data) => {
       this.storeListData=data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
@@ -90,14 +90,14 @@ export class StoreListComponent implements OnInit {
     dialog.afterClosed().subscribe(data => {
       if (data) {
 
-        // this.api.apiDeleteCall(id, 's/deleteCoupon').subscribe(response => {
-        //   if (response.message.includes('Successfully')) {
-        //     this.snackbar.openFromComponent(SnackbarComponent, {
-        //       data: response.message,
-        //     });
-        //     this.getCouponsList();
-        //   }
-        // })
+        this.api.apiDeleteCall(id, 'admin/deleteStoreAdmin').subscribe(response => {
+          if (response.message.includes('Successfully')) {
+            this.snackbar.openFromComponent(SnackbarComponent, {
+              data: response.message,
+            });
+            this.getStoreList();
+          }
+        })
       }
     })
   }

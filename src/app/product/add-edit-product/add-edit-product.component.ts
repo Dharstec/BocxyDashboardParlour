@@ -79,6 +79,7 @@ export class AddEditProductComponent implements OnInit {
   constructor(private router: Router, private formBuilder: UntypedFormBuilder, private api: ApiService, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
       this.productId = params.get('id');
+      console.log(this.productId)
       if (this.productId && this.router.url.includes('edit')) {
         this.edit = true;
         this.getProductDetails();
@@ -111,8 +112,9 @@ export class AddEditProductComponent implements OnInit {
   }
 
 
+  
   getProductDetails() {
-    this.api.apiGetDetailsCall(this.productId, 'Product/getOneProduct').subscribe(data => {
+    this.api.apiGetDetailsCall(this.productId, 'product/getOneProduct').subscribe(data => {
       this.productDetails = data.data;
       this.form.patchValue(data.data);
       this.mainImageSrc = this.productDetails?.productImages[0];
@@ -214,7 +216,7 @@ export class AddEditProductComponent implements OnInit {
       stock: ['', Validators.required],
       category: ['', Validators.required],
       stone: ['', Validators.required],
-      colour: ['', Validators.required],
+      formulation: ['', Validators.required],
       style: ['', Validators.required],
       for: ['', Validators.required],
       gift: [true],
@@ -235,7 +237,7 @@ export class AddEditProductComponent implements OnInit {
     } else {
       this.form.reset();
     }
-    this.router.navigate(['/inventory/list'])
+    this.router.navigate(['/product/list'])
   }
 
 
@@ -244,6 +246,7 @@ export class AddEditProductComponent implements OnInit {
     this.form.updateValueAndValidity();
     if (this.form.invalid && this.allFiles?.length !== 5) {
       this.submitted = true;
+      console.log('trg')
       // if(!this.allFiles.includes('video')){
 
       // }
@@ -253,6 +256,7 @@ export class AddEditProductComponent implements OnInit {
 
       return
     } else {
+      console.log('else')
       this.submitted = false;
       this.isSave = true;
       const formData = new FormData()
@@ -266,6 +270,7 @@ export class AddEditProductComponent implements OnInit {
         if (data.message.includes('Image Added Successfully')) {
           const addProd = new AddProduct()
           addProd._id = this.productId ? this.productId : null
+          addProd.superAdminId=localStorage.getItem('superAdminId');
           addProd.productName = this.form.get('productName')?.value;
           addProd.discountPrice = this.form.get('discountPrice')?.value;
           addProd.actualPrice = this.form.get('actualPrice')?.value;
@@ -273,7 +278,7 @@ export class AddEditProductComponent implements OnInit {
           addProd.category = this.form.get('category')?.value;
           addProd.stock = this.form.get('stock')?.value;
           addProd.stone = this.form.get('stone')?.value;
-          addProd.colour = this.form.get('colour')?.value;
+          addProd.formulation = this.form.get('formulation')?.value;
           addProd.style = this.form.get('style')?.value;
           addProd.gift = this.form.get('gift')?.value;
           addProd.personalised = this.form.get('personalised')?.value;
@@ -294,7 +299,7 @@ export class AddEditProductComponent implements OnInit {
                 this.snackbar.openFromComponent(SnackbarComponent, {
                   data: data.message,
                 });
-                this.router.navigate(['/inventory/list'])
+                this.router.navigate(['/product/list'])
               }
             }, (error) => {
               if (error) {
@@ -303,12 +308,12 @@ export class AddEditProductComponent implements OnInit {
               }
             })
           } else {
-            this.api.apiFormDataPostCall(addProd, 'Product/createProduct').subscribe(data => {
+            this.api.apiFormDataPostCall(addProd, 'product/createProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {
                 this.snackbar.openFromComponent(SnackbarComponent, {
                   data: data.message,
                 });
-                this.router.navigate(['/inventory/list'])
+                this.router.navigate(['/product/list'])
               }
             }, (error) => {
               if (error) {

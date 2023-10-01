@@ -125,10 +125,10 @@
           </div>
           <div class="section-b col">
             <mat-label>Formulation<span class="required">*</span></mat-label>
-            <mat-select formControlName="colour" multiple>
+            <mat-select formControlName="formulation" multiple>
               <mat-option *ngFor="let row of color" [value]="row">{{row}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="submitted && form.get('colour')?.errors?.required">{{'colour is required'}}</mat-error>
+            <mat-error *ngIf="submitted && form.get('formulation')?.errors?.required">{{'formulation is required'}}</mat-error>
            </div>
           <!-- <div class="section-b col">
             <mat-label>Average customer rating<span class="required">*</span></mat-label>

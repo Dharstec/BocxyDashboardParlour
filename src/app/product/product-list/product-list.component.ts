@@ -48,15 +48,15 @@ export class ProductListComponent implements OnInit {
   constructor(private api: ApiService,public dialog: MatDialog, private snackbar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
-    this.getInventoryList();
+    this.getProductList();
   }
 
   edit(type,id) {
     this.router.navigate(['/product/'+type, id]);
   }
 
-  getInventoryList(): void {
-    this.api.apiGetCall('Product/getProduct').subscribe((data) => {
+  getProductList(): void {
+    this.api.apiGetCall('product/getProduct'+'/'+localStorage.getItem('superAdminId')).subscribe((data) => {
       this.inventoryList = data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
       if(!data.data?.length){
@@ -75,12 +75,12 @@ export class ProductListComponent implements OnInit {
     dialog.afterClosed().subscribe(data => {
       if (data) {
 
-        this.api.apiDeleteCall(id, 'Product/deleteProduct').subscribe(response => {
+        this.api.apiDeleteCall(id, 'product/deleteProduct').subscribe(response => {
           if (response.message.includes('Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: response.message,
             });
-            this.getInventoryList();
+            this.getProductList();
           }
         })
       }

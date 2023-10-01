@@ -22,23 +22,23 @@ export class StoreAddEditComponent implements OnInit {
   edit = false;
   storeId: string;
   view = false;
-  couponsDetails: any;
+  storeDetails: any;
   constructor(private api: ApiService, private fb: FormBuilder, private router: Router, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
       this.storeId = params.get('id');
       if (this.storeId && this.router.url.includes('edit')) {
         this.edit = true;
-        this.getCouponDetails();
+        this.getStoreDetails();
       } else if (this.router.url.includes('view')) {
         this.view = true;
-        this.getCouponDetails();
+        this.getStoreDetails();
       }
     })
   }
 
-  getCouponDetails() {
-    this.api.apiGetDetailsCall(this.storeId, 'Coupon/findCoupon').subscribe(data => {
-      this.couponsDetails = data.data;
+  getStoreDetails() {
+    this.api.apiGetDetailsCall(this.storeId, 'admin/getOneStore').subscribe(data => {
+      this.storeDetails = data.data;
       this.form.patchValue(data.data);
       if (this.router.url.includes('view')) {
         this.form.disable();
@@ -50,7 +50,7 @@ export class StoreAddEditComponent implements OnInit {
     this.form = this.fb.group({
       storeName: ['', Validators.required],
       email: ['', Validators.required],
-      location: ['', Validators.required],
+      co_ordinates: ['', Validators.required],
       phoneNo: ['', Validators.required],
       address: ['', Validators.required],
       password: ['', Validators.required],
@@ -59,7 +59,7 @@ export class StoreAddEditComponent implements OnInit {
 
   discard() {
     if (this.storeId) {
-      this.form.patchValue(this.couponsDetails);
+      this.form.patchValue(this.storeDetails);
     } else {
       this.form.reset();
     }
@@ -76,14 +76,16 @@ export class StoreAddEditComponent implements OnInit {
       store.store_name = this.form.get('storeName').value;
       store.address = this.form.get('address').value;
       store.phone_no = this.form.get('phoneNo').value;
-      store.co_ordinates = this.form.get('location').value;
+      store.co_ordinates = this.form.get('co_ordinates').value;
       store.email = this.form.get('email').value;
       store.password = this.form.get('password').value;
-      store.role_flag = 'STORE_ADMIN';
-      store.super_admin_id = localStorage.getItem('superAdminId');
+      if(!this.storeId){
+        // store.role_flag = 'STORE_ADMIN';
+        store.super_admin_id = localStorage.getItem('superAdminId');  
+      }
 
       if (this.storeId) {
-        this.api.apiPutCall(store, 'Coupon/updateCoupon').subscribe(data => {
+        this.api.apiPutCall(store, 'admin/updateStoreAdmin').subscribe(data => {
           if (data.message.includes('Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,

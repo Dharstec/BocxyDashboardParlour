@@ -50,18 +50,17 @@
           <div class="row">
             <div class="section-b col-md-12">
               <mat-label>Heading<span class="required">*</span></mat-label>
-              <input class="input" type="text" name="Search" matInput formControlName="productName" maxlength="50"
-                required>
-              <mat-hint class="hintalign">{{form.get('productName').value?.length || 0}}/50
-              </mat-hint>
-              <mat-error *ngIf="submitted && form.get('productName')?.errors?.required">{{'product name is required'}}</mat-error>
+              <mat-select formControlName="productName" [(ngModel)]="selectedFood" (ngModelChange)="onFoodSelection()">
+                <mat-option *ngFor="let row of productList" [value]="row">{{row.productName}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="submitted && form.get('productName')?.errors?.required">{{'Product name is required'}}</mat-error>
             </div>
           </div>
 
           <div class="row">
             <div class="section-b col">
               <mat-label>Discount Price<span class="required">*</span></mat-label>
-              <input class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" name="Search"
+              <input disabled class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" name="Search"
                 matInput formControlName="discountPrice" maxlength="50" required>
               <mat-hint class="hintalign">{{form.get('discountPrice').value?.length || 0}}/50
               </mat-hint>
@@ -69,7 +68,7 @@
             </div>
             <div class="section-b col">
               <mat-label>Compared Price<span class="required">*</span></mat-label>
-              <input class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search"
+              <input [disabled]="true" class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search"
                 matInput formControlName="actualPrice" maxlength="50" required>
               <mat-hint class="hintalign">{{form.get('actualPrice').value?.length || 0}}/50
               </mat-hint>
@@ -79,7 +78,7 @@
           <div class="row">
             <div class="section-b col">
               <mat-label>Description <span class="required">*</span></mat-label>
-              <textarea class="input" matInput rows="3" cols="3" formControlName="description"
+              <textarea  [disabled]="true" class="input" matInput rows="3" cols="3" formControlName="description"
                 maxlength="250"></textarea>
               <mat-hint class="hintalign">{{form.get('description').value?.length || 0}}/250
               </mat-hint>
@@ -92,7 +91,7 @@
       <div class="row">
         <div class="section-b col">
           <mat-label>ID<span class="required">*</span></mat-label>
-          <input class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search" matInput
+          <input [disabled]="true" class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search" matInput
             formControlName="referenceId" maxlength="50" required>
           <mat-hint class="hintalign">{{form.get('referenceId').value?.length || 0}}/50
           </mat-hint>
@@ -108,7 +107,7 @@
         </div>
         <div class="section-b col">
           <mat-label>Gender <span class="required">*</span></mat-label>
-          <mat-select formControlName="for" multiple>
+          <mat-select  [disabled]="true" formControlName="for" multiple>
             <mat-option *ngFor="let row of types" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('for')?.errors?.required">{{'Gender is required'}}
@@ -116,7 +115,7 @@
         </div>
         <div class="section-b col">
           <mat-label>Category<span class="required">*</span></mat-label>
-          <mat-select formControlName="category" multiple>
+          <mat-select [disabled]="true" formControlName="category" multiple>
             <mat-option *ngFor="let row of category" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('category')?.errors?.required">{{'Category is required'}}</mat-error>
@@ -125,28 +124,28 @@
       <div class="row">
         <div class="section-b col">
           <mat-label>Brand<span class="required">*</span></mat-label>
-          <mat-select formControlName="stone" multiple>
-            <mat-option *ngFor="let row of stone" [value]="row">{{row}}</mat-option>
+          <mat-select  [disabled]="true" formControlName="brand" multiple>
+            <mat-option *ngFor="let row of brand" [value]="row">{{row}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="submitted && form.get('stone')?.errors?.required">{{'Stone is required'}}</mat-error>
+          <mat-error *ngIf="submitted && form.get('brand')?.errors?.required">{{'Brand is required'}}</mat-error>
         </div>
         <div class="section-b col">
           <mat-label>Formulation<span class="required">*</span></mat-label>
-          <mat-select formControlName="colour" multiple>
-            <mat-option *ngFor="let row of color" [value]="row">{{row}}</mat-option>
+          <mat-select  [disabled]="true" formControlName="formulation" multiple>
+            <mat-option *ngFor="let row of formulation" [value]="row">{{row}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="submitted && form.get('colour')?.errors?.required">{{'colour is required'}}</mat-error>
+          <mat-error *ngIf="submitted && form.get('formulation')?.errors?.required">{{'Formulation is required'}}</mat-error>
          </div>
         <div class="section-b col">
           <mat-label>Average customer rating<span class="required">*</span></mat-label>
-          <mat-select formControlName="style" multiple>
+          <mat-select [disabled]="true" formControlName="style" multiple>
             <mat-option *ngFor="let row of style" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('style')?.errors?.required">{{'Style is required'}}</mat-error>
          </div>
          <div class="section-b col">
           <mat-label>Collections<span class="required">*</span></mat-label>
-          <mat-select formControlName="collections" multiple>
+          <mat-select [disabled]="true" formControlName="collections" multiple>
             <mat-option *ngFor="let row of collections" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('collections')?.errors?.required">{{'Collection is required'}}</mat-error>
@@ -154,13 +153,13 @@
         </div>
         <div class="row displayflx">
           <div class="col-4">
-            <mat-slide-toggle formControlName="gift">Gift</mat-slide-toggle>
+            <mat-slide-toggle [disabled]="true" formControlName="gift">Gift</mat-slide-toggle>
           </div>
           <div class="col-4">
-            <mat-slide-toggle formControlName="personalised">Personalised</mat-slide-toggle>
+            <mat-slide-toggle [disabled]="true" formControlName="personalised">Personalised</mat-slide-toggle>
           </div>
           <div class="col-4">
-            <mat-slide-toggle formControlName="latest">Latest</mat-slide-toggle>
+            <mat-slide-toggle [disabled]="true" formControlName="latest">Latest</mat-slide-toggle>
           </div>
          
         </div>

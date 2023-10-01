@@ -2,42 +2,50 @@ export const navMenuBar = [
     {
         routeLink: 'analytic',
         icon: 'bar_chart',
-        label: 'Analytics'
+        label: 'Analytics',
+        role_flag:'BOTH'
     },
     {
         routeLink: 'store/list',
         icon: 'store',
-        label: 'Store'
+        label: 'Store',
+        role_flag:'SUPER_ADMIN'
     },
     {
         routeLink: 'product/list',
         icon: 'shopping_basket',
-        label: 'Product'
+        label: 'Product',
+        role_flag:'SUPER_ADMIN'
     },
     {
         routeLink: 'inventory/list',
         icon: 'inventory_2',
-        label: 'Inventory'
+        label: 'Inventory',
+        role_flag:'STORE_ADMIN'
     },
     {
         routeLink: 'customers/list',
         icon: 'diversity_3',
-        label: 'Customers'
+        label: 'Customers',
+        role_flag:'BOTH'
     },
     {
         routeLink: 'order/list',
         icon: 'book',
-        label: 'Orders'
+        label: 'Orders',
+        role_flag:'STORE_ADMIN'
     },
     {
         routeLink: 'marketing/list',
         icon: 'campaign',
-        label: 'Marketing'
+        label: 'Marketing',
+        role_flag:'BOTH'
     },
     {
         routeLink: 'coupon/list',
         icon: 'price_change',
-        label: 'Coupon'
+        label: 'Coupon',
+        role_flag:'BOTH'
     },
     // {
     //     routeLink: 'billing',

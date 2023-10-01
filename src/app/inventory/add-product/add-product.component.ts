@@ -35,6 +35,7 @@ export class AddProductComponent implements OnInit {
     "Female",
     "Neutral"
   ];
+  selectedFood: any;
   category = [
     "Haircare products",
     "Skincare products",
@@ -45,7 +46,7 @@ export class AddProductComponent implements OnInit {
     "Serums",
     "Sunscreens"
   ]
-  stone = [
+  brand = [
     'LOréal',
     'Maybelline',
     'MAC',
@@ -55,18 +56,18 @@ export class AddProductComponent implements OnInit {
     'TRESemmé',
     'Renee'
   ]
-  color = [
+  formulation = [
     "Liquid",
     "Stick",
     "Cream",
     "Balm",
-    "Gel"  ]
+    "Gel"]
   style = [
     "4 stars & above",
     "3 stars & above",
     "2 stars & above",
     "1 star & above"
-    ]
+  ]
   collections = [
     "Diwali", "New Year", "Mother's Day", "Christmas", "Raksha Bandhan", "Eid", "Holi", "Durga pooja", ""
   ]
@@ -77,6 +78,8 @@ export class AddProductComponent implements OnInit {
   result: any;
   productDetails: any;
   isSave = false;
+  productList: any;
+  name: any;
 
   constructor(private router: Router, private formBuilder: UntypedFormBuilder, private api: ApiService, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
@@ -93,11 +96,19 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getProductList();
     this.initializeForm();
     if (!this.productId) {
       this.mainImageSrc = this.noImage;
       this.generateRandomString();
-    } 
+    }
+  }
+
+
+  getProductList(): void {
+    this.api.apiGetCall('product/getProduct' + '/' + localStorage.getItem('superAdminId')).subscribe((data) => {
+      this.productList = data.data;
+    })
   }
 
   generateRandomString(): string {
@@ -114,7 +125,7 @@ export class AddProductComponent implements OnInit {
 
 
   getProductDetails() {
-    this.api.apiGetDetailsCall(this.productId, 'Product/getOneProduct').subscribe(data => {
+    this.api.apiGetDetailsCall(this.productId, 'inventory/getOneProduct').subscribe(data => {
       this.productDetails = data.data;
       this.form.patchValue(data.data);
       this.mainImageSrc = this.productDetails?.productImages[0];
@@ -184,6 +195,40 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+  onFoodSelection() {
+    if (this.selectedFood) {
+      console.log(this.selectedFood)
+      const id = this.selectedFood._id
+      if (id !== undefined) {
+        this.api.apiGetDetailsCall(id, 'product/getOneProduct').subscribe(data => {
+          this.productDetails = data.data;
+          // this.form.controls['productName'].setValue(data.data.productName)
+          this.form.controls['discountPrice'].setValue(data.data.discountPrice);
+          this.form.controls['actualPrice'].setValue(data.data.actualPrice);
+          this.form.controls['description'].setValue(data.data.description);
+          // this.form.controls['stock'].setValue(this.selectedStock);
+          this.form.controls['category'].setValue(data.data.category);
+          this.form.controls['brand'].setValue(data.data.brand);
+          this.form.controls['formulation'].setValue(data.data.formulation);
+          this.form.controls['style'].setValue(data.data.avgCustomerRating);
+          // this.form.controls['for'].setValue(data.data);
+          this.form.controls['gift'].setValue(data.data.gift);
+          this.form.controls['personalised'].setValue(data.data.personalised);
+          this.form.controls['latest'].setValue(data.data.latest);
+          this.form.controls['collections'].setValue(data.data.collections);
+          this.form.controls['viewedBy'].setValue(data.data.viewedBy);
+          this.form.controls['noOfViews'].setValue(data.data.noOfViews);
+          this.form.controls['noOfSales'].setValue(data.data.noOfSales);
+          this.form.controls['productAge'].setValue(data.data.productAge);
+          this.form.controls['referenceId'].setValue(data.data.referenceId);
+
+          this.mainImageSrc = this.productDetails?.productImages[0];
+          this.images = this.productDetails?.productImages;
+          this.video = this.productDetails?.productVideos[0];
+        })
+      }
+    }
+  }
   selectImage(image: string) {
     this.mainImageSrc = image;
     this.videoSelect = false;
@@ -215,8 +260,8 @@ export class AddProductComponent implements OnInit {
       description: ['', Validators.required],
       stock: ['', Validators.required],
       category: ['', Validators.required],
-      stone: ['', Validators.required],
-      colour: ['', Validators.required],
+      brand: ['', Validators.required],
+      formulation: ['', Validators.required],
       style: ['', Validators.required],
       for: ['', Validators.required],
       gift: [true],
@@ -229,6 +274,27 @@ export class AddProductComponent implements OnInit {
       productAge: [''],
       referenceId: ['', Validators.required],
     })
+    // this.form.disable();
+    // Disable individual form controls
+    // this.form.controls['productName'].disable();
+    this.form.controls['discountPrice'].disable();
+    this.form.controls['actualPrice'].disable();
+    this.form.controls['description'].disable();
+    // this.form.controls['stock'].disable();
+    this.form.controls['category'].disable();
+    this.form.controls['brand'].disable();
+    this.form.controls['formulation'].disable();
+    this.form.controls['style'].disable();
+    this.form.controls['for'].disable();
+    this.form.controls['gift'].disable();
+    this.form.controls['personalised'].disable();
+    this.form.controls['latest'].disable();
+    this.form.controls['collections'].disable();
+    this.form.controls['viewedBy'].disable();
+    this.form.controls['noOfViews'].disable();
+    this.form.controls['noOfSales'].disable();
+    this.form.controls['productAge'].disable();
+    this.form.controls['referenceId'].disable();
   }
 
   discard() {
@@ -258,24 +324,25 @@ export class AddProductComponent implements OnInit {
       this.submitted = false;
       this.isSave = true;
       const formData = new FormData()
-      if(this.allFiles && this.allFiles.length){
+      if (this.allFiles && this.allFiles.length) {
         for (let img of this.allFiles) {
           formData.append('files', img)
         }
       }
-     
-      this.api.apiPostCall(formData, 'Product/createProductImages').subscribe(data => {
+
+      this.api.apiPostCall(formData, 'inventory/createProductImages').subscribe(data => {
         if (data.message.includes('Image Added Successfully')) {
           const addProd = new AddProduct()
-          addProd._id = this.productId ? this.productId : null
+          addProd._id = this.productId ? this.productId : null;
+          addProd.superAdminId = localStorage.getItem('superAdminId');
           addProd.productName = this.form.get('productName')?.value;
           addProd.discountPrice = this.form.get('discountPrice')?.value;
           addProd.actualPrice = this.form.get('actualPrice')?.value;
           addProd.description = this.form.get('description')?.value;
           addProd.category = this.form.get('category')?.value;
           addProd.stock = this.form.get('stock')?.value;
-          addProd.stone = this.form.get('stone')?.value;
-          addProd.colour = this.form.get('colour')?.value;
+          addProd.brand = this.form.get('brand')?.value;
+          addProd.formulation = this.form.get('formulation')?.value;
           addProd.style = this.form.get('style')?.value;
           addProd.gift = this.form.get('gift')?.value;
           addProd.personalised = this.form.get('personalised')?.value;
@@ -290,7 +357,7 @@ export class AddProductComponent implements OnInit {
           addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
           addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
           if (this.productId) {
-            this.api.apiPutCall(addProd, 'Product/updateProduct').subscribe(data => {
+            this.api.apiPutCall(addProd, 'inventory/updateProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {
                 this.isSave = false;
                 this.snackbar.openFromComponent(SnackbarComponent, {
@@ -305,7 +372,7 @@ export class AddProductComponent implements OnInit {
               }
             })
           } else {
-            this.api.apiFormDataPostCall(addProd, 'Product/createProduct').subscribe(data => {
+            this.api.apiFormDataPostCall(addProd, 'inventory/createInventoryProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {
                 this.snackbar.openFromComponent(SnackbarComponent, {
                   data: data.message,

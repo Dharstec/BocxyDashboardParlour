@@ -41,9 +41,15 @@ export class LoginComponent implements OnInit {
           this.snackbar.openFromComponent(SnackbarComponent, {
             data: 'User loggedIn Successfully',
           });
-          localStorage.setItem('superAdminId', data.data['super_admin_id'])
+          if (data.data['role_flag'] === 'SUPER_ADMIN') {
+            localStorage.setItem('superAdminId', data.data['_id'])
+          } else {
+            localStorage.setItem('superAdminId', data.data['super_admin_id'])
+          }
+          localStorage.setItem('role', data.data['role_flag']);
+          localStorage.setItem('details', JSON.stringify(data.data));
           this.router.navigate(['/analytic'])
-        }else{
+        } else {
           this.snackbar.openFromComponent(SnackbarComponent, {
             data: 'Failed to Login',
           });

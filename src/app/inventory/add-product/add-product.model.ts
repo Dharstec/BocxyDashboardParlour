@@ -21,4 +21,7 @@ export class AddProduct{
     videoArray:any;
   gift: any;
   description: any;
+  formulation: any;
+  superAdminId: string;
+  brand: any;
 }
