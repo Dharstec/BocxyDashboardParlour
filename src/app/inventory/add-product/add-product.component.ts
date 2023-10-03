@@ -84,6 +84,7 @@ export class AddProductComponent implements OnInit {
   constructor(private router: Router, private formBuilder: UntypedFormBuilder, private api: ApiService, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
       this.productId = params.get('id');
+      this.getProductList();
       if (this.productId && this.router.url.includes('edit')) {
         this.edit = true;
         this.getProductDetails();
@@ -96,7 +97,6 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProductList();
     this.initializeForm();
     if (!this.productId) {
       this.mainImageSrc = this.noImage;
@@ -127,8 +127,9 @@ export class AddProductComponent implements OnInit {
   getProductDetails() {
     this.api.apiGetDetailsCall(this.productId, 'inventory/getOneInventoryProduct').subscribe(data => {
       this.productDetails = data.data;
-      this.selectedFood = data.data.productName;
+      //  this.selectedFood = this.productDetails;
       this.form.controls['productName'].setValue(data.data.productName)
+      this.form.controls['productName'].disable();
       this.form.controls['discountPrice'].setValue(data.data.discountPrice);
       this.form.controls['actualPrice'].setValue(data.data.actualPrice);
       this.form.controls['description'].setValue(data.data.description);
@@ -360,7 +361,7 @@ export class AddProductComponent implements OnInit {
             addProd.productId = this.productId ? this.productId : this.productDetails._id;
             addProd.superAdminId = localStorage.getItem('superAdminId');
             addProd.storeId = localStorage.getItem('storeId');
-            addProd.productName = this.form.get('productName')?.value.productName;
+            addProd.productName =this.productId ===null ? this.form.get('productName')?.value.productName :this.form.get('productName')?.value;
             addProd.discountPrice = this.form.get('discountPrice')?.value;
             addProd.actualPrice = this.form.get('actualPrice')?.value;
             addProd.description = this.form.get('description')?.value;
@@ -386,7 +387,7 @@ export class AddProductComponent implements OnInit {
             addProd.quantity = Number(this.form.get('quantity')?.value);
           }
           if (this.productId) {
-            this.api.apiPutCall(addProd, 'inventory/updateProduct').subscribe(data => {
+            this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {
                 this.isSave = false;
                 this.snackbar.openFromComponent(SnackbarComponent, {

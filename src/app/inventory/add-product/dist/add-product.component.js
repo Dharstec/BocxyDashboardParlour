@@ -74,6 +74,7 @@ var AddProductComponent = /** @class */ (function () {
         this.isSave = false;
         this.activeRoute.paramMap.subscribe(function (params) {
             _this.productId = params.get('id');
+            _this.getProductList();
             if (_this.productId && _this.router.url.includes('edit')) {
                 _this.edit = true;
                 _this.getProductDetails();
@@ -85,7 +86,6 @@ var AddProductComponent = /** @class */ (function () {
         });
     }
     AddProductComponent.prototype.ngOnInit = function () {
-        this.getProductList();
         this.initializeForm();
         if (!this.productId) {
             this.mainImageSrc = this.noImage;
@@ -112,8 +112,9 @@ var AddProductComponent = /** @class */ (function () {
         this.api.apiGetDetailsCall(this.productId, 'inventory/getOneInventoryProduct').subscribe(function (data) {
             var _a, _b, _c;
             _this.productDetails = data.data;
-            _this.selectedFood = data.data.productName;
+            //  this.selectedFood = this.productDetails;
             _this.form.controls['productName'].setValue(data.data.productName);
+            _this.form.controls['productName'].disable();
             _this.form.controls['discountPrice'].setValue(data.data.discountPrice);
             _this.form.controls['actualPrice'].setValue(data.data.actualPrice);
             _this.form.controls['description'].setValue(data.data.description);
@@ -329,41 +330,41 @@ var AddProductComponent = /** @class */ (function () {
                 }
             }
             this.api.apiPostCall(formData, 'Product/createProductImages').subscribe(function (data) {
-                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v;
                 if (data.message.includes('Image Added Successfully')) {
                     var addProd = new add_product_model_1.AddProduct();
                     if (_this.productId === null) {
                         addProd.productId = _this.productId ? _this.productId : _this.productDetails._id;
                         addProd.superAdminId = localStorage.getItem('superAdminId');
                         addProd.storeId = localStorage.getItem('storeId');
-                        addProd.productName = (_a = _this.form.get('productName')) === null || _a === void 0 ? void 0 : _a.value.productName;
-                        addProd.discountPrice = (_b = _this.form.get('discountPrice')) === null || _b === void 0 ? void 0 : _b.value;
-                        addProd.actualPrice = (_c = _this.form.get('actualPrice')) === null || _c === void 0 ? void 0 : _c.value;
-                        addProd.description = (_d = _this.form.get('description')) === null || _d === void 0 ? void 0 : _d.value;
-                        addProd.category = (_e = _this.form.get('category')) === null || _e === void 0 ? void 0 : _e.value;
-                        addProd.quantity = Number((_f = _this.form.get('quantity')) === null || _f === void 0 ? void 0 : _f.value);
-                        addProd.brand = (_g = _this.form.get('brand')) === null || _g === void 0 ? void 0 : _g.value;
-                        addProd.formulation = (_h = _this.form.get('formulation')) === null || _h === void 0 ? void 0 : _h.value;
-                        addProd.avgCustomerRating = (_j = _this.form.get('style')) === null || _j === void 0 ? void 0 : _j.value;
-                        addProd.gift = (_k = _this.form.get('gift')) === null || _k === void 0 ? void 0 : _k.value;
-                        addProd.personalised = (_l = _this.form.get('personalised')) === null || _l === void 0 ? void 0 : _l.value;
-                        addProd.latest = (_m = _this.form.get('latest')) === null || _m === void 0 ? void 0 : _m.value;
-                        addProd.collections = (_o = _this.form.get('collections')) === null || _o === void 0 ? void 0 : _o.value;
-                        addProd.viewedBy = (_p = _this.form.get('viewedBy')) === null || _p === void 0 ? void 0 : _p.value;
-                        addProd.noOfViews = Number((_q = _this.form.get('noOfViews')) === null || _q === void 0 ? void 0 : _q.value);
-                        addProd.noOfSales = Number((_r = _this.form.get('noOfSales')) === null || _r === void 0 ? void 0 : _r.value);
-                        addProd.productAge = (_s = _this.form.get('productAge')) === null || _s === void 0 ? void 0 : _s.value;
-                        addProd.referenceId = (_t = _this.form.get('referenceId')) === null || _t === void 0 ? void 0 : _t.value;
+                        addProd.productName = _this.productId === null ? (_a = _this.form.get('productName')) === null || _a === void 0 ? void 0 : _a.value.productName : (_b = _this.form.get('productName')) === null || _b === void 0 ? void 0 : _b.value;
+                        addProd.discountPrice = (_c = _this.form.get('discountPrice')) === null || _c === void 0 ? void 0 : _c.value;
+                        addProd.actualPrice = (_d = _this.form.get('actualPrice')) === null || _d === void 0 ? void 0 : _d.value;
+                        addProd.description = (_e = _this.form.get('description')) === null || _e === void 0 ? void 0 : _e.value;
+                        addProd.category = (_f = _this.form.get('category')) === null || _f === void 0 ? void 0 : _f.value;
+                        addProd.quantity = Number((_g = _this.form.get('quantity')) === null || _g === void 0 ? void 0 : _g.value);
+                        addProd.brand = (_h = _this.form.get('brand')) === null || _h === void 0 ? void 0 : _h.value;
+                        addProd.formulation = (_j = _this.form.get('formulation')) === null || _j === void 0 ? void 0 : _j.value;
+                        addProd.avgCustomerRating = (_k = _this.form.get('style')) === null || _k === void 0 ? void 0 : _k.value;
+                        addProd.gift = (_l = _this.form.get('gift')) === null || _l === void 0 ? void 0 : _l.value;
+                        addProd.personalised = (_m = _this.form.get('personalised')) === null || _m === void 0 ? void 0 : _m.value;
+                        addProd.latest = (_o = _this.form.get('latest')) === null || _o === void 0 ? void 0 : _o.value;
+                        addProd.collections = (_p = _this.form.get('collections')) === null || _p === void 0 ? void 0 : _p.value;
+                        addProd.viewedBy = (_q = _this.form.get('viewedBy')) === null || _q === void 0 ? void 0 : _q.value;
+                        addProd.noOfViews = Number((_r = _this.form.get('noOfViews')) === null || _r === void 0 ? void 0 : _r.value);
+                        addProd.noOfSales = Number((_s = _this.form.get('noOfSales')) === null || _s === void 0 ? void 0 : _s.value);
+                        addProd.productAge = (_t = _this.form.get('productAge')) === null || _t === void 0 ? void 0 : _t.value;
+                        addProd.referenceId = (_u = _this.form.get('referenceId')) === null || _u === void 0 ? void 0 : _u.value;
                         addProd.barcode = _this.productId ? _this.productDetails.barcode : _this.result;
                         addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
                         addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
                     }
                     else {
                         addProd._id = _this.productId;
-                        addProd.quantity = Number((_u = _this.form.get('quantity')) === null || _u === void 0 ? void 0 : _u.value);
+                        addProd.quantity = Number((_v = _this.form.get('quantity')) === null || _v === void 0 ? void 0 : _v.value);
                     }
                     if (_this.productId) {
-                        _this.api.apiPutCall(addProd, 'inventory/updateProduct').subscribe(function (data) {
+                        _this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(function (data) {
                             if (data.message.includes('Successfully')) {
                                 _this.isSave = false;
                                 _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {

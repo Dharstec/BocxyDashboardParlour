@@ -48,12 +48,13 @@
         <div class="col-md-8">
           <h4 style="padding:0px !important ;margin:0px !important;font-weight: 600">{{'Product Detail'}}</h4>
           <div class="row">
-            <div class="section-b col-md-12">
+            <div class="section-b col-md-12" >
               <mat-label>Heading<span class="required">*</span></mat-label>
-              <mat-select  style="margin-left: -4px !important;" formControlName="productName" [(ngModel)]="selectedFood" (ngModelChange)="onFoodSelection()">
-                <mat-option [disabled]="edit || view" *ngFor="let row of productList" [value]="row">{{row.productName}}</mat-option>
+              <mat-select *ngIf="productId === null"  style="margin-left: -4px !important;" formControlName="productName" [(ngModel)]="selectedFood" (ngModelChange)="onFoodSelection()">
+                <mat-option  *ngFor="let row of productList" [value]="row">{{row.productName}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="submitted && form.get('productName')?.errors?.required">{{'Product name is required'}}</mat-error>
+              <input [disabled]="edit || view" class="input" *ngIf="productId"  style="margin-left: -4px !important;" formControlName="productName"
+              matInput  required>
             </div>
           </div>
 
