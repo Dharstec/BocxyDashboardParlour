@@ -85,6 +85,7 @@ var StoreAddEditComponent = /** @class */ (function () {
         });
     };
     StoreAddEditComponent.prototype.ngOnInit = function () {
+        this.loadGoogleMapsAPI();
         this.form = this.fb.group({
             store_name: ['', forms_1.Validators.required],
             email: ['', forms_1.Validators.required],
@@ -96,8 +97,16 @@ var StoreAddEditComponent = /** @class */ (function () {
             long: ['']
         });
     };
-    StoreAddEditComponent.prototype.ngAfterViewInit = function () {
-        this.initialize();
+    StoreAddEditComponent.prototype.loadGoogleMapsAPI = function () {
+        var _this = this;
+        if (typeof google === 'undefined') {
+            // The Google Maps API hasn't loaded yet, delay and check again
+            setTimeout(function () { return _this.loadGoogleMapsAPI(); }, 200);
+        }
+        else {
+            // The Google Maps API is loaded, initialize your map and geocoder here
+            this.initialize();
+        }
     };
     StoreAddEditComponent.prototype.initialize = function () {
         var _this = this;

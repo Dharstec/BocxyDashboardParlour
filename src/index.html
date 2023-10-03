@@ -13,7 +13,12 @@
   <script>
     var global = global || window;
   </script>
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC2-pW-Ed4xsWyy2UEzplNetgTR5XGYLWI&libraries=places"></script>
+  <script>
+  function initializeMap() {
+      // This function will be called when the Google Maps API is loaded
+    }
+  </script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC2-pW-Ed4xsWyy2UEzplNetgTR5XGYLWI&libraries=places&callback=initializeMap"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>

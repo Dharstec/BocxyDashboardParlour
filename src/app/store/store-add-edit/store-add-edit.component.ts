@@ -12,7 +12,7 @@ declare var $: any;
   templateUrl: './store-add-edit.component.html',
   styleUrls: ['./store-add-edit.component.scss']
 })
-export class StoreAddEditComponent implements OnInit, AfterViewInit {
+export class StoreAddEditComponent implements OnInit {
   form: FormGroup;
   types: string[] = [
     "Affiliate",
@@ -82,6 +82,7 @@ export class StoreAddEditComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.loadGoogleMapsAPI();
     this.form = this.fb.group({
       store_name: ['', Validators.required],
       email: ['', Validators.required],
@@ -94,10 +95,16 @@ export class StoreAddEditComponent implements OnInit, AfterViewInit {
     })
   }
 
-
-  ngAfterViewInit() {
-    this.initialize();
+  loadGoogleMapsAPI() {
+    if (typeof google === 'undefined') {
+      // The Google Maps API hasn't loaded yet, delay and check again
+      setTimeout(() => this.loadGoogleMapsAPI(), 200);
+    } else {
+      // The Google Maps API is loaded, initialize your map and geocoder here
+      this.initialize();
+    }
   }
+
 
   initialize() {
     var input = document.getElementById('autocomplete_search') as HTMLInputElement;
