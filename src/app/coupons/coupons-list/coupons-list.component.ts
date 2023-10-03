@@ -39,7 +39,7 @@ export class CouponsListComponent implements OnInit {
   }
 
   getCouponsList(): void {
-    this.api.apiGetCall('Coupon/getCoupon').subscribe((data) => {
+    this.api.apiGetCall('coupon/getCoupon').subscribe((data) => {
       this.couponsListData=data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
       if(!data.data?.length){
@@ -92,7 +92,7 @@ export class CouponsListComponent implements OnInit {
     dialog.afterClosed().subscribe(data => {
       if (data) {
 
-        this.api.apiDeleteCall(id, 'Coupon/deleteCoupon').subscribe(response => {
+        this.api.apiDeleteCall(id, 'coupon/deleteCoupon').subscribe(response => {
           if (response.message.includes('Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: response.message,

@@ -22,7 +22,7 @@ export class HeadersComponent implements OnInit {
   }
 
   getCustomerList(): void {
-    this.api.apiGetCall('Customer/getAllCustomer').subscribe((data) => {
+    this.api.apiGetCall('customer/getAllCustomer').subscribe((data) => {
       this.customerList = data.data;
       if (!data.data?.length) {
         this.noData = true;

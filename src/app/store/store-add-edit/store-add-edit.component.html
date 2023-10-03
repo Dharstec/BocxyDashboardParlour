@@ -10,10 +10,10 @@
             <div class="row">
                 <div class="section-b col-md-12">
                     <mat-label>Store Name <span class="required">*</span></mat-label>
-                    <input class="input" type="text" name="Search" matInput formControlName="storeName" maxlength="50">
-                    <mat-hint class="hintalign">{{form.get('storeName').value?.length || 0}}/50
+                    <input class="input" type="text" name="Search" matInput formControlName="store_name" maxlength="50">
+                    <mat-hint class="hintalign">{{form.get('store_name').value?.length || 0}}/50
                     </mat-hint>
-                    <mat-error *ngIf="submitted && form.get('storeName')?.errors?.required">{{'Store Name is
+                    <mat-error *ngIf="submitted && form.get('store_name')?.errors?.required">{{'Store Name is
                         required'}}</mat-error>
                 </div>
                 <div class="section-b col-md-12">
@@ -31,14 +31,14 @@
                 <div class="section-b col">
                     <mat-label >Phone Number <span class="required">*</span></mat-label>
                     <input class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text"
-                        name="Search" matInput formControlName="phoneNo" maxlength="50">
-                    <mat-hint class="hintalign">{{form.get('phoneNo').value?.length || 0}}/50
+                        name="Search" matInput formControlName="phone_no" maxlength="50">
+                    <mat-hint class="hintalign">{{form.get('phone_no').value?.length || 0}}/50
                     </mat-hint>
-                    <mat-error *ngIf="submitted && form.get('phoneNo')?.errors?.required">{{'Phone Number is
+                    <mat-error *ngIf="submitted && form.get('phone_no')?.errors?.required">{{'Phone Number is
                         required'}}</mat-error>
                 </div>
                 <div class="section-b col">
-                    <mat-label for="date">Location <span class="required">*</span></mat-label>
+                    <mat-label for="date">Co-ordinate (Ex:111.0013) <span class="required">*</span></mat-label>
                     <input class="input"  type="text"
                     name="Search" matInput formControlName="co_ordinates" maxlength="50">
                 <mat-hint class="hintalign">{{form.get('co_ordinates').value?.length || 0}}/50</mat-hint>

@@ -56,7 +56,7 @@ export class OrderListComponent implements OnInit {
     this.router.navigate(['/marketing/view', id]);
   }
   getOrderList(): void {
-    this.api.apiGetCall('Order/getAllOrder').subscribe((data) => {
+    this.api.apiGetCall('order/getAllOrder'+'/'+localStorage.getItem('storeId')).subscribe((data) => {
       this.orderList = data.data
       // this.orderList=result.data.orders
       // console.log("orderList",this.orderList);
@@ -103,7 +103,7 @@ export class OrderListComponent implements OnInit {
           "_id":req._id,
           "orderStatus":req.orderStatus==='pending'? 'dispatch' :'delivered'
         }  
-        this.api.apiPutCall(params, 'Order/updateOrder').subscribe(data => {
+        this.api.apiPutCall(params, 'order/updateOrder').subscribe(data => {
           if (data.message.includes('Update Order Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,

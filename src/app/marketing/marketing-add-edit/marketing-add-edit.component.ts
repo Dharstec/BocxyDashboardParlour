@@ -43,7 +43,7 @@ export class MarketingAddEditComponent implements OnInit {
         const marketsEdit = {
           _id:this.marketId
         }
-        this.api.apiPostCall(marketsEdit, 'Marketing/getOneMarketing').subscribe(data => {
+        this.api.apiPostCall(marketsEdit, 'marketing/getOneMarketing').subscribe(data => {
           this.form.patchValue(data.data)
           this.marketsDetails=data.data;
           this.form.get('addMedia').patchValue(data.data.addMedia.split('/').slice(-1)[0])
@@ -95,7 +95,7 @@ export class MarketingAddEditComponent implements OnInit {
       marketsAdd.targetCustomer = this.form.get('targetCustomer').value;
       marketsAdd.sendVia = this.form.get('sendVia').value;
       if(this.marketId){
-        this.api.apiPutCall(marketsAdd, 'Marketing/updateMarketing').subscribe(data => {
+        this.api.apiPutCall(marketsAdd, 'marketing/updateMarketing').subscribe(data => {
           if (data.message.includes('Updated Marketing Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,
@@ -108,7 +108,7 @@ export class MarketingAddEditComponent implements OnInit {
           }
         })
       }else{
-        this.api.apiPostCall(marketsAdd, 'Marketing/createMarketing').subscribe(data => {
+        this.api.apiPostCall(marketsAdd, 'marketing/createMarketing').subscribe(data => {
           if (data.message.includes('Created Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,

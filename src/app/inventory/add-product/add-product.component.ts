@@ -62,7 +62,7 @@ export class AddProductComponent implements OnInit {
     "Cream",
     "Balm",
     "Gel"]
-  style = [
+  avgCustomerRating = [
     "4 stars & above",
     "3 stars & above",
     "2 stars & above",
@@ -137,7 +137,7 @@ export class AddProductComponent implements OnInit {
       this.form.controls['category'].setValue(data.data.category);
       this.form.controls['brand'].setValue(data.data.brand);
       this.form.controls['formulation'].setValue(data.data.formulation);
-      this.form.controls['style'].setValue(data.data.avgCustomerRating);
+      this.form.controls['avgCustomerRating'].setValue(data.data.avgCustomerRating);
       this.form.controls['for'].setValue(data.data.gender);
       this.form.controls['gift'].setValue(data.data.gift);
       this.form.controls['personalised'].setValue(data.data.personalised);
@@ -234,8 +234,8 @@ export class AddProductComponent implements OnInit {
           this.form.controls['category'].setValue(data.data.category);
           this.form.controls['brand'].setValue(data.data.brand);
           this.form.controls['formulation'].setValue(data.data.formulation);
-          this.form.controls['style'].setValue(data.data.avgCustomerRating);
-          // this.form.controls['for'].setValue(data.data);
+          this.form.controls['avgCustomerRating'].setValue(data.data.avgCustomerRating);
+          this.form.controls['for'].setValue(data.data.gender);
           this.form.controls['gift'].setValue(data.data.gift);
           this.form.controls['personalised'].setValue(data.data.personalised);
           this.form.controls['latest'].setValue(data.data.latest);
@@ -286,7 +286,7 @@ export class AddProductComponent implements OnInit {
       category: ['', Validators.required],
       brand: ['', Validators.required],
       formulation: ['', Validators.required],
-      style: ['', Validators.required],
+      avgCustomerRating: ['', Validators.required],
       for: ['', Validators.required],
       gift: [true],
       personalised: [true],
@@ -308,7 +308,7 @@ export class AddProductComponent implements OnInit {
     this.form.controls['category'].disable();
     this.form.controls['brand'].disable();
     this.form.controls['formulation'].disable();
-    this.form.controls['style'].disable();
+    this.form.controls['avgCustomerRating'].disable();
     this.form.controls['for'].disable();
     this.form.controls['gift'].disable();
     this.form.controls['personalised'].disable();
@@ -361,15 +361,16 @@ export class AddProductComponent implements OnInit {
             addProd.productId = this.productId ? this.productId : this.productDetails._id;
             addProd.superAdminId = localStorage.getItem('superAdminId');
             addProd.storeId = localStorage.getItem('storeId');
-            addProd.productName =this.productId ===null ? this.form.get('productName')?.value.productName :this.form.get('productName')?.value;
+            addProd.productName = this.productId === null ? this.form.get('productName')?.value.productName : this.form.get('productName')?.value;
             addProd.discountPrice = this.form.get('discountPrice')?.value;
             addProd.actualPrice = this.form.get('actualPrice')?.value;
             addProd.description = this.form.get('description')?.value;
             addProd.category = this.form.get('category')?.value;
             addProd.quantity = Number(this.form.get('quantity')?.value);
             addProd.brand = this.form.get('brand')?.value;
+            addProd.gender = this.form.get('for')?.value;
             addProd.formulation = this.form.get('formulation')?.value;
-            addProd.avgCustomerRating = this.form.get('style')?.value;
+            addProd.avgCustomerRating = this.form.get('avgCustomerRating')?.value;
             addProd.gift = this.form.get('gift')?.value;
             addProd.personalised = this.form.get('personalised')?.value;
             addProd.latest = this.form.get('latest')?.value;

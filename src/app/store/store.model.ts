@@ -7,4 +7,5 @@ export class Store {
     password:string;
     super_admin_id:string;
     role_flag:string;
+  _id: string;
 }

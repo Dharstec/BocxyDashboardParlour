@@ -83,7 +83,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
   }
 
   getAnalyticsḌata(){
-    this.api.apiGetCall('Product/getDashboard').subscribe(data => {
+    this.api.apiGetCall('product/getDashboard').subscribe(data => {
       this.totalCount = data.data;
     })
   }

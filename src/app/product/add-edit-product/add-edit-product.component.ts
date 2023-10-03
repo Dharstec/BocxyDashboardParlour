@@ -58,13 +58,13 @@ export class AddEditProductComponent implements OnInit {
     "Stick",
     "Cream",
     "Balm",
-    "Gel"  ]
-  style = [
+    "Gel"]
+  avgCustomerRating = [
     "4 stars & above",
     "3 stars & above",
     "2 stars & above",
     "1 star & above"
-    ]
+  ]
   collections = [
     "Diwali", "New Year", "Mother's Day", "Christmas", "Raksha Bandhan", "Eid", "Holi", "Durga pooja", ""
   ]
@@ -96,7 +96,7 @@ export class AddEditProductComponent implements OnInit {
     if (!this.productId) {
       this.mainImageSrc = this.noImage;
       this.generateRandomString();
-    } 
+    }
   }
 
   generateRandomString(): string {
@@ -112,11 +112,12 @@ export class AddEditProductComponent implements OnInit {
   }
 
 
-  
+
   getProductDetails() {
     this.api.apiGetDetailsCall(this.productId, 'product/getOneProduct').subscribe(data => {
       this.productDetails = data.data;
       this.form.patchValue(data.data);
+      this.form.controls['for'].setValue(data.data.gender)
       this.mainImageSrc = this.productDetails?.productImages[0];
       this.images = this.productDetails?.productImages;
       this.video = this.productDetails?.productVideos[0];
@@ -217,6 +218,7 @@ export class AddEditProductComponent implements OnInit {
       category: ['', Validators.required],
       brand: ['', Validators.required],
       formulation: ['', Validators.required],
+      avgCustomerRating: ['', Validators.required],
       for: ['', Validators.required],
       gift: [true],
       personalised: [true],
@@ -244,7 +246,7 @@ export class AddEditProductComponent implements OnInit {
     this.form.setValidators(null);
     this.form.updateValueAndValidity();
     // && this.allFiles?.length !== 5
-    if (this.form.invalid ) {
+    if (this.form.invalid) {
       console.log(this.form)
       this.submitted = true;
       // if(!this.allFiles.includes('video')){
@@ -259,26 +261,26 @@ export class AddEditProductComponent implements OnInit {
       this.submitted = false;
       this.isSave = true;
       const formData = new FormData()
-      if(this.allFiles && this.allFiles.length){
+      if (this.allFiles && this.allFiles.length) {
         for (let img of this.allFiles) {
           formData.append('files', img)
         }
       }
-     
+
       this.api.apiPostCall(formData, 'Product/createProductImages').subscribe(data => {
         if (data.message.includes('Image Added Successfully')) {
           const addProd = new AddProduct()
           addProd._id = this.productId ? this.productId : null
-          addProd.superAdminId=localStorage.getItem('superAdminId');
+          addProd.superAdminId = localStorage.getItem('superAdminId');
           addProd.productName = this.form.get('productName')?.value;
           addProd.discountPrice = this.form.get('discountPrice')?.value;
           addProd.actualPrice = this.form.get('actualPrice')?.value;
           addProd.description = this.form.get('description')?.value;
           addProd.category = this.form.get('category')?.value;
-          // addProd.stock = this.form.get('stock')?.value;
+          addProd.gender = this.form.get('for')?.value;
           addProd.brand = this.form.get('brand')?.value;
           addProd.formulation = this.form.get('formulation')?.value;
-          addProd.style = this.form.get('style')?.value;
+          addProd.avgCustomerRating = this.form.get('avgCustomerRating')?.value;
           addProd.gift = this.form.get('gift')?.value;
           addProd.personalised = this.form.get('personalised')?.value;
           addProd.latest = this.form.get('latest')?.value;

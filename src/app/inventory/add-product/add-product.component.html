@@ -139,10 +139,10 @@
          </div>
         <div class="section-b col">
           <mat-label>Average customer rating<span class="required">*</span></mat-label>
-          <mat-select [disabled]="true" formControlName="style" multiple>
-            <mat-option *ngFor="let row of style" [value]="row">{{row}}</mat-option>
+          <mat-select [disabled]="true" formControlName="avgCustomerRating" multiple>
+            <mat-option *ngFor="let row of avgCustomerRating" [value]="row">{{row}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="submitted && form.get('style')?.errors?.required">{{'Style is required'}}</mat-error>
+          <mat-error *ngIf="submitted && form.get('avgCustomerRating')?.errors?.required">{{'Rating is required'}}</mat-error>
          </div>
          <div class="section-b col">
           <mat-label>Collections<span class="required">*</span></mat-label>

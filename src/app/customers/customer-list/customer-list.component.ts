@@ -41,7 +41,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   getCustomerList(): void {
-    this.api.apiGetCall('Customer/getAllCustomer').subscribe((data) => {
+    this.api.apiGetCall('customer/getAllCustomer').subscribe((data) => {
       this.customerList = data.data;
       this.activeCustomerList = data.data.filter(a => a.isOtpVerified === '1');
       this.dataSource.data = data.data.filter(a => a.isOtpVerified === '1').sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
@@ -82,7 +82,7 @@ export class CustomerListComponent implements OnInit {
     });
     dialog.afterClosed().subscribe(data => {
       if (data) {
-        this.api.apiDeleteCall(id, 'Customer/deleteCustomer').subscribe(response => {
+        this.api.apiDeleteCall(id, 'customer/deleteCustomer').subscribe(response => {
           if (response.message.includes('Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: response.message,

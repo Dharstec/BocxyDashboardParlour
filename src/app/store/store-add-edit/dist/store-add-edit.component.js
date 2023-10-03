@@ -46,14 +46,17 @@ var StoreAddEditComponent = /** @class */ (function () {
             if (_this.router.url.includes('view')) {
                 _this.form.disable();
             }
+            else {
+                _this.form.get('password').disable();
+            }
         });
     };
     StoreAddEditComponent.prototype.ngOnInit = function () {
         this.form = this.fb.group({
-            storeName: ['', forms_1.Validators.required],
+            store_name: ['', forms_1.Validators.required],
             email: ['', forms_1.Validators.required],
             co_ordinates: ['', forms_1.Validators.required],
-            phoneNo: ['', forms_1.Validators.required],
+            phone_no: ['', forms_1.Validators.required],
             address: ['', forms_1.Validators.required],
             password: ['', forms_1.Validators.required]
         });
@@ -76,17 +79,15 @@ var StoreAddEditComponent = /** @class */ (function () {
         else {
             this.submitted = false;
             var store = new store_model_1.Store();
-            store.store_name = this.form.get('storeName').value;
+            store.store_name = this.form.get('store_name').value;
             store.address = this.form.get('address').value;
-            store.phone_no = this.form.get('phoneNo').value;
+            store.phone_no = this.form.get('phone_no').value;
             store.co_ordinates = this.form.get('co_ordinates').value;
             store.email = this.form.get('email').value;
-            store.password = this.form.get('password').value;
             store.role_flag = 'STORE_ADMIN';
-            if (!this.storeId) {
-                // store.role_flag = 'STORE_ADMIN';
-                store.super_admin_id = localStorage.getItem('superAdminId');
-            }
+            store._id = this.storeId ? this.storeId : null;
+            store.super_admin_id = localStorage.getItem('superAdminId');
+            store.password = this.form.get('password').value;
             if (this.storeId) {
                 this.api.apiPutCall(store, 'admin/updateStoreAdmin').subscribe(function (data) {
                     if (data.message.includes('Successfully')) {

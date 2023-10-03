@@ -57,7 +57,7 @@ var AddEditProductComponent = /** @class */ (function () {
             "Balm",
             "Gel"
         ];
-        this.style = [
+        this.avgCustomerRating = [
             "4 stars & above",
             "3 stars & above",
             "2 stars & above",
@@ -105,6 +105,7 @@ var AddEditProductComponent = /** @class */ (function () {
             var _a, _b, _c;
             _this.productDetails = data.data;
             _this.form.patchValue(data.data);
+            _this.form.controls['for'].setValue(data.data.gender);
             _this.mainImageSrc = (_a = _this.productDetails) === null || _a === void 0 ? void 0 : _a.productImages[0];
             _this.images = (_b = _this.productDetails) === null || _b === void 0 ? void 0 : _b.productImages;
             _this.video = (_c = _this.productDetails) === null || _c === void 0 ? void 0 : _c.productVideos[0];
@@ -196,6 +197,7 @@ var AddEditProductComponent = /** @class */ (function () {
             category: ['', forms_1.Validators.required],
             brand: ['', forms_1.Validators.required],
             formulation: ['', forms_1.Validators.required],
+            avgCustomerRating: ['', forms_1.Validators.required],
             "for": ['', forms_1.Validators.required],
             gift: [true],
             personalised: [true],
@@ -243,7 +245,7 @@ var AddEditProductComponent = /** @class */ (function () {
                 }
             }
             this.api.apiPostCall(formData, 'Product/createProductImages').subscribe(function (data) {
-                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
                 if (data.message.includes('Image Added Successfully')) {
                     var addProd = new add_product_model_1.AddProduct();
                     addProd._id = _this.productId ? _this.productId : null;
@@ -253,19 +255,19 @@ var AddEditProductComponent = /** @class */ (function () {
                     addProd.actualPrice = (_c = _this.form.get('actualPrice')) === null || _c === void 0 ? void 0 : _c.value;
                     addProd.description = (_d = _this.form.get('description')) === null || _d === void 0 ? void 0 : _d.value;
                     addProd.category = (_e = _this.form.get('category')) === null || _e === void 0 ? void 0 : _e.value;
-                    // addProd.stock = this.form.get('stock')?.value;
-                    addProd.brand = (_f = _this.form.get('brand')) === null || _f === void 0 ? void 0 : _f.value;
-                    addProd.formulation = (_g = _this.form.get('formulation')) === null || _g === void 0 ? void 0 : _g.value;
-                    addProd.style = (_h = _this.form.get('style')) === null || _h === void 0 ? void 0 : _h.value;
-                    addProd.gift = (_j = _this.form.get('gift')) === null || _j === void 0 ? void 0 : _j.value;
-                    addProd.personalised = (_k = _this.form.get('personalised')) === null || _k === void 0 ? void 0 : _k.value;
-                    addProd.latest = (_l = _this.form.get('latest')) === null || _l === void 0 ? void 0 : _l.value;
-                    addProd.collections = (_m = _this.form.get('collections')) === null || _m === void 0 ? void 0 : _m.value;
-                    addProd.viewedBy = (_o = _this.form.get('viewedBy')) === null || _o === void 0 ? void 0 : _o.value;
-                    addProd.noOfViews = (_p = _this.form.get('noOfViews')) === null || _p === void 0 ? void 0 : _p.value;
-                    addProd.noOfSales = (_q = _this.form.get('noOfSales')) === null || _q === void 0 ? void 0 : _q.value;
-                    addProd.productAge = (_r = _this.form.get('productAge')) === null || _r === void 0 ? void 0 : _r.value;
-                    addProd.referenceId = (_s = _this.form.get('referenceId')) === null || _s === void 0 ? void 0 : _s.value;
+                    addProd.gender = (_f = _this.form.get('for')) === null || _f === void 0 ? void 0 : _f.value;
+                    addProd.brand = (_g = _this.form.get('brand')) === null || _g === void 0 ? void 0 : _g.value;
+                    addProd.formulation = (_h = _this.form.get('formulation')) === null || _h === void 0 ? void 0 : _h.value;
+                    addProd.avgCustomerRating = (_j = _this.form.get('avgCustomerRating')) === null || _j === void 0 ? void 0 : _j.value;
+                    addProd.gift = (_k = _this.form.get('gift')) === null || _k === void 0 ? void 0 : _k.value;
+                    addProd.personalised = (_l = _this.form.get('personalised')) === null || _l === void 0 ? void 0 : _l.value;
+                    addProd.latest = (_m = _this.form.get('latest')) === null || _m === void 0 ? void 0 : _m.value;
+                    addProd.collections = (_o = _this.form.get('collections')) === null || _o === void 0 ? void 0 : _o.value;
+                    addProd.viewedBy = (_p = _this.form.get('viewedBy')) === null || _p === void 0 ? void 0 : _p.value;
+                    addProd.noOfViews = (_q = _this.form.get('noOfViews')) === null || _q === void 0 ? void 0 : _q.value;
+                    addProd.noOfSales = (_r = _this.form.get('noOfSales')) === null || _r === void 0 ? void 0 : _r.value;
+                    addProd.productAge = (_s = _this.form.get('productAge')) === null || _s === void 0 ? void 0 : _s.value;
+                    addProd.referenceId = (_t = _this.form.get('referenceId')) === null || _t === void 0 ? void 0 : _t.value;
                     addProd.barcode = _this.productId ? _this.productDetails.barcode : _this.result;
                     addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
                     addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];

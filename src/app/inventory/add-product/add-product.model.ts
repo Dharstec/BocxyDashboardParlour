@@ -28,4 +28,5 @@ export class AddProduct{
   avgCustomerRating: any;
   productId: string;
   storeId: string;
+  gender: any;
 }

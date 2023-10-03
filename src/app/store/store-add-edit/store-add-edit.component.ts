@@ -42,16 +42,18 @@ export class StoreAddEditComponent implements OnInit {
       this.form.patchValue(data.data);
       if (this.router.url.includes('view')) {
         this.form.disable();
+      } else {
+        this.form.get('password').disable();
       }
     })
   }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      storeName: ['', Validators.required],
+      store_name: ['', Validators.required],
       email: ['', Validators.required],
       co_ordinates: ['', Validators.required],
-      phoneNo: ['', Validators.required],
+      phone_no: ['', Validators.required],
       address: ['', Validators.required],
       password: ['', Validators.required],
     })
@@ -73,17 +75,15 @@ export class StoreAddEditComponent implements OnInit {
     } else {
       this.submitted = false;
       const store = new Store()
-      store.store_name = this.form.get('storeName').value;
+      store.store_name = this.form.get('store_name').value;
       store.address = this.form.get('address').value;
-      store.phone_no = this.form.get('phoneNo').value;
+      store.phone_no = this.form.get('phone_no').value;
       store.co_ordinates = this.form.get('co_ordinates').value;
       store.email = this.form.get('email').value;
+      store.role_flag = 'STORE_ADMIN';
+      store._id = this.storeId ? this.storeId : null;
+      store.super_admin_id = localStorage.getItem('superAdminId');
       store.password = this.form.get('password').value;
-      store.role_flag='STORE_ADMIN';
-      if(!this.storeId){
-        store.role_flag = 'STORE_ADMIN';
-        store.super_admin_id = localStorage.getItem('superAdminId');  
-      }
 
       if (this.storeId) {
         this.api.apiPutCall(store, 'admin/updateStoreAdmin').subscribe(data => {

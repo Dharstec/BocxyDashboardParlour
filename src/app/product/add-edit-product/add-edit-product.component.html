@@ -37,7 +37,7 @@
                   <div class="image-upload" *ngIf="images?.length < 4">
                     <label for="image-upload-input">
                      <span class="cursor-pointer"><i class="fa fa-upload fa-2x" ></i></span> 
-                      <input  type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
+                      <input [disabled]="view" type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
                         id="image-upload-input" style="display:none">
                     </label>
                   </div>
@@ -130,13 +130,13 @@
             </mat-select>
             <mat-error *ngIf="submitted && form.get('formulation')?.errors?.required">{{'formulation is required'}}</mat-error>
            </div>
-          <!-- <div class="section-b col">
+          <div class="section-b col">
             <mat-label>Average customer rating<span class="required">*</span></mat-label>
-            <mat-select formControlName="style" multiple>
-              <mat-option *ngFor="let row of style" [value]="row">{{row}}</mat-option>
+            <mat-select formControlName="avgCustomerRating" multiple>
+              <mat-option *ngFor="let row of avgCustomerRating" [value]="row">{{row}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="submitted && form.get('style')?.errors?.required">{{'Style is required'}}</mat-error>
-           </div> -->
+            <mat-error *ngIf="submitted && form.get('avgCustomerRating')?.errors?.required">{{'Rating is required'}}</mat-error>
+           </div>
            <div class="section-b col">
             <mat-label>Collections<span class="required">*</span></mat-label>
             <mat-select formControlName="collections" multiple>

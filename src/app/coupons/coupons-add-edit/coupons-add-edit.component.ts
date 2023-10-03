@@ -36,7 +36,7 @@ export class CouponsAddEditComponent implements OnInit {
   }
 
   getCouponDetails() {
-    this.api.apiGetDetailsCall(this.couponId, 'Coupon/findCoupon').subscribe(data => {
+    this.api.apiGetDetailsCall(this.couponId, 'coupon/findCoupon').subscribe(data => {
       this.couponsDetails=data.data;
       this.form.patchValue(data.data);
       if (this.router.url.includes('view')) {
@@ -108,7 +108,7 @@ export class CouponsAddEditComponent implements OnInit {
       // CouponsAdd.availedQuantity = this.form.get('availedQuantity')?.value ? this.form.get('availedQuantity').value : '0';
       // CouponsAdd.remaining = this.form.get('remaining')?.value;
       if (this.couponId) {
-        this.api.apiPutCall(CouponsAdd, 'Coupon/updateCoupon').subscribe(data => {
+        this.api.apiPutCall(CouponsAdd, 'coupon/updateCoupon').subscribe(data => {
           if (data.message.includes('Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,
@@ -121,7 +121,7 @@ export class CouponsAddEditComponent implements OnInit {
           }
         })
       } else {
-        this.api.apiPostCall(CouponsAdd, 'Coupon/createCoupon').subscribe(data => {
+        this.api.apiPostCall(CouponsAdd, 'coupon/createCoupon').subscribe(data => {
           if (data.message.includes('Created Successfully')) {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: data.message,

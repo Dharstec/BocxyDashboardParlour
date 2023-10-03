@@ -49,7 +49,7 @@ export class MarketingListComponent implements OnInit {
     this.router.navigate(['/marketing/view', id]);
   }
   getMarketList(): void {
-    this.api.apiGetCall('Marketing/getAllMarketing').subscribe((data) => {
+    this.api.apiGetCall('marketing/getAllMarketing').subscribe((data) => {
       this.marketingData = data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
       if(!data.data?.length){
@@ -68,7 +68,7 @@ export class MarketingListComponent implements OnInit {
     dialog.afterClosed().subscribe(data => {
       if (data) {
        
-        this.api.apiDeleteCall(id, 'Marketing/deleteMarketing').subscribe(response => {
+        this.api.apiDeleteCall(id, 'marketing/deleteMarketing').subscribe(response => {
           if (response.message === 'Delete Marketing Successfully') {
             this.snackbar.openFromComponent(SnackbarComponent, {
               data: response.message,
