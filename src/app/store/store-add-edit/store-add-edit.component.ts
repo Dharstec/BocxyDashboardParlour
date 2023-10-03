@@ -81,7 +81,7 @@ export class StoreAddEditComponent implements OnInit {
       store.password = this.form.get('password').value;
       store.role_flag='STORE_ADMIN';
       if(!this.storeId){
-        // store.role_flag = 'STORE_ADMIN';
+        store.role_flag = 'STORE_ADMIN';
         store.super_admin_id = localStorage.getItem('superAdminId');  
       }
 
