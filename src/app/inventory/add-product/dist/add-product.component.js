@@ -25,6 +25,7 @@ var AddProductComponent = /** @class */ (function () {
         this.videoSelect = false;
         this.images = [];
         this.apiMainImages = [];
+        this.video = "";
         this.submitted = false;
         this.noImage = "assets/no_found.jpeg";
         this.types = [
@@ -210,6 +211,7 @@ var AddProductComponent = /** @class */ (function () {
                 this.api.apiGetDetailsCall(id, 'product/getOneProduct').subscribe(function (data) {
                     var _a, _b, _c;
                     _this.productDetails = data.data;
+                    console.log(_this.productDetails);
                     // this.form.controls['productName'].setValue(data.data.productName)
                     _this.form.controls['discountPrice'].setValue(data.data.discountPrice);
                     _this.form.controls['actualPrice'].setValue(data.data.actualPrice);
@@ -360,13 +362,16 @@ var AddProductComponent = /** @class */ (function () {
                         addProd.productAge = (_u = _this.form.get('productAge')) === null || _u === void 0 ? void 0 : _u.value;
                         addProd.referenceId = (_v = _this.form.get('referenceId')) === null || _v === void 0 ? void 0 : _v.value;
                         addProd.barcode = _this.productId ? _this.productDetails.barcode : _this.result;
-                        addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
-                        addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+                        addProd.imageArray = _this.images;
+                        console.log(_this.video);
+                        addProd.videoArray = _this.video !== undefined ? _this.video : [];
                     }
                     else {
                         addProd._id = _this.productId;
                         addProd.quantity = Number((_w = _this.form.get('quantity')) === null || _w === void 0 ? void 0 : _w.value);
                     }
+                    console.log(addProd);
+                    return;
                     if (_this.productId) {
                         _this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(function (data) {
                             if (data.message.includes('Successfully')) {

@@ -26,7 +26,7 @@ export class AddProductComponent implements OnInit {
   apiMainImageSrc: string;
   images: Array<string> = [];
   apiMainImages: Array<string> = [];
-  video: string;
+  video: string = "";
   apiVideoUrl: string;
   submitted = false;
   noImage = "assets/no_found.jpeg"
@@ -230,6 +230,7 @@ export class AddProductComponent implements OnInit {
       if (id !== undefined) {
         this.api.apiGetDetailsCall(id, 'product/getOneProduct').subscribe(data => {
           this.productDetails = data.data;
+          console.log(this.productDetails)
           // this.form.controls['productName'].setValue(data.data.productName)
           this.form.controls['discountPrice'].setValue(data.data.discountPrice);
           this.form.controls['actualPrice'].setValue(data.data.actualPrice);
@@ -385,12 +386,15 @@ export class AddProductComponent implements OnInit {
             addProd.productAge = this.form.get('productAge')?.value;
             addProd.referenceId = this.form.get('referenceId')?.value;
             addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
-            addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
-            addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+            addProd.imageArray = this.images;
+            console.log(this.video)
+            addProd.videoArray = this.video !== undefined ? this.video : [];
           } else {
             addProd._id = this.productId;
             addProd.quantity = Number(this.form.get('quantity')?.value);
           }
+          console.log(addProd)
+          return;
           if (this.productId) {
             this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {
