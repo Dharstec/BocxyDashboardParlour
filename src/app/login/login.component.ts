@@ -54,6 +54,11 @@ export class LoginComponent implements OnInit {
             data: 'Failed to Login',
           });
         }
+      },error=>{
+        console.log(error)
+        this.snackbar.openFromComponent(SnackbarComponent, {
+          data: error.message,
+        });
       })
     }
   }

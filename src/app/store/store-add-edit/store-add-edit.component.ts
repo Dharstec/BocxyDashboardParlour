@@ -79,6 +79,7 @@ export class StoreAddEditComponent implements OnInit {
       store.co_ordinates = this.form.get('co_ordinates').value;
       store.email = this.form.get('email').value;
       store.password = this.form.get('password').value;
+      store.role_flag='STORE_ADMIN';
       if(!this.storeId){
         // store.role_flag = 'STORE_ADMIN';
         store.super_admin_id = localStorage.getItem('superAdminId');  
