@@ -43,7 +43,7 @@ export class AddEditProductComponent implements OnInit {
     "Serums",
     "Sunscreens"
   ]
-  stone = [
+  brand = [
     'LOréal',
     'Maybelline',
     'MAC',
@@ -213,11 +213,10 @@ export class AddEditProductComponent implements OnInit {
       discountPrice: ['', Validators.required],
       actualPrice: ['', Validators.required],
       description: ['', Validators.required],
-      stock: ['', Validators.required],
+      // stock: ['', Validators.required],
       category: ['', Validators.required],
-      stone: ['', Validators.required],
+      brand: ['', Validators.required],
       formulation: ['', Validators.required],
-      style: ['', Validators.required],
       for: ['', Validators.required],
       gift: [true],
       personalised: [true],
@@ -244,9 +243,10 @@ export class AddEditProductComponent implements OnInit {
   save(): void {
     this.form.setValidators(null);
     this.form.updateValueAndValidity();
-    if (this.form.invalid && this.allFiles?.length !== 5) {
+    // && this.allFiles?.length !== 5
+    if (this.form.invalid ) {
+      console.log(this.form)
       this.submitted = true;
-      console.log('trg')
       // if(!this.allFiles.includes('video')){
 
       // }
@@ -256,7 +256,6 @@ export class AddEditProductComponent implements OnInit {
 
       return
     } else {
-      console.log('else')
       this.submitted = false;
       this.isSave = true;
       const formData = new FormData()
@@ -277,7 +276,7 @@ export class AddEditProductComponent implements OnInit {
           addProd.description = this.form.get('description')?.value;
           addProd.category = this.form.get('category')?.value;
           addProd.stock = this.form.get('stock')?.value;
-          addProd.stone = this.form.get('stone')?.value;
+          addProd.brand = this.form.get('brand')?.value;
           addProd.formulation = this.form.get('formulation')?.value;
           addProd.style = this.form.get('style')?.value;
           addProd.gift = this.form.get('gift')?.value;
