@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiUrl:' https://bocxyapi.onrender.com/'
+  apiUrl:'https://ecommapi.bocxy.com/'
 };
 
 /*
