@@ -67,21 +67,16 @@ export class StoreAddEditComponent implements OnInit, AfterViewInit {
   getStoreDetails() {
     this.api.apiGetDetailsCall(this.storeId, 'admin/getOneStore').subscribe(data => {
       this.storeDetails = data.data;
-      this.form.patchValue({
-        store_name: data.data.store_name,
-        email: data.data.email,
-        phone_no: data.data.phone_no,
-        address: data.data.address,
-        password: data.data.password,
-        // co_ordinates: data.data.co_ordinates[0] + ',' + data.data.co_ordinates[1],
-        // lat: data.data.co_ordinates[0],
-        // long: data.data.co_ordinates[1]
-      });
+      this.form.controls['store_name'].setValue(data.data.store_name);
+      this.form.controls['email'].setValue(data.data.email);
+      this.form.controls['phone_no'].setValue(data.data.phone_no);
+      this.form.controls['address'].setValue(data.data.address);
+      this.form.controls['password'].setValue(data.data.password);
       this.reverseGeocode(data.data.co_ordinates[0], data.data.co_ordinates[1])
       if (this.router.url.includes('view')) {
         this.form.disable();
       } else {
-        this.form.get('password').disable();
+        this.form.controls['password'].disable();
       }
     })
   }

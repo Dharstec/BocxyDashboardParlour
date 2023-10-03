@@ -70,19 +70,17 @@ var StoreAddEditComponent = /** @class */ (function () {
         var _this = this;
         this.api.apiGetDetailsCall(this.storeId, 'admin/getOneStore').subscribe(function (data) {
             _this.storeDetails = data.data;
-            _this.form.patchValue({
-                store_name: data.data.store_name,
-                email: data.data.email,
-                phone_no: data.data.phone_no,
-                address: data.data.address,
-                password: data.data.password
-            });
+            _this.form.controls['store_name'].setValue(data.data.store_name);
+            _this.form.controls['email'].setValue(data.data.email);
+            _this.form.controls['phone_no'].setValue(data.data.phone_no);
+            _this.form.controls['address'].setValue(data.data.address);
+            _this.form.controls['password'].setValue(data.data.password);
             _this.reverseGeocode(data.data.co_ordinates[0], data.data.co_ordinates[1]);
             if (_this.router.url.includes('view')) {
                 _this.form.disable();
             }
             else {
-                _this.form.get('password').disable();
+                _this.form.controls['password'].disable();
             }
         });
     };
