@@ -26,6 +26,8 @@ var StoreAddEditComponent = /** @class */ (function () {
         this.submitted = false;
         this.edit = false;
         this.view = false;
+        this.lat = '';
+        this.long = '';
         this.activeRoute.paramMap.subscribe(function (params) {
             _this.storeId = params.get('id');
             if (_this.storeId && _this.router.url.includes('edit')) {
@@ -38,11 +40,44 @@ var StoreAddEditComponent = /** @class */ (function () {
             }
         });
     }
+    StoreAddEditComponent.prototype.reverseGeocode = function (lat, long) {
+        var _this = this;
+        var geocoder = new google.maps.Geocoder();
+        var latLng = new google.maps.LatLng(parseFloat(lat), parseFloat(long));
+        geocoder.geocode({ 'location': latLng }, function (results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    // Access the place information from the first result
+                    var place = results[0];
+                    _this.form.controls['co_ordinates'].setValue(place.formatted_address);
+                    _this.lat = lat;
+                    _this.long = long;
+                    // Access place details like address components, formatted address, etc.
+                    console.log("Formatted Address:", place.formatted_address);
+                    console.log("Address Components:", place.address_components);
+                    // You can use the place information as needed
+                }
+                else {
+                    console.log('No results found');
+                }
+            }
+            else {
+                console.error('Geocoder failed due to: ' + status);
+            }
+        });
+    };
     StoreAddEditComponent.prototype.getStoreDetails = function () {
         var _this = this;
         this.api.apiGetDetailsCall(this.storeId, 'admin/getOneStore').subscribe(function (data) {
             _this.storeDetails = data.data;
-            _this.form.patchValue(data.data);
+            _this.form.patchValue({
+                store_name: data.data.store_name,
+                email: data.data.email,
+                phone_no: data.data.phone_no,
+                address: data.data.address,
+                password: data.data.password
+            });
+            _this.reverseGeocode(data.data.co_ordinates[0], data.data.co_ordinates[1]);
             if (_this.router.url.includes('view')) {
                 _this.form.disable();
             }
@@ -101,10 +136,8 @@ var StoreAddEditComponent = /** @class */ (function () {
             store.store_name = this.form.get('store_name').value;
             store.address = this.form.get('address').value;
             store.phone_no = this.form.get('phone_no').value;
-            var ordinates = new store_model_1.coordinate();
-            ordinates.lat = this.lat;
-            ordinates.long = this.long;
-            store.co_ordinates.push(ordinates);
+            var ordinates = [this.lat, this.long];
+            store.co_ordinates = ordinates;
             store.email = this.form.get('email').value;
             store.role_flag = 'STORE_ADMIN';
             store._id = this.storeId ? this.storeId : null;

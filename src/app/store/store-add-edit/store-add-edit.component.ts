@@ -23,8 +23,8 @@ export class StoreAddEditComponent implements OnInit, AfterViewInit {
   storeId: string;
   view = false;
   storeDetails: any;
-  lat: any;
-  long: any;
+  lat = '';
+  long = '';
   constructor(private api: ApiService, private fb: FormBuilder, private router: Router, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
 
@@ -39,10 +39,45 @@ export class StoreAddEditComponent implements OnInit, AfterViewInit {
     })
   }
 
+  reverseGeocode(lat: string, long: string) {
+    const geocoder = new google.maps.Geocoder();
+    const latLng = new google.maps.LatLng(parseFloat(lat), parseFloat(long));
+
+    geocoder.geocode({ 'location': latLng }, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          // Access the place information from the first result
+          const place = results[0];
+          this.form.controls['co_ordinates'].setValue(place.formatted_address);
+          this.lat = lat;
+          this.long = long;
+          // Access place details like address components, formatted address, etc.
+          console.log("Formatted Address:", place.formatted_address);
+          console.log("Address Components:", place.address_components);
+
+          // You can use the place information as needed
+        } else {
+          console.log('No results found');
+        }
+      } else {
+        console.error('Geocoder failed due to: ' + status);
+      }
+    });
+  }
   getStoreDetails() {
     this.api.apiGetDetailsCall(this.storeId, 'admin/getOneStore').subscribe(data => {
       this.storeDetails = data.data;
-      this.form.patchValue(data.data);
+      this.form.patchValue({
+        store_name: data.data.store_name,
+        email: data.data.email,
+        phone_no: data.data.phone_no,
+        address: data.data.address,
+        password: data.data.password,
+        // co_ordinates: data.data.co_ordinates[0] + ',' + data.data.co_ordinates[1],
+        // lat: data.data.co_ordinates[0],
+        // long: data.data.co_ordinates[1]
+      });
+      this.reverseGeocode(data.data.co_ordinates[0], data.data.co_ordinates[1])
       if (this.router.url.includes('view')) {
         this.form.disable();
       } else {
@@ -101,10 +136,8 @@ export class StoreAddEditComponent implements OnInit, AfterViewInit {
       store.store_name = this.form.get('store_name').value;
       store.address = this.form.get('address').value;
       store.phone_no = this.form.get('phone_no').value;
-      const ordinates = new coordinate()
-      ordinates.lat = this.lat;
-      ordinates.long = this.long;
-      store.co_ordinates.push(ordinates);
+      const ordinates = [this.lat, this.long]
+      store.co_ordinates = ordinates;
       store.email = this.form.get('email').value;
       store.role_flag = 'STORE_ADMIN';
       store._id = this.storeId ? this.storeId : null;
