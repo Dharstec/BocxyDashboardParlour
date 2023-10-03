@@ -272,8 +272,18 @@ var AddEditProductComponent = /** @class */ (function () {
                     addProd.productAge = (_s = _this.form.get('productAge')) === null || _s === void 0 ? void 0 : _s.value;
                     addProd.referenceId = (_t = _this.form.get('referenceId')) === null || _t === void 0 ? void 0 : _t.value;
                     addProd.barcode = _this.productId ? _this.productDetails.barcode : _this.result;
-                    addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
-                    addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+                    if (data.data.imageArray.length > 0) {
+                        addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
+                    }
+                    else {
+                        addProd.imageArray = _this.images;
+                    }
+                    if (data.data.videoArray > 0) {
+                        addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+                    }
+                    else {
+                        addProd.videoArray = _this.video !== undefined ? _this.video : [];
+                    }
                     if (_this.productId) {
                         _this.api.apiPutCall(addProd, 'Product/updateProduct').subscribe(function (data) {
                             if (data.message.includes('Successfully')) {

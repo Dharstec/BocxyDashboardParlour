@@ -295,8 +295,16 @@ export class AddEditProductComponent implements OnInit {
           addProd.productAge = this.form.get('productAge')?.value;
           addProd.referenceId = this.form.get('referenceId')?.value;
           addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
-          addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
-          addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+          if (data.data.imageArray.length > 0) {
+            addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
+          } else {
+            addProd.imageArray = this.images;
+          }
+          if (data.data.videoArray > 0) {
+            addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+          } else {
+            addProd.videoArray = this.video !== undefined ? this.video : [];
+          }
           if (this.productId) {
             this.api.apiPutCall(addProd, 'Product/updateProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {

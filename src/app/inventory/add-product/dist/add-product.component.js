@@ -363,7 +363,6 @@ var AddProductComponent = /** @class */ (function () {
                         addProd.referenceId = (_v = _this.form.get('referenceId')) === null || _v === void 0 ? void 0 : _v.value;
                         addProd.barcode = _this.productId ? _this.productDetails.barcode : _this.result;
                         addProd.imageArray = _this.images;
-                        console.log(_this.video);
                         addProd.videoArray = _this.video !== undefined ? _this.video : [];
                     }
                     else {

@@ -387,7 +387,6 @@ export class AddProductComponent implements OnInit {
             addProd.referenceId = this.form.get('referenceId')?.value;
             addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
             addProd.imageArray = this.images;
-            console.log(this.video)
             addProd.videoArray = this.video !== undefined ? this.video : [];
           } else {
             addProd._id = this.productId;
