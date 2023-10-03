@@ -1,0 +1,84 @@
+.card {
+  background-color: #fff;
+  height: 90%;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+mat-label .required {
+  color: red;
+}
+
+.required-error {
+  border-color: red !important;
+}
+
+.hintalign {
+  display: flex !important;
+  justify-content: end !important;
+}
+
+.section-b {
+  margin: 10px;
+}
+.section-b .input {
+  padding: 10px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  background: #f3f3f9 !important;
+  width: 100% !important;
+  line-height: 20px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+.section-b ::ng-deep .mat-mdc-select-trigger {
+  border-radius: 10px;
+  background: #f3f3f9;
+  line-height: 17px;
+  padding: 8px;
+}
+.section-b ::ng-deep .mat-mdc-select {
+  margin: 10px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  margin: 4px;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 20px !important;
+  width: 24px;
+  height: 24px;
+  background: url("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png") center/cover no-repeat;
+  opacity: 0.5;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+input[type=date]::-webkit-datetime-edit {
+  padding: 0;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.disflex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+.fieldsd {
+  padding: 10px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  background: #f3f3f9 !important;
+  width: 100% !important;
+  line-height: 20px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}

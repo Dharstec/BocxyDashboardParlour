@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
-import { couponsList } from 'src/app/coupons/coupons.model';
 import { ApiService } from 'src/app/services/api.service';
 import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.component';
-import { Store } from '../store.model';
-
+import { Store, coordinate } from '../store.model';
+declare var google: any;
+declare var $: any;
 @Component({
   selector: 'app-store-add-edit',
   templateUrl: './store-add-edit.component.html',
   styleUrls: ['./store-add-edit.component.scss']
 })
-export class StoreAddEditComponent implements OnInit {
+export class StoreAddEditComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   types: string[] = [
     "Affiliate",
@@ -23,8 +23,11 @@ export class StoreAddEditComponent implements OnInit {
   storeId: string;
   view = false;
   storeDetails: any;
+  lat: any;
+  long: any;
   constructor(private api: ApiService, private fb: FormBuilder, private router: Router, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
+
       this.storeId = params.get('id');
       if (this.storeId && this.router.url.includes('edit')) {
         this.edit = true;
@@ -49,6 +52,7 @@ export class StoreAddEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initialize();
     this.form = this.fb.group({
       store_name: ['', Validators.required],
       email: ['', Validators.required],
@@ -56,9 +60,28 @@ export class StoreAddEditComponent implements OnInit {
       phone_no: ['', Validators.required],
       address: ['', Validators.required],
       password: ['', Validators.required],
+      lat: [''],
+      long: ['']
     })
   }
 
+
+  ngAfterViewInit() {
+    this.initialize();
+  }
+
+  initialize() {
+    var input = document.getElementById('autocomplete_search') as HTMLInputElement;
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.addListener('place_changed', () => {
+      var place = autocomplete.getPlace();
+      // place variable will have all the information you are looking for.
+      document.getElementById('lat').setAttribute('value', place.geometry.location.lat().toString());
+      document.getElementById('long').setAttribute('value', place.geometry.location.lng().toString());
+      this.lat = place.geometry.location.lat().toString();
+      this.long = place.geometry.location.lng().toString();
+    });
+  }
   discard() {
     if (this.storeId) {
       this.form.patchValue(this.storeDetails);
@@ -78,13 +101,15 @@ export class StoreAddEditComponent implements OnInit {
       store.store_name = this.form.get('store_name').value;
       store.address = this.form.get('address').value;
       store.phone_no = this.form.get('phone_no').value;
-      store.co_ordinates = this.form.get('co_ordinates').value;
+      const ordinates = new coordinate()
+      ordinates.lat = this.lat;
+      ordinates.long = this.long;
+      store.co_ordinates.push(ordinates);
       store.email = this.form.get('email').value;
       store.role_flag = 'STORE_ADMIN';
       store._id = this.storeId ? this.storeId : null;
       store.super_admin_id = localStorage.getItem('superAdminId');
       store.password = this.form.get('password').value;
-
       if (this.storeId) {
         this.api.apiPutCall(store, 'admin/updateStoreAdmin').subscribe(data => {
           if (data.message.includes('Successfully')) {

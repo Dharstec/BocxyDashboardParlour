@@ -23,14 +23,14 @@
     margin: 10px;
   
     .input {
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
-      background: #f3f3f9;
-      width: 100%;
-      line-height: 20px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      padding: 10px !important;
+      border: none !important;
+      border-radius: 10px !important;
+      background: #f3f3f9 !important;
+      width: 100% !important;
+      line-height: 20px !important;
+      margin-top: 10px !important;
+      margin-bottom: 10px !important;
     }
   
     ::ng-deep .mat-mdc-select-trigger {
@@ -93,4 +93,15 @@
     flex-direction: row;
     justify-content: center;
     gap: 10px;
+  }
+
+  .fieldsd{
+    padding: 10px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    background: #f3f3f9 !important;
+    width: 100% !important;
+    line-height: 20px !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
   }

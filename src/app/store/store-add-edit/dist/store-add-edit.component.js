@@ -52,13 +52,32 @@ var StoreAddEditComponent = /** @class */ (function () {
         });
     };
     StoreAddEditComponent.prototype.ngOnInit = function () {
+        this.initialize();
         this.form = this.fb.group({
             store_name: ['', forms_1.Validators.required],
             email: ['', forms_1.Validators.required],
             co_ordinates: ['', forms_1.Validators.required],
             phone_no: ['', forms_1.Validators.required],
             address: ['', forms_1.Validators.required],
-            password: ['', forms_1.Validators.required]
+            password: ['', forms_1.Validators.required],
+            lat: [''],
+            long: ['']
+        });
+    };
+    StoreAddEditComponent.prototype.ngAfterViewInit = function () {
+        this.initialize();
+    };
+    StoreAddEditComponent.prototype.initialize = function () {
+        var _this = this;
+        var input = document.getElementById('autocomplete_search');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            // place variable will have all the information you are looking for.
+            document.getElementById('lat').setAttribute('value', place.geometry.location.lat().toString());
+            document.getElementById('long').setAttribute('value', place.geometry.location.lng().toString());
+            _this.lat = place.geometry.location.lat().toString();
+            _this.long = place.geometry.location.lng().toString();
         });
     };
     StoreAddEditComponent.prototype.discard = function () {
@@ -82,7 +101,10 @@ var StoreAddEditComponent = /** @class */ (function () {
             store.store_name = this.form.get('store_name').value;
             store.address = this.form.get('address').value;
             store.phone_no = this.form.get('phone_no').value;
-            store.co_ordinates = this.form.get('co_ordinates').value;
+            var ordinates = new store_model_1.coordinate();
+            ordinates.lat = this.lat;
+            ordinates.long = this.long;
+            store.co_ordinates.push(ordinates);
             store.email = this.form.get('email').value;
             store.role_flag = 'STORE_ADMIN';
             store._id = this.storeId ? this.storeId : null;

@@ -39,9 +39,15 @@
                 </div>
                 <div class="section-b col">
                     <mat-label for="date">Co-ordinate (Ex:111.0013) <span class="required">*</span></mat-label>
-                    <input class="input"  type="text"
-                    name="Search" matInput formControlName="co_ordinates" maxlength="50">
-                <mat-hint class="hintalign">{{form.get('co_ordinates').value?.length || 0}}/50</mat-hint>
+                    <input style="padding: 10px;border: none !important;
+                    border-radius: 10px !important;
+                    background: #f3f3f9 !important;
+                    width: 100% !important;
+                    line-height: 20px !important;
+                    margin-top: 10px !important;
+                    margin-bottom: 10px !important;" id="autocomplete_search"  matInput formControlName="co_ordinates" name="autocomplete_search" type="text" class="form-control" placeholder="Co_ordinates" />
+                    <input type="hidden" id="lat" name="lat" formControlName="lat">
+                    <input type="hidden" id="long" name="long" formControlName="long">
                     <mat-error *ngIf="submitted && form.get('co_ordinates')?.errors?.required">{{'Co-ordinate is
                         required'}}</mat-error>
                 </div>
