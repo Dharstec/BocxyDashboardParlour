@@ -85,7 +85,6 @@ var StoreAddEditComponent = /** @class */ (function () {
         });
     };
     StoreAddEditComponent.prototype.ngOnInit = function () {
-        this.initialize();
         this.form = this.fb.group({
             store_name: ['', forms_1.Validators.required],
             email: ['', forms_1.Validators.required],

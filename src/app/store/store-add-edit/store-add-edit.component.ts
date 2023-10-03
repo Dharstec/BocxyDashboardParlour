@@ -82,7 +82,6 @@ export class StoreAddEditComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.initialize();
     this.form = this.fb.group({
       store_name: ['', Validators.required],
       email: ['', Validators.required],
