@@ -37,7 +37,7 @@
                 <div class="image-upload" *ngIf="images?.length < 4">
                   <label for="image-upload-input">
                    <span class="cursor-pointer"><i class="fa fa-upload fa-2x" ></i></span> 
-                    <input type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
+                    <input disabled type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
                       id="image-upload-input" style="display:none">
                   </label>
                 </div>
@@ -50,8 +50,8 @@
           <div class="row">
             <div class="section-b col-md-12">
               <mat-label>Heading<span class="required">*</span></mat-label>
-              <mat-select formControlName="productName" [(ngModel)]="selectedFood" (ngModelChange)="onFoodSelection()">
-                <mat-option *ngFor="let row of productList" [value]="row">{{row.productName}}</mat-option>
+              <mat-select  style="margin-left: -4px !important;" formControlName="productName" [(ngModel)]="selectedFood" (ngModelChange)="onFoodSelection()">
+                <mat-option [disabled]="edit || view" *ngFor="let row of productList" [value]="row">{{row.productName}}</mat-option>
               </mat-select>
               <mat-error *ngIf="submitted && form.get('productName')?.errors?.required">{{'Product name is required'}}</mat-error>
             </div>
@@ -100,10 +100,10 @@
         <div class="section-b col">
           <mat-label>Quantity<span class="required">*</span></mat-label>
           <input class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search" matInput
-            formControlName="stock" maxlength="50" required>
-          <mat-hint class="hintalign">{{form.get('stock').value?.length || 0}}/50
+            formControlName="quantity" maxlength="50" required>
+          <mat-hint class="hintalign">{{form.get('quantity').value?.length || 0}}/50
           </mat-hint>
-          <mat-error *ngIf="submitted && form.get('stock')?.errors?.required">{{'Stock value is required'}}</mat-error>
+          <mat-error *ngIf="submitted && form.get('quantity')?.errors?.required">{{'Quantity value is required'}}</mat-error>
         </div>
         <div class="section-b col">
           <mat-label>Gender <span class="required">*</span></mat-label>

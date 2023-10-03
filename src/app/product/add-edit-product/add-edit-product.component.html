@@ -37,7 +37,7 @@
                   <div class="image-upload" *ngIf="images?.length < 4">
                     <label for="image-upload-input">
                      <span class="cursor-pointer"><i class="fa fa-upload fa-2x" ></i></span> 
-                      <input type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
+                      <input  type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
                         id="image-upload-input" style="display:none">
                     </label>
                   </div>

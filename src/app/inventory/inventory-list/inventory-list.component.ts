@@ -56,7 +56,7 @@ export class InventoryListComponent implements OnInit {
   }
 
   getInventoryList(): void {
-    this.api.apiGetCall('inventory/getInventoryProduct'+'/'+localStorage.getItem('superAdminId')).subscribe((data) => {
+    this.api.apiGetCall('inventory/getInventoryProduct'+'/'+localStorage.getItem('storeId')).subscribe((data) => {
       this.inventoryList = data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
       if(!data.data?.length){

@@ -24,4 +24,8 @@ export class AddProduct{
   formulation: any;
   superAdminId: string;
   brand: any;
+  quantity: any;
+  avgCustomerRating: any;
+  productId: string;
+  storeId: string;
 }

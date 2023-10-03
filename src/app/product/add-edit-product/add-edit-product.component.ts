@@ -275,7 +275,7 @@ export class AddEditProductComponent implements OnInit {
           addProd.actualPrice = this.form.get('actualPrice')?.value;
           addProd.description = this.form.get('description')?.value;
           addProd.category = this.form.get('category')?.value;
-          addProd.stock = this.form.get('stock')?.value;
+          // addProd.stock = this.form.get('stock')?.value;
           addProd.brand = this.form.get('brand')?.value;
           addProd.formulation = this.form.get('formulation')?.value;
           addProd.style = this.form.get('style')?.value;

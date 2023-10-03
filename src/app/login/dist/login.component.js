@@ -47,6 +47,7 @@ var LoginComponent = /** @class */ (function () {
                     }
                     else {
                         localStorage.setItem('superAdminId', data.data['super_admin_id']);
+                        localStorage.setItem('storeId', data.data['_id']);
                     }
                     localStorage.setItem('role', data.data['role_flag']);
                     localStorage.setItem('details', JSON.stringify(data.data));

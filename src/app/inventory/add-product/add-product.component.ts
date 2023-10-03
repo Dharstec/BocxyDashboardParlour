@@ -125,12 +125,35 @@ export class AddProductComponent implements OnInit {
 
 
   getProductDetails() {
-    this.api.apiGetDetailsCall(this.productId, 'inventory/getOneProduct').subscribe(data => {
+    this.api.apiGetDetailsCall(this.productId, 'inventory/getOneInventoryProduct').subscribe(data => {
       this.productDetails = data.data;
-      this.form.patchValue(data.data);
+      this.selectedFood = data.data.productName;
+      this.form.controls['productName'].setValue(data.data.productName)
+      this.form.controls['discountPrice'].setValue(data.data.discountPrice);
+      this.form.controls['actualPrice'].setValue(data.data.actualPrice);
+      this.form.controls['description'].setValue(data.data.description);
+      this.form.controls['quantity'].setValue(data.data.quantity);
+      this.form.controls['category'].setValue(data.data.category);
+      this.form.controls['brand'].setValue(data.data.brand);
+      this.form.controls['formulation'].setValue(data.data.formulation);
+      this.form.controls['style'].setValue(data.data.avgCustomerRating);
+      this.form.controls['for'].setValue(data.data.gender);
+      this.form.controls['gift'].setValue(data.data.gift);
+      this.form.controls['personalised'].setValue(data.data.personalised);
+      this.form.controls['latest'].setValue(data.data.latest);
+      this.form.controls['collections'].setValue(data.data.collections);
+      this.form.controls['viewedBy'].setValue(data.data.viewedBy);
+      this.form.controls['noOfViews'].setValue(data.data.noOfViews);
+      this.form.controls['noOfSales'].setValue(data.data.noOfSales);
+      this.form.controls['productAge'].setValue(data.data.productAge);
+      this.form.controls['referenceId'].setValue(data.data.referenceId);
+
       this.mainImageSrc = this.productDetails?.productImages[0];
       this.images = this.productDetails?.productImages;
       this.video = this.productDetails?.productVideos[0];
+      // this.mainImageSrc = this.productDetails?.productImages[0];
+      //     this.images = this.productDetails?.productImages;
+      //     this.video = this.productDetails?.productVideos[0];
       if (this.router.url.includes('view')) {
         this.form.disable();
       }
@@ -206,7 +229,7 @@ export class AddProductComponent implements OnInit {
           this.form.controls['discountPrice'].setValue(data.data.discountPrice);
           this.form.controls['actualPrice'].setValue(data.data.actualPrice);
           this.form.controls['description'].setValue(data.data.description);
-          // this.form.controls['stock'].setValue(this.selectedStock);
+          // this.form.controls['quantity'].setValue(this.selectedStock);
           this.form.controls['category'].setValue(data.data.category);
           this.form.controls['brand'].setValue(data.data.brand);
           this.form.controls['formulation'].setValue(data.data.formulation);
@@ -258,7 +281,7 @@ export class AddProductComponent implements OnInit {
       discountPrice: ['', Validators.required],
       actualPrice: ['', Validators.required],
       description: ['', Validators.required],
-      stock: ['', Validators.required],
+      quantity: ['', Validators.required],
       category: ['', Validators.required],
       brand: ['', Validators.required],
       formulation: ['', Validators.required],
@@ -280,7 +303,7 @@ export class AddProductComponent implements OnInit {
     this.form.controls['discountPrice'].disable();
     this.form.controls['actualPrice'].disable();
     this.form.controls['description'].disable();
-    // this.form.controls['stock'].disable();
+    // this.form.controls['quantity'].disable();
     this.form.controls['category'].disable();
     this.form.controls['brand'].disable();
     this.form.controls['formulation'].disable();
@@ -330,32 +353,38 @@ export class AddProductComponent implements OnInit {
         }
       }
 
-      this.api.apiPostCall(formData, 'inventory/createProductImages').subscribe(data => {
+      this.api.apiPostCall(formData, 'Product/createProductImages').subscribe(data => {
         if (data.message.includes('Image Added Successfully')) {
           const addProd = new AddProduct()
-          addProd._id = this.productId ? this.productId : null;
-          addProd.superAdminId = localStorage.getItem('superAdminId');
-          addProd.productName = this.form.get('productName')?.value;
-          addProd.discountPrice = this.form.get('discountPrice')?.value;
-          addProd.actualPrice = this.form.get('actualPrice')?.value;
-          addProd.description = this.form.get('description')?.value;
-          addProd.category = this.form.get('category')?.value;
-          addProd.stock = this.form.get('stock')?.value;
-          addProd.brand = this.form.get('brand')?.value;
-          addProd.formulation = this.form.get('formulation')?.value;
-          addProd.style = this.form.get('style')?.value;
-          addProd.gift = this.form.get('gift')?.value;
-          addProd.personalised = this.form.get('personalised')?.value;
-          addProd.latest = this.form.get('latest')?.value;
-          addProd.collections = this.form.get('collections')?.value;
-          addProd.viewedBy = this.form.get('viewedBy')?.value;
-          addProd.noOfViews = this.form.get('noOfViews')?.value;
-          addProd.noOfSales = this.form.get('noOfSales')?.value;
-          addProd.productAge = this.form.get('productAge')?.value;
-          addProd.referenceId = this.form.get('referenceId')?.value;
-          addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
-          addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
-          addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+          if (this.productId === null) {
+            addProd.productId = this.productId ? this.productId : this.productDetails._id;
+            addProd.superAdminId = localStorage.getItem('superAdminId');
+            addProd.storeId = localStorage.getItem('storeId');
+            addProd.productName = this.form.get('productName')?.value.productName;
+            addProd.discountPrice = this.form.get('discountPrice')?.value;
+            addProd.actualPrice = this.form.get('actualPrice')?.value;
+            addProd.description = this.form.get('description')?.value;
+            addProd.category = this.form.get('category')?.value;
+            addProd.quantity = Number(this.form.get('quantity')?.value);
+            addProd.brand = this.form.get('brand')?.value;
+            addProd.formulation = this.form.get('formulation')?.value;
+            addProd.avgCustomerRating = this.form.get('style')?.value;
+            addProd.gift = this.form.get('gift')?.value;
+            addProd.personalised = this.form.get('personalised')?.value;
+            addProd.latest = this.form.get('latest')?.value;
+            addProd.collections = this.form.get('collections')?.value;
+            addProd.viewedBy = this.form.get('viewedBy')?.value;
+            addProd.noOfViews = Number(this.form.get('noOfViews')?.value);
+            addProd.noOfSales = Number(this.form.get('noOfSales')?.value);
+            addProd.productAge = this.form.get('productAge')?.value;
+            addProd.referenceId = this.form.get('referenceId')?.value;
+            addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
+            addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
+            addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+          } else {
+            addProd._id = this.productId;
+            addProd.quantity = Number(this.form.get('quantity')?.value);
+          }
           if (this.productId) {
             this.api.apiPutCall(addProd, 'inventory/updateProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {
