@@ -50,11 +50,11 @@
             <div class="row">
               <div class="section-b col-md-12">
                 <mat-label>Heading<span class="required">*</span></mat-label>
-                <input class="input" type="text" name="Search" matInput formControlName="productName" maxlength="50"
+                <input class="input" type="text" name="Search" matInput formControlName="productName" maxlength="100"
                   required>
-                <mat-hint class="hintalign">{{form.get('productName').value?.length || 0}}/50
+                <mat-hint class="hintalign">{{form.get('productName').value?.length || 0}}/100
                 </mat-hint>
-                <mat-error *ngIf="submitted && form.get('productName')?.errors?.required">{{'product name is required'}}</mat-error>
+                <mat-error *ngIf="submitted && form.get('productName')?.errors?.required">{{'Product name is required'}}</mat-error>
               </div>
             </div>
   
@@ -80,8 +80,8 @@
               <div class="section-b col">
                 <mat-label>Description <span class="required">*</span></mat-label>
                 <textarea class="input" matInput rows="3" cols="3" formControlName="description"
-                  maxlength="250"></textarea>
-                <mat-hint class="hintalign">{{form.get('description').value?.length || 0}}/250
+                  maxlength="1000"></textarea>
+                <mat-hint class="hintalign">{{form.get('description').value?.length || 0}}/1000
                 </mat-hint>
                 <mat-error *ngIf="submitted && form.get('description')?.errors?.required">{{'Description is required'}}
                 </mat-error>

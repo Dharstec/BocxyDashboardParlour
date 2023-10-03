@@ -48,14 +48,17 @@ var AddEditProductComponent = /** @class */ (function () {
             'Wella',
             'Toni & Guy',
             'TRESemmé',
-            'Renee'
+            'Renee',
+            'System Professional'
         ];
         this.color = [
             "Liquid",
             "Stick",
             "Cream",
             "Balm",
-            "Gel"
+            "Gel",
+            "Sheet",
+            "Powder"
         ];
         this.avgCustomerRating = [
             "4 stars & above",

@@ -54,14 +54,18 @@ export class AddProductComponent implements OnInit {
     'Wella',
     'Toni & Guy',
     'TRESemmé',
-    'Renee'
+    'Renee',
+    'System Professional'
   ]
   formulation = [
     "Liquid",
     "Stick",
     "Cream",
     "Balm",
-    "Gel"]
+    "Gel",
+    "Sheet",
+    "Powder"
+  ]
   avgCustomerRating = [
     "4 stars & above",
     "3 stars & above",
