@@ -41,27 +41,30 @@ var StoreAddEditComponent = /** @class */ (function () {
         });
     }
     StoreAddEditComponent.prototype.reverseGeocode = function (lat, long) {
-        // const geocoder = new google.maps.Geocoder();
-        // const latLng = new google.maps.LatLng(parseFloat(lat), parseFloat(long));
-        // geocoder.geocode({ 'location': latLng }, (results, status) => {
-        //   if (status === 'OK') {
-        //     if (results[0]) {
-        //       // Access the place information from the first result
-        //       const place = results[0];
-        //       this.form.controls['co_ordinates'].setValue(place.formatted_address);
-        //       this.lat = lat;
-        //       this.long = long;
-        //       // Access place details like address components, formatted address, etc.
-        //       console.log("Formatted Address:", place.formatted_address);
-        //       console.log("Address Components:", place.address_components);
-        //       // You can use the place information as needed
-        //     } else {
-        //       console.log('No results found');
-        //     }
-        //   } else {
-        //     console.error('Geocoder failed due to: ' + status);
-        //   }
-        // });
+        var _this = this;
+        var geocoder = new google.maps.Geocoder();
+        var latLng = new google.maps.LatLng(parseFloat(lat), parseFloat(long));
+        geocoder.geocode({ 'location': latLng }, function (results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    // Access the place information from the first result
+                    var place = results[0];
+                    _this.form.controls['co_ordinates'].setValue(place.formatted_address);
+                    _this.lat = lat;
+                    _this.long = long;
+                    // Access place details like address components, formatted address, etc.
+                    console.log("Formatted Address:", place.formatted_address);
+                    console.log("Address Components:", place.address_components);
+                    // You can use the place information as needed
+                }
+                else {
+                    console.log('No results found');
+                }
+            }
+            else {
+                console.error('Geocoder failed due to: ' + status);
+            }
+        });
     };
     StoreAddEditComponent.prototype.getStoreDetails = function () {
         var _this = this;
@@ -106,15 +109,16 @@ var StoreAddEditComponent = /** @class */ (function () {
         }
     };
     StoreAddEditComponent.prototype.initialize = function () {
-        // var input = document.getElementById('autocomplete_search') as HTMLInputElement;
-        // var autocomplete = new google.maps.places.Autocomplete(input);
-        // autocomplete.addListener('place_changed', () => {
-        //   var place = autocomplete.getPlace();
-        //   document.getElementById('lat').setAttribute('value', place.geometry.location.lat().toString());
-        //   document.getElementById('long').setAttribute('value', place.geometry.location.lng().toString());
-        //   this.lat = place.geometry.location.lat().toString();
-        //   this.long = place.geometry.location.lng().toString();
-        // });
+        var _this = this;
+        var input = document.getElementById('autocomplete_search');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            document.getElementById('lat').setAttribute('value', place.geometry.location.lat().toString());
+            document.getElementById('long').setAttribute('value', place.geometry.location.lng().toString());
+            _this.lat = place.geometry.location.lat().toString();
+            _this.long = place.geometry.location.lng().toString();
+        });
     };
     StoreAddEditComponent.prototype.discard = function () {
         if (this.storeId) {

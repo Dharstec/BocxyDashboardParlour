@@ -13,12 +13,31 @@
   <script>
     var global = global || window;
   </script>
+
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC2-pW-Ed4xsWyy2UEzplNetgTR5XGYLWI&libraries=places"></script>
   <script>
-  function initializeMap() {
-      // This function will be called when the Google Maps API is loaded
+    function initialize() {
+      var mapCanvas = document.getElementById('map-canvas');
+      var myLatlng = new google.maps.LatLng(53.092975, -7.895479);
+
+      var mapOptions = {
+        center: myLatlng,
+        zoom:16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+
+      var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+      var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        title: 'LCCEurotex'
+      });
+
+
     }
+    google.maps.event.addDomListener(window, 'load', initialize);
   </script>
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC2-pW-Ed4xsWyy2UEzplNetgTR5XGYLWI&libraries=places&callback=initializeMap"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
