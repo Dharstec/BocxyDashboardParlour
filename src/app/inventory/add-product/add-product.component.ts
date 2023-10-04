@@ -230,6 +230,7 @@ export class AddProductComponent implements OnInit {
       if (id !== undefined) {
         this.api.apiGetDetailsCall(id, 'product/getOneProduct').subscribe(data => {
           this.productDetails = data.data;
+          this.isSave = false;
           console.log(this.productDetails)
           // this.form.controls['productName'].setValue(data.data.productName)
           this.form.controls['discountPrice'].setValue(data.data.discountPrice);
@@ -284,24 +285,24 @@ export class AddProductComponent implements OnInit {
   initializeForm() {
     this.form = this.formBuilder.group({
       productName: ['', Validators.required], //bc name 
-      discountPrice: ['', Validators.required],
-      actualPrice: ['', Validators.required],
-      description: ['', Validators.required],
+      discountPrice: [''],
+      actualPrice: [''],
+      description: [''],
       quantity: ['', Validators.required],
-      category: ['', Validators.required],
-      brand: ['', Validators.required],
-      formulation: ['', Validators.required],
-      avgCustomerRating: ['', Validators.required],
-      for: ['', Validators.required],
+      category: [''],
+      brand: [''],
+      formulation: [''],
+      avgCustomerRating: [''],
+      for: [''],
       gift: [true],
       personalised: [true],
       latest: [true],
-      collections: ['', Validators.required],
+      collections: [''],
       viewedBy: [''],
       noOfViews: [''],
       noOfSales: [''],
       productAge: [''],
-      referenceId: ['', Validators.required],
+      referenceId: [''],
     })
     // this.form.disable();
     // Disable individual form controls
@@ -392,8 +393,6 @@ export class AddProductComponent implements OnInit {
             addProd._id = this.productId;
             addProd.quantity = Number(this.form.get('quantity')?.value);
           }
-          console.log(addProd)
-          return;
           if (this.productId) {
             this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(data => {
               if (data.message.includes('Successfully')) {
@@ -406,6 +405,9 @@ export class AddProductComponent implements OnInit {
             }, (error) => {
               if (error) {
                 this.isSave = false;
+                this.snackbar.openFromComponent(SnackbarComponent, {
+                  data: error.message,
+                });
                 // this.form.reset();
               }
             })
@@ -416,9 +418,16 @@ export class AddProductComponent implements OnInit {
                   data: data.message,
                 });
                 this.router.navigate(['/inventory/list'])
+              }else{
+                this.snackbar.openFromComponent(SnackbarComponent, {
+                  data: data.message,
+                });
               }
             }, (error) => {
               if (error) {
+                this.snackbar.openFromComponent(SnackbarComponent, {
+                  data: error.message,
+                });
                 // this.form.reset();
               }
             })

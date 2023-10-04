@@ -11,4 +11,5 @@ export class AppResponse {
   error_msg: string;
   message: any;
   status: any;
+  token: any;
 }

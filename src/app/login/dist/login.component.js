@@ -38,7 +38,7 @@ var LoginComponent = /** @class */ (function () {
                 password: this.form.controls['password'].value
             };
             this.api.apiPostCall(payload, 'admin/login').subscribe(function (data) {
-                if (data.status) {
+                if (data.token) {
                     _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
                         data: 'User loggedIn Successfully'
                     });

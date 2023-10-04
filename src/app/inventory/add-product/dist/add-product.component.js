@@ -211,6 +211,7 @@ var AddProductComponent = /** @class */ (function () {
                 this.api.apiGetDetailsCall(id, 'product/getOneProduct').subscribe(function (data) {
                     var _a, _b, _c;
                     _this.productDetails = data.data;
+                    _this.isSave = false;
                     console.log(_this.productDetails);
                     // this.form.controls['productName'].setValue(data.data.productName)
                     _this.form.controls['discountPrice'].setValue(data.data.discountPrice);
@@ -260,24 +261,24 @@ var AddProductComponent = /** @class */ (function () {
     AddProductComponent.prototype.initializeForm = function () {
         this.form = this.formBuilder.group({
             productName: ['', forms_1.Validators.required],
-            discountPrice: ['', forms_1.Validators.required],
-            actualPrice: ['', forms_1.Validators.required],
-            description: ['', forms_1.Validators.required],
+            discountPrice: [''],
+            actualPrice: [''],
+            description: [''],
             quantity: ['', forms_1.Validators.required],
-            category: ['', forms_1.Validators.required],
-            brand: ['', forms_1.Validators.required],
-            formulation: ['', forms_1.Validators.required],
-            avgCustomerRating: ['', forms_1.Validators.required],
-            "for": ['', forms_1.Validators.required],
+            category: [''],
+            brand: [''],
+            formulation: [''],
+            avgCustomerRating: [''],
+            "for": [''],
             gift: [true],
             personalised: [true],
             latest: [true],
-            collections: ['', forms_1.Validators.required],
+            collections: [''],
             viewedBy: [''],
             noOfViews: [''],
             noOfSales: [''],
             productAge: [''],
-            referenceId: ['', forms_1.Validators.required]
+            referenceId: ['']
         });
         // this.form.disable();
         // Disable individual form controls
@@ -369,8 +370,6 @@ var AddProductComponent = /** @class */ (function () {
                         addProd._id = _this.productId;
                         addProd.quantity = Number((_w = _this.form.get('quantity')) === null || _w === void 0 ? void 0 : _w.value);
                     }
-                    console.log(addProd);
-                    return;
                     if (_this.productId) {
                         _this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(function (data) {
                             if (data.message.includes('Successfully')) {
@@ -383,6 +382,9 @@ var AddProductComponent = /** @class */ (function () {
                         }, function (error) {
                             if (error) {
                                 _this.isSave = false;
+                                _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
+                                    data: error.message
+                                });
                                 // this.form.reset();
                             }
                         });
@@ -395,8 +397,16 @@ var AddProductComponent = /** @class */ (function () {
                                 });
                                 _this.router.navigate(['/inventory/list']);
                             }
+                            else {
+                                _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
+                                    data: data.message
+                                });
+                            }
                         }, function (error) {
                             if (error) {
+                                _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
+                                    data: error.message
+                                });
                                 // this.form.reset();
                             }
                         });

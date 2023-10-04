@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       }
 
       this.api.apiPostCall(payload, 'admin/login').subscribe(data => {
-        if (data.status) {
+        if (data.token) {
           this.snackbar.openFromComponent(SnackbarComponent, {
             data: 'User loggedIn Successfully',
           });
