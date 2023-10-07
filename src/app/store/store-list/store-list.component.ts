@@ -37,7 +37,7 @@ export class StoreListComponent implements OnInit {
   }
 
   getStoreList(): void {
-    this.api.apiGetCall('admin/getAllStores').subscribe((data) => {
+    this.api.apiGetCall('admin/getAllStores/'+ localStorage.getItem('superAdminId')).subscribe((data) => {
       this.storeListData=data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
       if(!data.data?.length){
