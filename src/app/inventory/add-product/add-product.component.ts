@@ -26,7 +26,7 @@ export class AddProductComponent implements OnInit {
   apiMainImageSrc: string;
   images: Array<string> = [];
   apiMainImages: Array<string> = [];
-  video: string = "";
+  video: string;
   apiVideoUrl: string;
   submitted = false;
   noImage = "assets/no_found.jpeg"
@@ -84,6 +84,7 @@ export class AddProductComponent implements OnInit {
   isSave = false;
   productList: any;
   name: any;
+  disable: boolean;
 
   constructor(private router: Router, private formBuilder: UntypedFormBuilder, private api: ApiService, private snackbar: MatSnackBar, private activeRoute: ActivatedRoute) {
     this.activeRoute.paramMap.subscribe(params => {
@@ -304,27 +305,34 @@ export class AddProductComponent implements OnInit {
       productAge: [''],
       referenceId: [''],
     })
-    // this.form.disable();
-    // Disable individual form controls
-    // this.form.controls['productName'].disable();
-    this.form.controls['discountPrice'].disable();
-    this.form.controls['actualPrice'].disable();
-    this.form.controls['description'].disable();
-    // this.form.controls['quantity'].disable();
-    this.form.controls['category'].disable();
-    this.form.controls['brand'].disable();
-    this.form.controls['formulation'].disable();
-    this.form.controls['avgCustomerRating'].disable();
-    this.form.controls['for'].disable();
-    this.form.controls['gift'].disable();
-    this.form.controls['personalised'].disable();
-    this.form.controls['latest'].disable();
-    this.form.controls['collections'].disable();
-    this.form.controls['viewedBy'].disable();
-    this.form.controls['noOfViews'].disable();
-    this.form.controls['noOfSales'].disable();
-    this.form.controls['productAge'].disable();
-    this.form.controls['referenceId'].disable();
+    if (localStorage.getItem('role') === 'STORE_ADMIN') {
+      this.disable = true;
+      this.form.controls['discountPrice'].disable();
+      this.form.controls['actualPrice'].disable();
+      this.form.controls['description'].disable();
+      // this.form.controls['quantity'].disable();
+      this.form.controls['category'].disable();
+      this.form.controls['brand'].disable();
+      this.form.controls['formulation'].disable();
+      this.form.controls['avgCustomerRating'].disable();
+      this.form.controls['for'].disable();
+      this.form.controls['gift'].disable();
+      this.form.controls['personalised'].disable();
+      this.form.controls['latest'].disable();
+      this.form.controls['collections'].disable();
+      this.form.controls['viewedBy'].disable();
+      this.form.controls['noOfViews'].disable();
+      this.form.controls['noOfSales'].disable();
+      this.form.controls['productAge'].disable();
+      this.form.controls['referenceId'].disable();
+  
+    } else {
+      this.disable = false;
+    }
+
+    if (this.disable === true) {
+
+    }
   }
 
   discard() {
@@ -363,18 +371,86 @@ export class AddProductComponent implements OnInit {
       this.api.apiPostCall(formData, 'Product/createProductImages').subscribe(data => {
         if (data.message.includes('Image Added Successfully')) {
           const addProd = new AddProduct()
-          if (this.productId === null) {
-            addProd.productId = this.productId ? this.productId : this.productDetails._id;
+          if (localStorage.getItem('role') === 'STORE_ADMIN') {
+            if (this.productId === null) {
+              addProd.productId = this.productId ? this.productId : this.productDetails._id;
+              addProd.superAdminId = localStorage.getItem('superAdminId');
+              addProd.storeId = localStorage.getItem('storeId');
+              addProd.productName = this.productId === null ? this.form.get('productName')?.value.productName : this.form.get('productName')?.value;
+              addProd.discountPrice = Number(this.form.get('discountPrice')?.value);
+              addProd.actualPrice = Number(this.form.get('actualPrice')?.value);
+              addProd.description = this.form.get('description')?.value;
+              addProd.category = this.form.get('category')?.value;
+              addProd.quantity = Number(this.form.get('quantity')?.value);
+              addProd.brand = this.form.get('brand')?.value;
+              addProd.gender = this.form.get('for')?.value;
+              addProd.formulation = this.form.get('formulation')?.value;
+              addProd.avgCustomerRating = this.form.get('avgCustomerRating')?.value;
+              addProd.gift = this.form.get('gift')?.value;
+              addProd.personalised = this.form.get('personalised')?.value;
+              addProd.latest = this.form.get('latest')?.value;
+              addProd.collections = this.form.get('collections')?.value;
+              addProd.viewedBy = this.form.get('viewedBy')?.value;
+              addProd.noOfViews = Number(this.form.get('noOfViews')?.value);
+              addProd.noOfSales = Number(this.form.get('noOfSales')?.value);
+              addProd.productAge = this.form.get('productAge')?.value;
+              addProd.referenceId = this.form.get('referenceId')?.value;
+              addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
+              addProd.imageArray = this.images;
+              addProd.videoArray = this.video !== undefined ? this.video : [];
+            } else {
+              addProd._id = this.productId;
+              addProd.quantity = Number(this.form.get('quantity')?.value);
+            }
+            if (this.productId) {
+              this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(data => {
+                if (data.message.includes('Successfully')) {
+                  this.isSave = false;
+                  this.snackbar.openFromComponent(SnackbarComponent, {
+                    data: data.message,
+                  });
+                  this.router.navigate(['/inventory/list'])
+                }
+              }, (error) => {
+                if (error) {
+                  this.isSave = false;
+                  this.snackbar.openFromComponent(SnackbarComponent, {
+                    data: error.message,
+                  });
+                  // this.form.reset();
+                }
+              })
+            } else {
+              this.api.apiFormDataPostCall(addProd, 'inventory/createInventoryProduct').subscribe(data => {
+                if (data.message.includes('Successfully')) {
+                  this.snackbar.openFromComponent(SnackbarComponent, {
+                    data: data.message,
+                  });
+                  this.router.navigate(['/inventory/list'])
+                } else {
+                  this.snackbar.openFromComponent(SnackbarComponent, {
+                    data: data.message,
+                  });
+                }
+              }, (error) => {
+                if (error) {
+                  this.snackbar.openFromComponent(SnackbarComponent, {
+                    data: error.message,
+                  });
+                  // this.form.reset();
+                }
+              })
+            }
+          } else {
+            addProd._id = this.productId ? this.productId : null
             addProd.superAdminId = localStorage.getItem('superAdminId');
-            addProd.storeId = localStorage.getItem('storeId');
-            addProd.productName = this.productId === null ? this.form.get('productName')?.value.productName : this.form.get('productName')?.value;
+            addProd.productName = this.form.get('productName')?.value;
             addProd.discountPrice = this.form.get('discountPrice')?.value;
             addProd.actualPrice = this.form.get('actualPrice')?.value;
             addProd.description = this.form.get('description')?.value;
             addProd.category = this.form.get('category')?.value;
-            addProd.quantity = Number(this.form.get('quantity')?.value);
-            addProd.brand = this.form.get('brand')?.value;
             addProd.gender = this.form.get('for')?.value;
+            addProd.brand = this.form.get('brand')?.value;
             addProd.formulation = this.form.get('formulation')?.value;
             addProd.avgCustomerRating = this.form.get('avgCustomerRating')?.value;
             addProd.gift = this.form.get('gift')?.value;
@@ -387,50 +463,185 @@ export class AddProductComponent implements OnInit {
             addProd.productAge = this.form.get('productAge')?.value;
             addProd.referenceId = this.form.get('referenceId')?.value;
             addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
-            addProd.imageArray = this.images;
-            addProd.videoArray = this.video !== undefined ? this.video : [];
-          } else {
-            addProd._id = this.productId;
-            addProd.quantity = Number(this.form.get('quantity')?.value);
-          }
-          if (this.productId) {
-            this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(data => {
-              if (data.message.includes('Successfully')) {
-                this.isSave = false;
-                this.snackbar.openFromComponent(SnackbarComponent, {
-                  data: data.message,
-                });
-                this.router.navigate(['/inventory/list'])
-              }
-            }, (error) => {
-              if (error) {
-                this.isSave = false;
-                this.snackbar.openFromComponent(SnackbarComponent, {
-                  data: error.message,
-                });
-                // this.form.reset();
-              }
-            })
-          } else {
-            this.api.apiFormDataPostCall(addProd, 'inventory/createInventoryProduct').subscribe(data => {
-              if (data.message.includes('Successfully')) {
-                this.snackbar.openFromComponent(SnackbarComponent, {
-                  data: data.message,
-                });
-                this.router.navigate(['/inventory/list'])
-              }else{
-                this.snackbar.openFromComponent(SnackbarComponent, {
-                  data: data.message,
-                });
-              }
-            }, (error) => {
-              if (error) {
-                this.snackbar.openFromComponent(SnackbarComponent, {
-                  data: error.message,
-                });
-                // this.form.reset();
-              }
-            })
+            if (data.data.imageArray.length > 0) {
+              addProd.imageArray = data.data.imageArray ? data.data.imageArray : [];
+            } else {
+              addProd.imageArray = this.images;
+            }
+            if (data.data.videoArray > 0) {
+              addProd.videoArray = data.data.videoArray ? data.data.videoArray : [];
+            } else {
+              addProd.videoArray = (this.video !== undefined) ? this.video : [];
+            }
+            if (this.productId) {
+              this.api.apiPutCall(addProd, 'Product/updateProduct').subscribe(data => {
+                if (data.message.includes('Successfully')) {
+                  this.isSave = false;
+                  if (this.productId === null) {
+                    addProd.productId = this.productId ? this.productId : data.data._id;
+                    addProd.superAdminId = localStorage.getItem('superAdminId');
+                    addProd.storeId = localStorage.getItem('superAdminId');;
+                    addProd.productName = this.form.get('productName')?.value;
+                    addProd.discountPrice = Number(this.form.get('discountPrice')?.value);
+                    addProd.actualPrice = Number(this.form.get('actualPrice')?.value);
+                    addProd.description = this.form.get('description')?.value;
+                    addProd.category = this.form.get('category')?.value;
+                    addProd.quantity = Number(this.form.get('quantity')?.value);
+                    addProd.brand = this.form.get('brand')?.value;
+                    addProd.gender = this.form.get('for')?.value;
+                    addProd.formulation = this.form.get('formulation')?.value;
+                    addProd.avgCustomerRating = this.form.get('avgCustomerRating')?.value;
+                    addProd.gift = this.form.get('gift')?.value;
+                    addProd.personalised = this.form.get('personalised')?.value;
+                    addProd.latest = this.form.get('latest')?.value;
+                    addProd.collections = this.form.get('collections')?.value;
+                    addProd.viewedBy = this.form.get('viewedBy')?.value;
+                    addProd.noOfViews = Number(this.form.get('noOfViews')?.value);
+                    addProd.noOfSales = Number(this.form.get('noOfSales')?.value);
+                    addProd.productAge = this.form.get('productAge')?.value;
+                    addProd.referenceId = this.form.get('referenceId')?.value;
+                    addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
+                    addProd.imageArray = this.images;
+                    addProd.videoArray = this.video !== undefined ? this.video : [];
+                  } else {
+                    addProd._id = this.productId;
+                    addProd.quantity = Number(this.form.get('quantity')?.value);
+                  }
+                  if (this.productId) {
+                    this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(data => {
+                      if (data.message.includes('Successfully')) {
+                        this.isSave = false;
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: data.message,
+                        });
+                        this.router.navigate(['/inventory/list'])
+                      }
+                    }, (error) => {
+                      if (error) {
+                        this.isSave = false;
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: error.message,
+                        });
+                        // this.form.reset();
+                      }
+                    })
+                  } else {
+                    this.api.apiFormDataPostCall(addProd, 'inventory/createInventoryProduct').subscribe(data => {
+                      if (data.message.includes('Successfully')) {
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: data.message,
+                        });
+                        this.router.navigate(['/inventory/list'])
+                      } else {
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: data.message,
+                        });
+                      }
+                    }, (error) => {
+                      if (error) {
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: error.message,
+                        });
+                        // this.form.reset();
+                      }
+                    })
+                  }
+                } else {
+                  this.snackbar.openFromComponent(SnackbarComponent, {
+                    data: 'Failed to update Product',
+                  });
+                  this.isSave = false;
+                }
+              }, (error) => {
+                if (error) {
+                  this.isSave = false;
+                  // this.form.reset();
+                }
+              })
+            } else {
+              this.api.apiFormDataPostCall(addProd, 'product/createProduct').subscribe(data => {
+                if (data.message.includes('Successfully')) {
+                  if (this.productId === null) {
+                    addProd.productId = this.productId ? this.productId : data.data._id;
+                    addProd.superAdminId = localStorage.getItem('superAdminId');
+                    addProd.storeId = localStorage.getItem('superAdminId');
+                    addProd.productName = this.form.get('productName')?.value;
+                    addProd.discountPrice = Number(this.form.get('discountPrice')?.value);
+                    addProd.actualPrice = Number(this.form.get('actualPrice')?.value);
+                    addProd.description = this.form.get('description')?.value;
+                    addProd.category = this.form.get('category')?.value;
+                    addProd.quantity = Number(this.form.get('quantity')?.value);
+                    addProd.brand = this.form.get('brand')?.value;
+                    addProd.gender = this.form.get('for')?.value;
+                    addProd.formulation = this.form.get('formulation')?.value;
+                    addProd.avgCustomerRating = this.form.get('avgCustomerRating')?.value;
+                    addProd.gift = this.form.get('gift')?.value;
+                    addProd.personalised = this.form.get('personalised')?.value;
+                    addProd.latest = this.form.get('latest')?.value;
+                    addProd.collections = this.form.get('collections')?.value;
+                    addProd.viewedBy = this.form.get('viewedBy')?.value;
+                    addProd.noOfViews = Number(this.form.get('noOfViews')?.value);
+                    addProd.noOfSales = Number(this.form.get('noOfSales')?.value);
+                    addProd.productAge = this.form.get('productAge')?.value;
+                    addProd.referenceId = this.form.get('referenceId')?.value;
+                    addProd.barcode = this.productId ? this.productDetails.barcode : this.result;
+                    addProd.imageArray = this.images;
+                    addProd.videoArray = this.video !== undefined ? this.video : [];
+                  } else {
+                    addProd._id = this.productId;
+                    addProd.quantity = Number(this.form.get('quantity')?.value);
+                  }
+                  if (this.productId) {
+                    this.api.apiPutCall(addProd, 'inventory/updateInventoryProduct').subscribe(data => {
+                      if (data.message.includes('Successfully')) {
+                        this.isSave = false;
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: data.message,
+                        });
+                        this.router.navigate(['/inventory/list'])
+                      }
+                    }, (error) => {
+                      if (error) {
+                        this.isSave = false;
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: error.message,
+                        });
+                        // this.form.reset();
+                      }
+                    })
+                  } else {
+                    this.api.apiFormDataPostCall(addProd, 'inventory/createInventoryProduct').subscribe(data => {
+                      if (data.message.includes('Successfully')) {
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: data.message,
+                        });
+                        this.router.navigate(['/inventory/list'])
+                      } else {
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: data.message,
+                        });
+                      }
+                    }, (error) => {
+                      if (error) {
+                        this.snackbar.openFromComponent(SnackbarComponent, {
+                          data: error.message,
+                        });
+                        // this.form.reset();
+                      }
+                    })
+                  }
+                } else {
+                  this.snackbar.openFromComponent(SnackbarComponent, {
+                    data: 'Failed to save Product',
+                  });
+                  this.isSave = false;
+                }
+              }, (error) => {
+                if (error) {
+                  // this.form.reset();
+                }
+              })
+            }
           }
         }
       })

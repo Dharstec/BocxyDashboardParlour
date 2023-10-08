@@ -14,7 +14,7 @@ import { SnackbarComponent } from 'src/app/shared-module/snackbar/snackbar.compo
 })
 export class ProductListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
-  columnsToDisplay = ['id', 'category', 'Formulation', 'name', 'action'];
+  columnsToDisplay = ['id', 'category', 'Formulation', 'name'];
 
   catagoryList = [
     "Haircare products",
@@ -30,7 +30,7 @@ export class ProductListComponent implements OnInit {
     "Stick",
     "Cream",
     "Balm",
-    "Gel"  
+    "Gel"
   ]
   inStock = [
     "Less than 10",
@@ -43,28 +43,36 @@ export class ProductListComponent implements OnInit {
   filteredData: any[];
   inventoryList: any;
   originalData: any[];
-  noData=false;
+  noData = false;
+  showAddProduct = false;
 
-  constructor(private api: ApiService,public dialog: MatDialog, private snackbar: MatSnackBar, private router: Router) { }
+  constructor(private api: ApiService, public dialog: MatDialog, private snackbar: MatSnackBar, private router: Router) {
+    if (localStorage.getItem('role') === 'SUPER_ADMIN') {
+      this.showAddProduct = true;
+      this.columnsToDisplay.push('action')
+    } else {
+      this.showAddProduct = false;
+    }
+  }
 
   ngOnInit(): void {
     this.getProductList();
   }
 
-  edit(type,id) {
-    this.router.navigate(['/product/'+type, id]);
+  edit(type, id) {
+    this.router.navigate(['/product/' + type, id]);
   }
 
   getProductList(): void {
-    this.api.apiGetCall('product/getProduct'+'/'+localStorage.getItem('superAdminId')).subscribe((data) => {
+    this.api.apiGetCall('product/getProduct' + '/' + localStorage.getItem('superAdminId')).subscribe((data) => {
       this.inventoryList = data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
-      if(!data.data?.length){
-        this.noData=true;
+      if (!data.data?.length) {
+        this.noData = true;
       }
     })
-  } 
-  
+  }
+
   delete(id: string): void {
     const dialog = this.dialog.open(ConfirmDialogComponent, {
       width: '250px',
@@ -92,22 +100,22 @@ export class ProductListComponent implements OnInit {
   }
 
   applyTypeFilter() {
-  if(this.selectedColourValue?.length || this.selectedValue?.length){
-    this.filteredData = this.dataSource.data.filter(item => {
-      // Check if the item's category is included in the selectedValue array
-      if (this.selectedValue?.length && !this.selectedValue?.includes(item.category[0])) {
-        return false;
-      }
-      // Check if the item's colour is included in the selectedColourValue array
-      if (this.selectedColourValue?.length && !this.selectedColourValue?.includes(item.colour[0])) {
-        return false;
-      }
-      // If the item passed both filters, return true
-      return true;
-    });
-  }else{
-    this.filteredData=[];
-    this.dataSource.data=this.inventoryList;
+    if (this.selectedColourValue?.length || this.selectedValue?.length) {
+      this.filteredData = this.dataSource.data.filter(item => {
+        // Check if the item's category is included in the selectedValue array
+        if (this.selectedValue?.length && !this.selectedValue?.includes(item.category[0])) {
+          return false;
+        }
+        // Check if the item's colour is included in the selectedColourValue array
+        if (this.selectedColourValue?.length && !this.selectedColourValue?.includes(item.colour[0])) {
+          return false;
+        }
+        // If the item passed both filters, return true
+        return true;
+      });
+    } else {
+      this.filteredData = [];
+      this.dataSource.data = this.inventoryList;
+    }
   }
-}
 }

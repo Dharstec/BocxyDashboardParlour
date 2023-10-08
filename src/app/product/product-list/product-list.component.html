@@ -28,14 +28,15 @@
             </div>
 
             <div class="add-coupon col-md-3">
-                <a routerLink="/product/add">+&nbsp;{{'Add new product' | uppercase}}</a>
+                <a *ngIf="showAddProduct" routerLink="/product/add">+&nbsp;{{'Add new product' | uppercase}}</a>
             </div>
 
         </div>
 
     </div>
     <div class="card">
-        <table mat-table matSort [dataSource]="filteredData?.length? filteredData:dataSource">
+        <div class="table-container">
+        <table mat-table class="table" matSort [dataSource]="filteredData?.length? filteredData:dataSource">
             <ng-container matColumnDef="id">
                 <th class="first" mat-header-cell *matHeaderCellDef>
                     <span>ID</span>
@@ -78,7 +79,7 @@
                 <th class="last" mat-header-cell *matHeaderCellDef>
                     <span>Action</span>
                 </th>
-                <td mat-cell *matCellDef="let request">
+                <td mat-cell *matCellDef="let request" style="position: sticky;">
                     <div class="displayicon">
                         <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Edit" (click)="edit('edit',request._id)">edit</mat-icon>
                         <mat-icon style="font-size: 18px;cursor:pointer" matTooltip="Delete" (click)="delete(request._id)">delete</mat-icon>
@@ -96,6 +97,7 @@
         </div>
         <div class="no_data" *ngIf="!dataSource.data?.length  && noData">
             <p>{{'No data available'}}</p>
+         </div>
          </div>
     </div>
 </div>

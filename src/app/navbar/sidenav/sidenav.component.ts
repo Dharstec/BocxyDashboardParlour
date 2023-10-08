@@ -27,7 +27,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.screenWidth = window.innerWidth;
-    let finalMenu = this.navData.filter(a => a.role_flag === 'BOTH' || a.role_flag === localStorage.getItem('role'))
+    let finalMenu = this.navData.filter(a =>  a.role_flag.includes(localStorage.getItem('role')));
     this.navData = finalMenu;
   }
   toggleCollapse(): void {

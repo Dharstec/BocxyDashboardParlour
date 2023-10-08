@@ -35,7 +35,8 @@
 
     </div>
     <div class="card">
-        <table mat-table matSort [dataSource]="filteredData?.length? filteredData:dataSource">
+        <div class="table-container">
+        <table class="table" mat-table matSort [dataSource]="filteredData?.length? filteredData:dataSource">
             <ng-container matColumnDef="id">
                 <th class="first" mat-header-cell *matHeaderCellDef>
                     <span>ID</span>
@@ -97,5 +98,6 @@
         <div class="no_data" *ngIf="!dataSource.data?.length  && noData">
             <p>{{'No data available'}}</p>
          </div>
+        </div>
     </div>
 </div>

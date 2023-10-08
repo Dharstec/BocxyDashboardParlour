@@ -22,22 +22,22 @@
                 <div *ngFor="let image of images">
                   <img class="sub-images" [src]="image" style="width:'50px';height:50px" alt="sub-img"
                     (click)="selectImage(image)" />
-                  <i class="fa fa-times-circle" aria-hidden="true" style="position: relative;
+                  <i class="fa fa-times-circle"  aria-hidden="true" style="position: relative;
                       right:3px;
-                      bottom: 2.7rem;" *ngIf="!view" (click)="removeImage(images.indexOf(image))"></i>
+                      bottom: 2.7rem;" *ngIf="!view" (click)="disable ? '' :removeImage(images.indexOf(image))"></i>
                 </div>
                 <span *ngIf="video">
                   <video id="main-video" style="width:'52px';height:50px" [src]="video"
                     (click)="selectVideo(video)"></video><i class="fa fa-times-circle" *ngIf="!view" aria-hidden="true" style="position: relative;
                      right:3px;
-                     bottom: 2.7rem;" (click)="removeVideo()"></i></span>
+                     bottom: 2.7rem;" (click)="disable ? '' :removeVideo()"></i></span>
               </div>
               <div id="img-catalogue">
                 <!-- *ngIf="images.length < 4 && uploadEnabled" -->
                 <div class="image-upload" *ngIf="images?.length < 4">
                   <label for="image-upload-input">
                    <span class="cursor-pointer"><i class="fa fa-upload fa-2x" ></i></span> 
-                    <input disabled type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
+                    <input [disabled]="disable" type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
                       id="image-upload-input" style="display:none">
                   </label>
                 </div>
@@ -50,18 +50,17 @@
           <div class="row">
             <div class="section-b col-md-12" >
               <mat-label>Heading<span class="required">*</span></mat-label>
-              <mat-select *ngIf="productId === null"  style="margin-left: -4px !important;" formControlName="productName" [(ngModel)]="selectedFood" (ngModelChange)="onFoodSelection()">
+              <mat-select *ngIf="disable === true && productId === null"  style="margin-left: -4px !important;" formControlName="productName" [(ngModel)]="selectedFood" (ngModelChange)="onFoodSelection()">
                 <mat-option  *ngFor="let row of productList" [value]="row">{{row.productName}}</mat-option>
               </mat-select>
-              <input [disabled]="edit || view" class="input" *ngIf="productId"  style="margin-left: -4px !important;" formControlName="productName"
+              <input *ngIf="disable === false || productId " [disabled]="((edit || view) && disable)" class="input"  style="margin-left: -4px !important;" formControlName="productName"
               matInput  required>
             </div>
           </div>
-
           <div class="row">
             <div class="section-b col">
               <mat-label>Discount Price<span class="required">*</span></mat-label>
-              <input disabled class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" name="Search"
+              <input [disabled]='disable' class="input" oninput="this.value=this.value.replace(/[^0-9]/g,'');" type="text" name="Search"
                 matInput formControlName="discountPrice" maxlength="50" required>
               <mat-hint class="hintalign">{{form.get('discountPrice').value?.length || 0}}/50
               </mat-hint>
@@ -69,7 +68,7 @@
             </div>
             <div class="section-b col">
               <mat-label>Compared Price<span class="required">*</span></mat-label>
-              <input [disabled]="true" class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search"
+              <input [disabled]="disable" class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search"
                 matInput formControlName="actualPrice" maxlength="50" required>
               <mat-hint class="hintalign">{{form.get('actualPrice').value?.length || 0}}/50
               </mat-hint>
@@ -79,7 +78,7 @@
           <div class="row">
             <div class="section-b col">
               <mat-label>Description <span class="required">*</span></mat-label>
-              <textarea  [disabled]="true" class="input" matInput rows="3" cols="3" formControlName="description"
+              <textarea  [disabled]="disable" class="input" matInput rows="3" cols="3" formControlName="description"
                 maxlength="250"></textarea>
               <mat-hint class="hintalign">{{form.get('description').value?.length || 0}}/250
               </mat-hint>
@@ -92,7 +91,7 @@
       <div class="row">
         <div class="section-b col">
           <mat-label>ID<span class="required">*</span></mat-label>
-          <input [disabled]="true" class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search" matInput
+          <input [disabled]="disable" class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search" matInput
             formControlName="referenceId" maxlength="50" required>
           <mat-hint class="hintalign">{{form.get('referenceId').value?.length || 0}}/50
           </mat-hint>
@@ -100,7 +99,7 @@
         </div>
         <div class="section-b col">
           <mat-label>Quantity<span class="required">*</span></mat-label>
-          <input class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search" matInput
+          <input [disabled]="disable" class="input" type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="Search" matInput
             formControlName="quantity" maxlength="50" required>
           <mat-hint class="hintalign">{{form.get('quantity').value?.length || 0}}/50
           </mat-hint>
@@ -108,7 +107,7 @@
         </div>
         <div class="section-b col">
           <mat-label>Gender <span class="required">*</span></mat-label>
-          <mat-select  [disabled]="true" formControlName="for" multiple>
+          <mat-select  [disabled]="disable" formControlName="for" multiple>
             <mat-option *ngFor="let row of types" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('for')?.errors?.required">{{'Gender is required'}}
@@ -116,7 +115,7 @@
         </div>
         <div class="section-b col">
           <mat-label>Category<span class="required">*</span></mat-label>
-          <mat-select [disabled]="true" formControlName="category" multiple>
+          <mat-select [disabled]="disable" formControlName="category" multiple>
             <mat-option *ngFor="let row of category" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('category')?.errors?.required">{{'Category is required'}}</mat-error>
@@ -125,28 +124,28 @@
       <div class="row">
         <div class="section-b col">
           <mat-label>Brand<span class="required">*</span></mat-label>
-          <mat-select  [disabled]="true" formControlName="brand" multiple>
+          <mat-select  [disabled]="disable" formControlName="brand" multiple>
             <mat-option *ngFor="let row of brand" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('brand')?.errors?.required">{{'Brand is required'}}</mat-error>
         </div>
         <div class="section-b col">
           <mat-label>Formulation<span class="required">*</span></mat-label>
-          <mat-select  [disabled]="true" formControlName="formulation" multiple>
+          <mat-select [disabled]="disable" formControlName="formulation" multiple>
             <mat-option *ngFor="let row of formulation" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('formulation')?.errors?.required">{{'Formulation is required'}}</mat-error>
          </div>
         <div class="section-b col">
           <mat-label>Average customer rating<span class="required">*</span></mat-label>
-          <mat-select [disabled]="true" formControlName="avgCustomerRating" multiple>
+          <mat-select [disabled]="disable" formControlName="avgCustomerRating" multiple>
             <mat-option *ngFor="let row of avgCustomerRating" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('avgCustomerRating')?.errors?.required">{{'Rating is required'}}</mat-error>
          </div>
          <div class="section-b col">
           <mat-label>Collections<span class="required">*</span></mat-label>
-          <mat-select [disabled]="true" formControlName="collections" multiple>
+          <mat-select [disabled]="disable" formControlName="collections" multiple>
             <mat-option *ngFor="let row of collections" [value]="row">{{row}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && form.get('collections')?.errors?.required">{{'Collection is required'}}</mat-error>
@@ -154,13 +153,13 @@
         </div>
         <div class="row displayflx">
           <div class="col-4">
-            <mat-slide-toggle [disabled]="true" formControlName="gift">Gift</mat-slide-toggle>
+            <mat-slide-toggle [disabled]="disable" formControlName="gift">Gift</mat-slide-toggle>
           </div>
           <div class="col-4">
-            <mat-slide-toggle [disabled]="true" formControlName="personalised">Personalised</mat-slide-toggle>
+            <mat-slide-toggle [disabled]="disable" formControlName="personalised">Personalised</mat-slide-toggle>
           </div>
           <div class="col-4">
-            <mat-slide-toggle [disabled]="true" formControlName="latest">Latest</mat-slide-toggle>
+            <mat-slide-toggle [disabled]="disable" formControlName="latest">Latest</mat-slide-toggle>
           </div>
          
         </div>

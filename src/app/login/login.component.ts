@@ -42,14 +42,22 @@ export class LoginComponent implements OnInit {
             data: 'User loggedIn Successfully',
           });
           if (data.data['role_flag'] === 'SUPER_ADMIN') {
-            localStorage.setItem('superAdminId', data.data['_id'])
-          } else {
+            localStorage.setItem('superAdminId', data.data['_id']);
+            this.router.navigate(['/analytic'])
+          } else if(data.data['role_flag'] === 'STORE_ADMIN') {
             localStorage.setItem('superAdminId', data.data['super_admin_id'])
             localStorage.setItem('storeId',data.data['_id'])
+            this.router.navigate(['/analytic'])
+          }else if(data.data['role_flag'] === 'BOCXY_ADMIN'){
+            localStorage.setItem('superAdminId', data.data['_id']);
+            this.router.navigate(['/customers/list'])
+          }else {
+            localStorage.setItem('superAdminId', data.data['_id']);
+            localStorage.setItem('storeId',data.data['_id'])
+            this.router.navigate(['/analytic'])
           }
           localStorage.setItem('role', data.data['role_flag']);
           localStorage.setItem('details', JSON.stringify(data.data));
-          this.router.navigate(['/analytic'])
         } else {
           this.snackbar.openFromComponent(SnackbarComponent, {
             data: 'Failed to Login',

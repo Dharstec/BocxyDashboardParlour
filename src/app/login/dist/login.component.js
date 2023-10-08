@@ -44,14 +44,24 @@ var LoginComponent = /** @class */ (function () {
                     });
                     if (data.data['role_flag'] === 'SUPER_ADMIN') {
                         localStorage.setItem('superAdminId', data.data['_id']);
+                        _this.router.navigate(['/analytic']);
                     }
-                    else {
+                    else if (data.data['role_flag'] === 'STORE_ADMIN') {
                         localStorage.setItem('superAdminId', data.data['super_admin_id']);
                         localStorage.setItem('storeId', data.data['_id']);
+                        _this.router.navigate(['/analytic']);
+                    }
+                    else if (data.data['role_flag'] === 'BOCXY_ADMIN') {
+                        localStorage.setItem('superAdminId', data.data['_id']);
+                        _this.router.navigate(['/customers/list']);
+                    }
+                    else {
+                        localStorage.setItem('superAdminId', data.data['_id']);
+                        localStorage.setItem('storeId', data.data['_id']);
+                        _this.router.navigate(['/analytic']);
                     }
                     localStorage.setItem('role', data.data['role_flag']);
                     localStorage.setItem('details', JSON.stringify(data.data));
-                    _this.router.navigate(['/analytic']);
                 }
                 else {
                     _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
