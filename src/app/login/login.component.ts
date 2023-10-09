@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   submitted = false;
   edit = false;
+  hide = true;
 
   constructor(private fb: FormBuilder, private router: Router, private api: ApiService, private snackbar: MatSnackBar) { }
 

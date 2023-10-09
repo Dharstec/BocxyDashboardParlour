@@ -1,11 +1,9 @@
-<div class="login-container">
+<!-- <div class="login-container">
     <div class="login-image">
-      <!-- Right column content (random image) -->
-      <img src="assets/1.png" width="550" height="450"
+      <img src="assets/1.png" width="150" height="120"
         alt="Random Image" />
     </div>
     <div class="login-form">
-      <!-- Left column content (login form) -->
       <h2>Welcome back!</h2>
       <form [formGroup]="form">
         <div class="section-b col-md-12">
@@ -27,4 +25,83 @@
         </div>
       </form>
     </div>
+  </div> -->
+<div class="login-container">
+  <div class="left-column">
+    <!-- Left column content (image and content in the middle) -->
+    <div class="left-content">
+      <div style="display: flex;gap: 28rem;">
+        <img style="display: flex;" src="assets/1.png" width="150" height="120" alt="Random Image" />
+        <mat-icon style="color: rgb(199 180 2 / 95%);" class="rotate">check_box_outline_blank</mat-icon>
+      </div>
+      <h2>The Easiest way to manage</h2>
+      <h2>your salon and spa</h2>
+      <p style="margin: 10px 0px 10px 0px;">
+        <span>
+          <p style="margin: 0;">Bocxy is comprehensive salon management software designed</p>
+          <p>to steamline and automate your salon.</p>
+        </span>
+      </p>
+      <div style="display: flex;width: 100%;gap: 19rem;">
+        <div>
+          <p><mat-icon class="taskIco">task_alt</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Get 24/7 online
+            Booking.
+          </p>
+          <p><mat-icon class="taskIco">task_alt</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maintain Customer
+            records.</p>
+          <p><mat-icon class="taskIco">task_alt</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Send automated
+            notification.</p>
+          <p><mat-icon class="taskIco">task_alt</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run Marketing
+            messages.
+          </p>
+          <p><mat-icon class="taskIco">task_alt</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generate Analytics.
+          </p>
+          <p><mat-icon class="taskIco">task_alt</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maintain Orders List
+          </p>
+          <p><mat-icon class="taskIco">task_alt</mat-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Many more advanced
+            features.</p>
+        </div>
+        <div style="display: flex;flex-direction: column;gap: 10rem;">
+          <!-- <mat-icon>star_rate</mat-icon> -->
+          <mat-icon style="color: red;" class="rotate">change_history</mat-icon>
+          <mat-icon style="color: rgb(0, 198, 213);" class="rotate material-icons-outlined">circle</mat-icon>
+        </div>
+      </div>
+      <div style="display: flex;gap:30rem;margin-top: 3rem;">
+        <div class="blob"></div>
+        <div style="margin-top: 15px;">
+          <mat-icon style="color: rgb(0, 190, 7);" class="rotate material-icons-outlined">star_rate</mat-icon>
+
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="right-column">
+    <div class="login-form">
+      <h2 class="logHead">Login into your account</h2>
+      <form [formGroup]="form">
+        <div class="section-b col-md-12">
+          <mat-label>Email <span class="required">*</span></mat-label>
+          <input class="input" type="email" name="email" matInput formControlName="email" maxlength="50" required>
+          <mat-error *ngIf="submitted && form.get('email')?.errors?.required">
+            {{'Email is required'}}</mat-error>
+        </div>
+        <div class="section-b col-md-12">
+          <mat-label>Password <span class="required">*</span></mat-label>
+          <input class="input" [type]="hide ? 'password' : 'text'" name="password" matInput formControlName="password"
+            maxlength="50" required>
+          <mat-icon
+            [class]="(submitted && form.get('email')?.errors?.required || submitted && form.get('password')?.errors?.required) ? 'pass1' :'pass'"
+            matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="submitted && form.get('password')?.errors?.required">
+            {{'Password is required'}}</mat-error>
+        </div>
+        <div class="disflex">
+          <button class="disBut" mat-flat-button color="primary" type="submit" (click)="login()">{{'Login' |
+            uppercase}}</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

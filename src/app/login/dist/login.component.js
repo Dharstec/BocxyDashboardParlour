@@ -18,6 +18,7 @@ var LoginComponent = /** @class */ (function () {
         this.snackbar = snackbar;
         this.submitted = false;
         this.edit = false;
+        this.hide = true;
     }
     LoginComponent.prototype.ngOnInit = function () {
         this.form = this.fb.group({
