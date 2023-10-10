@@ -86,52 +86,54 @@ var LoginComponent = /** @class */ (function () {
     });
     LoginComponent.prototype.login = function () {
         var _this = this;
-        // if (this.form.invalid) {
-        //   this.submitted = true;
-        //   return;
-        // } else {
-        this.submitted = false;
-        var payload = {
-            email: this.form.controls['email'].value,
-            password: this.form.controls['password'].value
-        };
-        this.api.apiPostCall(payload, 'admin/login').subscribe(function (data) {
-            if (data.token) {
-                _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
-                    data: 'User loggedIn Successfully'
-                });
-                if (data.data['role_flag'] === 'SUPER_ADMIN') {
-                    localStorage.setItem('superAdminId', data.data['_id']);
-                    _this.router.navigate(['/analytic']);
-                }
-                else if (data.data['role_flag'] === 'STORE_ADMIN') {
-                    localStorage.setItem('superAdminId', data.data['super_admin_id']);
-                    localStorage.setItem('storeId', data.data['_id']);
-                    _this.router.navigate(['/analytic']);
-                }
-                else if (data.data['role_flag'] === 'BOCXY_ADMIN') {
-                    localStorage.setItem('superAdminId', data.data['_id']);
-                    _this.router.navigate(['/customers/list']);
+        if (this.form.invalid) {
+            this.submitted = true;
+            return;
+        }
+        else {
+            this.submitted = false;
+            var payload = {
+                email: this.form.controls['email'].value,
+                password: this.form.controls['password'].value
+            };
+            this.api.apiPostCall(payload, 'admin/login').subscribe(function (data) {
+                if (data.token) {
+                    _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
+                        data: 'User loggedIn Successfully'
+                    });
+                    if (data.data['role_flag'] === 'SUPER_ADMIN') {
+                        localStorage.setItem('superAdminId', data.data['_id']);
+                        _this.router.navigate(['/analytic']);
+                    }
+                    else if (data.data['role_flag'] === 'STORE_ADMIN') {
+                        localStorage.setItem('superAdminId', data.data['super_admin_id']);
+                        localStorage.setItem('storeId', data.data['_id']);
+                        _this.router.navigate(['/analytic']);
+                    }
+                    else if (data.data['role_flag'] === 'BOCXY_ADMIN') {
+                        localStorage.setItem('superAdminId', data.data['_id']);
+                        _this.router.navigate(['/customers/list']);
+                    }
+                    else {
+                        localStorage.setItem('superAdminId', data.data['_id']);
+                        localStorage.setItem('storeId', data.data['_id']);
+                        _this.router.navigate(['/analytic']);
+                    }
+                    localStorage.setItem('role', data.data['role_flag']);
+                    localStorage.setItem('details', JSON.stringify(data.data));
                 }
                 else {
-                    localStorage.setItem('superAdminId', data.data['_id']);
-                    localStorage.setItem('storeId', data.data['_id']);
-                    _this.router.navigate(['/analytic']);
+                    _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
+                        data: 'Failed to Login'
+                    });
                 }
-                localStorage.setItem('role', data.data['role_flag']);
-                localStorage.setItem('details', JSON.stringify(data.data));
-            }
-            else {
+            }, function (error) {
+                console.log(error);
                 _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
-                    data: 'Failed to Login'
+                    data: error.message
                 });
-            }
-        }, function (error) {
-            console.log(error);
-            _this.snackbar.openFromComponent(snackbar_component_1.SnackbarComponent, {
-                data: error.message
             });
-        });
+        }
     };
     LoginComponent = __decorate([
         core_1.Component({

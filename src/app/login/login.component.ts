@@ -68,10 +68,10 @@ export class LoginComponent implements OnInit {
 
 
   login() {
-    // if (this.form.invalid) {
-    //   this.submitted = true;
-    //   return;
-    // } else {
+    if (this.form.invalid) {
+      this.submitted = true;
+      return;
+    } else {
       this.submitted = false;
       const payload = {
         email: this.form.controls['email'].value,
@@ -112,5 +112,5 @@ export class LoginComponent implements OnInit {
         });
       })
     }
-  // }
+  }
 }
