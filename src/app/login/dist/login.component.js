@@ -26,7 +26,7 @@ var LoginComponent = /** @class */ (function () {
             email: ['', forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])],
             password: ['', forms_1.Validators.compose([
                     forms_1.Validators.required,
-                    forms_1.Validators.minLength(8),
+                    forms_1.Validators.minLength(5),
                     password_Validators_1.PasswordValidators.patternValidator(new RegExp("(?=.*[0-9])"), {
                         requiresDigit: true
                     }),
