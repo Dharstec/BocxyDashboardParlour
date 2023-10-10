@@ -164,4 +164,12 @@ mat-label .required {
     border-radius: 40% 60%;
   }
 }
+.text-success {
+  color: green;
+}
+
+.text-danger {
+  color: red;
+}
+
 /* Rest of your CSS styles remain unchanged */

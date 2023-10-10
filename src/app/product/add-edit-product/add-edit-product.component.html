@@ -37,7 +37,7 @@
                   <div class="image-upload" *ngIf="images?.length < 4">
                     <label for="image-upload-input">
                      <span class="cursor-pointer"><i class="fa fa-upload fa-2x" ></i></span> 
-                      <input [disabled]="view" type="file" accept="image/*,video/*"  multiple (change)="onFileChange($event)" #imageUploadInput
+                      <input [disabled]="view" type="file" accept=".jpg, .jpeg, .png, .mp4"  multiple (change)="onFileChange($event)" #imageUploadInput
                         id="image-upload-input" style="display:none">
                     </label>
                   </div>
@@ -79,7 +79,7 @@
             <div class="row">
               <div class="section-b col">
                 <mat-label>Description <span class="required">*</span></mat-label>
-                <textarea class="input" matInput rows="3" cols="3" formControlName="description"
+                <textarea style="font-family: unset;" class="input" matInput rows="3" cols="3" formControlName="description"
                   maxlength="1000"></textarea>
                 <mat-hint class="hintalign">{{form.get('description').value?.length || 0}}/1000
                 </mat-hint>

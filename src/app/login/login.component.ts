@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { SnackbarComponent } from '../shared-module/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PasswordValidators } from './password-Validators';
 
 
 @Component({
@@ -21,16 +22,56 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['',Validators.compose([Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])],
+      password: ['',  Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        PasswordValidators.patternValidator(new RegExp("(?=.*[0-9])"), {
+          requiresDigit: true
+        }),
+        PasswordValidators.patternValidator(new RegExp("(?=.*[A-Z])"), {
+          requiresUppercase: true
+        }),
+        PasswordValidators.patternValidator(new RegExp("(?=.*[a-z])"), {
+          requiresLowercase: true
+        }),
+        PasswordValidators.patternValidator(new RegExp("(?=.*[#$@^!%*?&])"), {
+          requiresSpecialChars: true
+        })
+      ])]
     })
   }
 
+  get requiredValid() {
+    return !this.form.controls["password"].hasError("required");
+  }
+
+  get minLengthValid() {
+    return !this.form.controls["password"].hasError("minlength");
+  }
+
+  get requiresDigitValid() {
+    return !this.form.controls["password"].hasError("requiresDigit");
+  }
+
+  get requiresUppercaseValid() {
+    return !this.form.controls["password"].hasError("requiresUppercase");
+  }
+
+  get requiresLowercaseValid() {
+    return !this.form.controls["password"].hasError("requiresLowercase");
+  }
+
+  get requiresSpecialCharsValid() {
+    return !this.form.controls["password"].hasError("requiresSpecialChars");
+  }
+
+
   login() {
-    if (this.form.invalid) {
-      this.submitted = true;
-      return;
-    } else {
+    // if (this.form.invalid) {
+    //   this.submitted = true;
+    //   return;
+    // } else {
       this.submitted = false;
       const payload = {
         email: this.form.controls['email'].value,
@@ -71,5 +112,5 @@ export class LoginComponent implements OnInit {
         });
       })
     }
-  }
+  // }
 }

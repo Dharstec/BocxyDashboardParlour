@@ -127,6 +127,7 @@ export class StoreAddEditComponent implements OnInit {
   }
 
   saveCoupons(): void {
+    
     if (this.form.invalid) {
       this.submitted = true;
       return
@@ -136,7 +137,7 @@ export class StoreAddEditComponent implements OnInit {
       store.store_name = this.form.get('store_name').value;
       store.address = this.form.get('address').value;
       store.phone_no = this.form.get('phone_no').value;
-      const ordinates = []
+      const ordinates = this.form.controls['co_ordinates'].value.split(',').map(parseFloat)
       store.co_ordinates = ordinates;
       store.email = this.form.get('email').value;
       store.role_flag = 'STORE_ADMIN';
