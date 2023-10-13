@@ -54,7 +54,7 @@ export class ProductListComponent implements OnInit {
       this.showAddProduct = false;
     }
   }
-
+ 
   ngOnInit(): void {
     this.getProductList();
   }
