@@ -17,7 +17,7 @@ export class OrderListComponent implements OnInit {
   columnsToDisplay = ['order_id','gift', 'customer_details', 'order_details','created_At', 'order_status'];
   orderStatus = [
     { label: 'Dispatch', value: 'pending' },
-    { label: 'On the way', value: 'dispatch' },
+    { label: 'On the way', value: 'dispatched' },
     { label: 'Delivered', value: 'delivered' },
   ];
   noData=false;
