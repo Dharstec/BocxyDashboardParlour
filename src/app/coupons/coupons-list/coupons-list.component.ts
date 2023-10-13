@@ -23,12 +23,12 @@ export class CouponsListComponent implements OnInit {
     "In Store",
   ];
   status = [
-   {'status':"Active",'value':true} ,
-    {'status':"Inactive",'value':false}
+    { 'status': "Active", 'value': true },
+    { 'status': "Inactive", 'value': false }
   ]
   selectedValue: string;
-  selectedStatus:string;
-  noData=false;
+  selectedStatus: string;
+  noData = false;
   couponsListData: any;
   filteredData: any[];
 
@@ -39,11 +39,13 @@ export class CouponsListComponent implements OnInit {
   }
 
   getCouponsList(): void {
-    this.api.apiGetCall('coupon/getCoupon').subscribe((data) => {
-      this.couponsListData=data.data;
+    const id = (localStorage.getItem('role') === 'SUPER_ADMIN' || localStorage.getItem('role') === 'MULTI_ADMIN') ? localStorage.getItem('superAdminId') : localStorage.getItem('storeId');
+    console.log(id)
+    this.api.apiGetCall('coupon/getCoupon/' + id).subscribe((data) => {
+      this.couponsListData = data.data;
       this.dataSource.data = data.data.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
-      if(!data.data?.length){
-        this.noData=true;
+      if (!data.data?.length) {
+        this.noData = true;
       }
     })
   }
@@ -52,7 +54,7 @@ export class CouponsListComponent implements OnInit {
       width: '500px',
       data: { headers: Object.keys(this.dataSource.data[0]), dataSource: this.dataSource.data }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.generateExcel(result);
@@ -77,7 +79,7 @@ export class CouponsListComponent implements OnInit {
     a.download = 'data.xlsx';
     a.click();
   }
-  
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -104,18 +106,18 @@ export class CouponsListComponent implements OnInit {
     })
   }
 
-  edit(type,id) {
-    this.router.navigate(['/coupon/'+type, id]);
+  edit(type, id) {
+    this.router.navigate(['/coupon/' + type, id]);
   }
 
   applyTypeFilter() {
-    if(this.selectedStatus?.length || this.selectedValue?.length){
+    if (this.selectedStatus?.length || this.selectedValue?.length) {
       this.filteredData = this.dataSource.data.filter(item => {
         // Check if the item's category is included in the selectedValue array
         if (this.selectedValue?.length && !this.selectedValue?.includes(item.type[0])) {
           return false;
         }
-        
+
         // Check if the item's colour is included in the selectedColourValue array
         if (this.selectedStatus?.length && !this.selectedStatus?.includes(item.couponStatus[0])) {
           return false;
@@ -123,10 +125,10 @@ export class CouponsListComponent implements OnInit {
         // If the item passed both filters, return true
         return true;
       });
-    }else{
-      this.filteredData=[];
-      this.dataSource.data=this.couponsListData;
+    } else {
+      this.filteredData = [];
+      this.dataSource.data = this.couponsListData;
     }
-    
-    }
+
+  }
 }

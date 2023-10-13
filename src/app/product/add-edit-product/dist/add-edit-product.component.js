@@ -128,11 +128,10 @@ var AddEditProductComponent = /** @class */ (function () {
         }
     };
     AddEditProductComponent.prototype.handleImageVideoUpload = function (file) {
-        var _this = this;
-        var reader = new FileReader();
         // if (!this.uploadEnabled) {
         //   return;
         // }
+        var _this = this;
         // if (this.images.length >= 4 && !this.video) {
         //   console.log("You can only upload four images and one video.");
         //   this.uploadEnabled = false;
@@ -141,16 +140,17 @@ var AddEditProductComponent = /** @class */ (function () {
         // if (this.images.length === 4 && this.video) {
         //   this.uploadEnabled = false;
         // }
-        if (this.allFiles && this.allFiles[0]) {
-            var numberOfFiles = this.allFiles.length;
-            for (var i = 0; i < numberOfFiles; i++) {
-                var reader_1 = new FileReader();
-                reader_1.onload = function (e) {
+        if (this.allFiles && this.allFiles.length === 1) {
+            var selectedFile = this.allFiles[0];
+            if (selectedFile.size <= 2000000) { // 2MB limit
+                var reader = new FileReader();
+                reader.onload = function (e) {
                     if (e.target.result.includes('image/')) {
-                        _this.images.push(e.target.result);
+                        _this.images = [e.target.result]; // Only the last selected image
                         _this.mainImageSrc = _this.images[0];
                     }
                     else {
+                        // Handle video upload as necessary
                         // const videoElement = document.createElement('video');
                         // videoElement.preload = 'metadata';
                         // videoElement.onloadedmetadata = () => {
@@ -167,10 +167,36 @@ var AddEditProductComponent = /** @class */ (function () {
                         // videoElement.src = URL.createObjectURL(file);
                     }
                 };
-                reader_1.readAsDataURL(this.allFiles[i]);
+                reader.readAsDataURL(selectedFile);
+            }
+            else {
+                // Handle the case where the selected image is too large
             }
         }
+        // Handle multiple file upload here
+        else if (this.allFiles && this.allFiles.length > 1) {
+            var numberOfFiles = this.allFiles.length;
+            // ...
+        }
     };
+    // handleImageVideoUpload(file: File) {
+    //   const reader = new FileReader();
+    //   if (this.allFiles && this.allFiles[0]) {
+    //     const numberOfFiles = this.allFiles.length;
+    //     for (let i = 0; i < numberOfFiles; i++) {
+    //       const reader = new FileReader();
+    //       reader.onload = (e: any) => {
+    //         if (e.target.result.includes('image/')) {
+    //           this.images.push(e.target.result);
+    //           this.mainImageSrc = this.images[0];
+    //         } else {
+    //           this.video = e.target.result;
+    //         }
+    //       }
+    //       reader.readAsDataURL(this.allFiles[i]);
+    //     }
+    //   }
+    // }
     AddEditProductComponent.prototype.selectImage = function (image) {
         this.mainImageSrc = image;
         this.videoSelect = false;

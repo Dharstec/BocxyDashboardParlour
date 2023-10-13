@@ -22,4 +22,5 @@ export class couponsList {
     _id: string;
     remaining:string;
   limit: any;
+  createdBy: any;
 }

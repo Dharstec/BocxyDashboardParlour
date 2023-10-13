@@ -36,7 +36,9 @@ var CouponsListComponent = /** @class */ (function () {
     };
     CouponsListComponent.prototype.getCouponsList = function () {
         var _this = this;
-        this.api.apiGetCall('coupon/getCoupon').subscribe(function (data) {
+        var id = (localStorage.getItem('role') === 'SUPER_ADMIN' || localStorage.getItem('role') === 'MULTI_ADMIN') ? localStorage.getItem('superAdminId') : localStorage.getItem('storeId');
+        console.log(id);
+        this.api.apiGetCall('coupon/getCoupon/' + id).subscribe(function (data) {
             var _a;
             _this.couponsListData = data.data;
             _this.dataSource.data = data.data.sort(function (a, b) { return Date.parse(b.createdAt) - Date.parse(a.createdAt); });

@@ -88,6 +88,8 @@ var CouponsAddEditComponent = /** @class */ (function () {
             CouponsAdd.totalQuantity = this.form.get('totalQuantity').value;
             CouponsAdd.limit = this.form.get('limit').value;
             CouponsAdd.validDateTill = this.form.get('validDateTill').value;
+            var id = localStorage.getItem('role') === 'SUPER_ADMIN' ? localStorage.getItem('superAdminId') : localStorage.getItem('storeId');
+            CouponsAdd.createdBy = id;
             // couponName:req.body.couponName,
             // totalQuantity:req.body.totalQuantity,
             // availedQuantity: req.body.availedQuantity,

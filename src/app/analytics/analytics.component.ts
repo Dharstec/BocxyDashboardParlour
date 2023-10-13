@@ -165,7 +165,7 @@ export class AnalyticsComponent implements OnInit, AfterViewInit {
     let chartOptionsg = {
       height: '',
       width: '',
-      bar: { groupWidth: '30%',gap:"40%" },
+      bar: { groupWidth: '35%',gap:"40%" },
       series: {
         0: {color: '#b23392' },
         1: { color: '#f0d4e6' },

@@ -37,7 +37,7 @@ export class CouponsAddEditComponent implements OnInit {
 
   getCouponDetails() {
     this.api.apiGetDetailsCall(this.couponId, 'coupon/findCoupon').subscribe(data => {
-      this.couponsDetails=data.data;
+      this.couponsDetails = data.data;
       this.form.patchValue(data.data);
       if (this.router.url.includes('view')) {
         this.form.disable();
@@ -62,10 +62,10 @@ export class CouponsAddEditComponent implements OnInit {
     })
   }
 
-  discard(){
-    if(this.couponId){
+  discard() {
+    if (this.couponId) {
       this.form.patchValue(this.couponsDetails);
-    }else{
+    } else {
       this.form.reset();
     }
     this.router.navigate(['/coupon/list'])
@@ -87,7 +87,8 @@ export class CouponsAddEditComponent implements OnInit {
       CouponsAdd.totalQuantity = this.form.get('totalQuantity').value;
       CouponsAdd.limit = this.form.get('limit').value;
       CouponsAdd.validDateTill = this.form.get('validDateTill').value;
-
+      const id=localStorage.getItem('role') === 'SUPER_ADMIN' ? localStorage.getItem('superAdminId') : localStorage.getItem('storeId');
+      CouponsAdd.createdBy = id;
       // couponName:req.body.couponName,
       // totalQuantity:req.body.totalQuantity,
       // availedQuantity: req.body.availedQuantity,

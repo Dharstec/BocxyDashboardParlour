@@ -45,7 +45,7 @@ export const navMenuBar = [
         routeLink: 'coupon/list',
         icon: 'price_change',
         label: 'Coupon',
-        role_flag:['SUPER_ADMIN','MULTI_ADMIN']
+        role_flag:['SUPER_ADMIN','MULTI_ADMIN','STORE_ADMIN']
     },
   
 ]
