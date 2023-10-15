@@ -143,79 +143,28 @@ export class AddEditProductComponent implements OnInit {
     }
   }
 
+ 
+  // if (selectedFile.size <= 2000000) { // 2MB limit
+
   handleImageVideoUpload(file: File) {
- // if (!this.uploadEnabled) {
-    //   return;
-    // }
-
-    // if (this.images.length >= 4 && !this.video) {
-    //   console.log("You can only upload four images and one video.");
-    //   this.uploadEnabled = false;
-    //   return;
-    // }
-
-    // if (this.images.length === 4 && this.video) {
-    //   this.uploadEnabled = false;
-    // }
-  
-    if (this.allFiles && this.allFiles.length === 1) {
-      const selectedFile = this.allFiles[0];
-      if (selectedFile.size <= 2000000) { // 2MB limit
+    const reader = new FileReader();
+    if (this.allFiles && this.allFiles[0]) {
+      const numberOfFiles = this.allFiles.length;
+      for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           if (e.target.result.includes('image/')) {
-            this.images = [e.target.result]; // Only the last selected image
+            this.images.push(e.target.result);
             this.mainImageSrc = this.images[0];
           } else {
-            // Handle video upload as necessary
-            // const videoElement = document.createElement('video');
-            // videoElement.preload = 'metadata';
-            // videoElement.onloadedmetadata = () => {
-            //   window.URL.revokeObjectURL(videoElement.src);
-            //   if (videoElement.duration < 5 || videoElement.duration > 30) {
-            //     this.snackbar.openFromComponent(SnackbarComponent, {
-            //       data:"Video duration should be between 10 and 30 seconds.",
-            //     });
-            //     return;
-            //   }
             this.video = e.target.result;
-            //   this.videoSelect=true;
-            // };
-            // videoElement.src = URL.createObjectURL(file);
           }
-        };
-        reader.readAsDataURL(selectedFile);
-      } else {
-        // Handle the case where the selected image is too large
-        
+
+        }
+        reader.readAsDataURL(this.allFiles[i]);
       }
     }
-    // Handle multiple file upload here
-    else if (this.allFiles && this.allFiles.length > 1) {
-      const numberOfFiles = this.allFiles.length;
-      // ...
-    }
   }
-  
-  // handleImageVideoUpload(file: File) {
-  //   const reader = new FileReader();
-  //   if (this.allFiles && this.allFiles[0]) {
-  //     const numberOfFiles = this.allFiles.length;
-  //     for (let i = 0; i < numberOfFiles; i++) {
-  //       const reader = new FileReader();
-  //       reader.onload = (e: any) => {
-  //         if (e.target.result.includes('image/')) {
-  //           this.images.push(e.target.result);
-  //           this.mainImageSrc = this.images[0];
-  //         } else {
-  //           this.video = e.target.result;
-  //         }
-
-  //       }
-  //       reader.readAsDataURL(this.allFiles[i]);
-  //     }
-  //   }
-  // }
 
   selectImage(image: string) {
     this.mainImageSrc = image;
